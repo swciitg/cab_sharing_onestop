@@ -1,0 +1,16 @@
+name: "Feature Request"
+description: Create a new ticket for a new feature request
+title: "[REQUEST] - <title>"
+labels: [
+  "enhancement"
+]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Summary"
+      description: Provide a an explanation of the feature
+      placeholder: Describe your feature idea in sufficient detail. You may also attach images.
+    validations:
+      required: true
+
