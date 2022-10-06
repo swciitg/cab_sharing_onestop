@@ -20,9 +20,9 @@ Look at design and Firestore Schema design [here](https://www.figma.com/file/V47
 - If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
 
 ## Contribution Guide 🤠
-- Pick up issues which interests you, mention your name in the comments section and start working on them
+- Comment on the issue you are interested to work in and ask to be assigned
 - You have to strictly follow folder structure while working on issues [learn more](https://www.geeksforgeeks.org/flutter-file-structure/)
-- If two or more people solves same issue correctly then, person who created pull request before will get priority
+- You will also have to strictly follow clean coding practices as mentioned [learn more](https://swciitg.notion.site/Basics-of-clean-code-1105189242954a4e9955eb8330872d46)
 - When creating pull request keep title as "issue title", example="submit button working" and description with issueID as "fixes #issueID"
 - If you find any bug or have new feature's idea then, create a issue with supporting description & details. If issue found relevant then, maintainers will react to it and you can start working on it
 
