@@ -9,7 +9,9 @@ This project needs to be built using Flutter & Firebase
 - Searching in added posts with custom filters
 - Chat feature between users
 - Call/email redirecting etc
-- Look at design and Firestore Schema design [here](https://www.figma.com/file/V478qN81WQ0nGJi0QKtPJI/Campus-OLA-Design?node-id=0%3A1)
+
+## UI & Firestore Schema design 🦄
+Look at design and Firestore Schema design [here](https://www.figma.com/file/V478qN81WQ0nGJi0QKtPJI/Campus-OLA-Design?node-id=0%3A1)
 
 ## Setting up project on your machine ⚙️
 - [Follow this guide](https://swciitg.notion.site/Day-1-f6ea19b1d7ff410e8ec03683772f4cd0) to setup Android Studio & Flutter SDK on your machine
