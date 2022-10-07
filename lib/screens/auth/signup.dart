@@ -21,8 +21,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(27, 27, 29, 1),
-        resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text("Signup Screen"),
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -33,28 +35,17 @@ class _SignupScreenState extends State<SignupScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             SizedBox(
-              height: 100,
+              height: 120,
             ),
-            Icon(
-              Icons.directions_car,
-              color: Colors.white60,
-              size: 100,
-            ),
-            SizedBox(height: 30,),
-            Container(
-
-              margin: EdgeInsets.only(left: 30, right: 30),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 49, 65, 1),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(21)
-                  )
+            const Text(
+              "SignUp Screen",
+              style: TextStyle(
+                  fontSize: 20
               ),
+            ),
+            Container(
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
               child: TextFormField(
-                style: TextStyle(
-                  color: Colors.white,
-                ),
                 keyboardType: TextInputType.name,
                 maxLength: 20,
                 onChanged: (value){
@@ -71,27 +62,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   return null;
                 },
                 decoration: const InputDecoration(
-                    hintText: "Enter Name",
-                    hintStyle: TextStyle(
-                    color: Colors.white60,
-                  ),
+                    hintText: "Enter Name"
                 ),
               ),
             ),
-            SizedBox(height: 25,),
             Container(
-              margin: EdgeInsets.only(left: 30, right: 30),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 49, 65, 1),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                  )
-              ),
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
               child: TextFormField(
-                style: TextStyle(
-                  color: Colors.white,
-                ),
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value){
                   email=value.trim();
@@ -107,29 +84,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   return null;
                 },
                 decoration: const InputDecoration(
-                    hintText: "Enter Email",
-                    hintStyle: TextStyle(
-                    color: Colors.white60,
-                  ),
+                    hintText: "Enter Email"
                 ),
               ),
             ),
-            SizedBox(height: 25,),
             Container(
-              margin: EdgeInsets.only(left: 30, right: 30),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 49, 65, 1),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                  )
-              ),
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
               child: TextFormField(
-                style: TextStyle(
-                  color: Colors.white,
-                ),
                 keyboardType: TextInputType.text,
-                obscureText: true,
                 maxLength: 12,
                 onChanged: (value){
                   password=value.trim();
@@ -145,27 +107,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   return null;
                 },
                 decoration: const InputDecoration(
-                    hintText: "Enter Password",
-                    hintStyle: TextStyle(
-                    color: Colors.white60,
-                    ),
+                    hintText: "Enter Password"
                 ),
               ),
             ),
-            SizedBox(height: 25,),
             Container(
-              margin: EdgeInsets.only(left: 30, right: 30),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(39, 49, 65, 1),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(20)
-                  )
-              ),
               padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
               child: TextFormField(
-                style: TextStyle(
-                  color: Colors.white,
-                ),
                 keyboardType: TextInputType.number,
                 onChanged: (value){
                   phonenumber=value.trim();
@@ -182,14 +130,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   return null;
                 },
                 decoration: const InputDecoration(
-                    hintText: "Enter Phone Number",
-                    hintStyle: TextStyle(
-                    color: Colors.white60,
-                  ),
+                    hintText: "Enter Phone Number"
                 ),
               ),
             ),
-            SizedBox(height: 40,),
             Builder(builder: (builderContext) => GestureDetector(
               onTap: () async {
                 try{
@@ -206,20 +150,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 }
               },
               child: Container(
-                height: 50,
-                width: 150,
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(118, 172, 255, 1),
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(16)
-                    )
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+                color: Colors.amber,
+                padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 6),
                 child: const Text(
                   "Proceed",
-                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 20
+                      fontSize: 16
                   ),
                 ),
               ),
@@ -230,7 +166,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 const Text(
                   "Already have an account ?",
                   style: TextStyle(
-                    color: Colors.white60,
                       fontSize: 16
                   ),
                 ),
@@ -240,7 +175,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     }, child: const Text(
                   "SignIn",
                   style: TextStyle(
-                      color: Color.fromRGBO(118, 172, 255, 1),
                       fontSize: 16
                   ),
                 ))
