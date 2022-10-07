@@ -1,10 +1,10 @@
 class Post {
-  static const int RAILWAY = 0;
-  static const int AIRWAY = 1;
+  static const int railway = 0;
+  static const int airway = 1;
 
-  static const int EXACT = 0;
-  static const int ONE_HOUR = 1;
-  static const int TWO_HOUR = 2;
+  static const int exact = 0;
+  static const int oneHour = 1;
+  static const int twoHour = 2;
 
   String name;
   String email;
@@ -21,9 +21,9 @@ class Post {
 
   String getNote () {
     switch (note) {
-      case EXACT:
+      case exact:
         return "Can leave exactly at this time.";
-      case ONE_HOUR:
+      case oneHour:
         return "Can leave upto 1 hr early.";
       default:
         return "Can leave upto 2 hr early.";

@@ -90,7 +90,7 @@ class PostWidget extends StatelessWidget {
                       ),
                     ),
                     Image.asset(
-                      post.mode == Post.AIRWAY
+                      post.mode == Post.airway
                           ? "assets/airway.png"
                           : "assets/railway.png",
                       width: 16.0,

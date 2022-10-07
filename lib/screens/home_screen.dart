@@ -1,9 +1,7 @@
 import 'package:campus_ola/models/post_model.dart';
-import 'package:campus_ola/stores/login_store.dart';
 import 'package:campus_ola/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const id = "/home";
@@ -18,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Screen"),
+        title: const Text("Home Screen"),
       ),
       backgroundColor: const Color(0xFF1B1B1D),
       body: ListView(
@@ -56,24 +54,24 @@ class _HomeScreenState extends State<HomeScreen> {
             post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
-                note: Post.ONE_HOUR,
-                mode: Post.AIRWAY,
+                note: Post.oneHour,
+                mode: Post.airway,
                 time: "10.30 am"),
           ),
           PostWidget(
             post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
-                note: Post.EXACT,
-                mode: Post.RAILWAY,
+                note: Post.exact,
+                mode: Post.railway,
                 time: "10.30 am"),
           ),
           PostWidget(
             post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
-                note: Post.TWO_HOUR,
-                mode: Post.AIRWAY,
+                note: Post.twoHour,
+                mode: Post.airway,
                 time: "10.30 am"),
           ),
           Padding(
@@ -92,24 +90,24 @@ class _HomeScreenState extends State<HomeScreen> {
             post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
-                note: Post.ONE_HOUR,
-                mode: Post.AIRWAY,
+                note: Post.oneHour,
+                mode: Post.airway,
                 time: "10.30 am"),
           ),
           PostWidget(
             post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
-                note: Post.TWO_HOUR,
-                mode: Post.RAILWAY,
+                note: Post.twoHour,
+                mode: Post.railway,
                 time: "10.30 am"),
           ),
           PostWidget(
             post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
-                note: Post.EXACT,
-                mode: Post.AIRWAY,
+                note: Post.exact,
+                mode: Post.airway,
                 time: "10.30 am"),
           ),
         ],
