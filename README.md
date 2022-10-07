@@ -26,7 +26,7 @@ Look at design and Firestore Schema design [here](https://www.figma.com/file/V47
 
 ## Contribution Guide 🤠
 
-Look at CONTRIBUTION.md for more info
+Look at [CONTRIBUTING.md](CONTRIBUTING.md) for more info
 
 ## Help & Discussions 🙌
 
