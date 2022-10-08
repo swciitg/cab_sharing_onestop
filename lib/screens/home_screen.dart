@@ -16,7 +16,47 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        title: Text(
+            "Campus Ola",
+            style: GoogleFonts.montserrat(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.normal,
+              color: const Color.fromRGBO(253, 252, 255, 1)
+            )
+        ),
+        actions: [
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Image.asset(
+                "assets/search.png",
+                width: 15.00,
+                height: 15.00,
+              ),
+              Container(
+                width: 14.00,
+              ),
+              Image.asset(
+                "assets/message.png",
+                width: 15.00,
+                height: 15.00,
+              ),
+              Container(
+                width: 14.00,
+              ),
+              Image.asset(
+                "assets/profile.png",
+                width: 15.00,
+                height: 15.00,
+              ),
+              Container(
+                width: 20.00,
+              )
+            ],
+          )
+        ],
+        backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
       ),
       backgroundColor: const Color(0xFF1B1B1D),
       body: ListView(
