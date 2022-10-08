@@ -66,6 +66,9 @@ flutter:
   assets:
     - assets/airway.png
     - assets/railway.png
+    - assets/search.png
+    - assets/message.png
+    - assets/profile.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
