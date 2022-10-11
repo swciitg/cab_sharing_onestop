@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/post_model.dart';
 import '../../widgets/custom_button.dart';
 
 class CampusOlaFive extends StatelessWidget {
   static const id = "/campus-ola-five";
-  const CampusOlaFive({Key? key}) : super(key: key);
+
+  const CampusOlaFive({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Map args = ModalRoute.of(context)!.settings.arguments as Map;
+
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
       body: SafeArea(
@@ -39,7 +45,7 @@ class CampusOlaFive extends StatelessWidget {
                           //Name
 
                           Text(
-                            'Sanika S. Kamble',
+                            args['name'],
                             style: GoogleFonts.montserrat(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w600,
@@ -51,7 +57,7 @@ class CampusOlaFive extends StatelessWidget {
                           //Email
 
                           Text(
-                            'sanika19@iitg.ac.in',
+                            args['email'],
                             style: GoogleFonts.montserrat(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w500,
@@ -67,7 +73,7 @@ class CampusOlaFive extends StatelessWidget {
                           ),
 
                           Text(
-                            'Can leave upto 1 hr early.',
+                            "Can leave upto 1 hr early.",
                             style: GoogleFonts.montserrat(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
@@ -86,7 +92,7 @@ class CampusOlaFive extends StatelessWidget {
                           //Time
 
                           Text(
-                            '8:30 am',
+                            args['time'],
                             style: GoogleFonts.montserrat(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w600,
@@ -99,8 +105,10 @@ class CampusOlaFive extends StatelessWidget {
 
                           IconButton(
                             onPressed: () {},
-                            icon: const Icon(
-                              Icons.airplanemode_active,
+                            icon: Icon(
+                              args['mode'] == Post.airway
+                                  ? Icons.airplanemode_active
+                                  : Icons.train,
                               color: Colors.white,
                               size: 24,
                             ),

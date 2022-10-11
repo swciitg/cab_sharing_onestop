@@ -90,7 +90,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, CampusOlaFive.id);
+              Navigator.pushNamed(
+                context,
+                CampusOlaFive.id,
+                arguments: {
+                  'name': "Sanika S. Kamble",
+                  'email': "sanika19@iitg.ac.in",
+                  'time': "10.30 am",
+                  'note': Post.oneHour,
+                  'mode': Post.airway,
+                },
+              );
             },
             child: PostWidget(
               post: Post(
