@@ -90,25 +90,28 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                CampusOlaFive.id,
-                arguments: {
-                  'name': "Sanika S. Kamble",
-                  'email': "sanika19@iitg.ac.in",
-                  'time': "10.30 am",
-                  'note': Post.oneHour,
-                  'mode': Post.airway,
-                },
+                MaterialPageRoute(builder: (context) {
+                  return CampusOlaFive(
+                      post: Post(
+                    name: "Sanika S. Kamble",
+                    email: "sanika19@iitg.ac.in",
+                    note: Post.oneHour,
+                    mode: Post.airway,
+                    time: "10.30 am",
+                  ));
+                }),
               );
             },
             child: PostWidget(
               post: Post(
-                  name: "Sanika S. Kamble",
-                  email: "sanika19@iitg.ac.in",
-                  note: Post.oneHour,
-                  mode: Post.airway,
-                  time: "10.30 am"),
+                name: "Sanika S. Kamble",
+                email: "sanika19@iitg.ac.in",
+                note: Post.oneHour,
+                mode: Post.airway,
+                time: "10.30 am",
+              ),
             ),
           ),
           PostWidget(

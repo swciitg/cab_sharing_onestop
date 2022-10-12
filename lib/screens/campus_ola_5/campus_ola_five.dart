@@ -5,16 +5,17 @@ import '../../models/post_model.dart';
 import '../../widgets/custom_button.dart';
 
 class CampusOlaFive extends StatelessWidget {
-  static const id = "/campus-ola-five";
+  // static const id = "/campus-ola-five";
+
+  final Post post;
 
   const CampusOlaFive({
     Key? key,
+    required this.post,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Map args = ModalRoute.of(context)!.settings.arguments as Map;
-
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
       body: SafeArea(
@@ -45,7 +46,7 @@ class CampusOlaFive extends StatelessWidget {
                           //Name
 
                           Text(
-                            args['name'],
+                            post.name,
                             style: GoogleFonts.montserrat(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w600,
@@ -57,7 +58,7 @@ class CampusOlaFive extends StatelessWidget {
                           //Email
 
                           Text(
-                            args['email'],
+                            post.email,
                             style: GoogleFonts.montserrat(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w500,
@@ -73,7 +74,7 @@ class CampusOlaFive extends StatelessWidget {
                           ),
 
                           Text(
-                            "Can leave upto 1 hr early.",
+                            post.getNote(),
                             style: GoogleFonts.montserrat(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w400,
@@ -92,7 +93,7 @@ class CampusOlaFive extends StatelessWidget {
                           //Time
 
                           Text(
-                            args['time'],
+                            post.time,
                             style: GoogleFonts.montserrat(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w600,
@@ -106,7 +107,7 @@ class CampusOlaFive extends StatelessWidget {
                           IconButton(
                             onPressed: () {},
                             icon: Icon(
-                              args['mode'] == Post.airway
+                              post.mode == Post.airway
                                   ? Icons.airplanemode_active
                                   : Icons.train,
                               color: Colors.white,
