@@ -1,4 +1,5 @@
 import 'package:campus_ola/models/post_model.dart';
+import 'package:campus_ola/screens/campus_ola_5/campus_ola_five.dart';
 import 'package:campus_ola/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,15 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            "Campus Ola",
+        title: Text("Campus Ola",
             style: GoogleFonts.montserrat(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-              fontStyle: FontStyle.normal,
-              color: const Color.fromRGBO(253, 252, 255, 1)
-            )
-        ),
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontStyle: FontStyle.normal,
+                color: const Color.fromRGBO(253, 252, 255, 1))),
         actions: [
           Row(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -90,13 +88,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          PostWidget(
-            post: Post(
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return CampusOlaFive(
+                      post: Post(
+                    name: "Sanika S. Kamble",
+                    email: "sanika19@iitg.ac.in",
+                    note: Post.oneHour,
+                    mode: Post.airway,
+                    time: "10.30 am",
+                  ));
+                }),
+              );
+            },
+            child: PostWidget(
+              post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
                 note: Post.oneHour,
                 mode: Post.airway,
-                time: "10.30 am"),
+                time: "10.30 am",
+              ),
+            ),
           ),
           PostWidget(
             post: Post(
