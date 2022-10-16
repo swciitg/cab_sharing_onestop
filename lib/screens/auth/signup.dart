@@ -1,9 +1,9 @@
+import 'package:campus_ola/decorations/sign_up_style.dart';
 import 'package:campus_ola/stores/login_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SignupScreen extends StatefulWidget {
   static const id = "/signup";
@@ -41,238 +41,189 @@ class _SignupScreenState extends State<SignupScreen> {
                   color: Colors.white60,
                   size: 100,
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(
+                  height: 30,
+                ),
                 Container(
-
                   margin: const EdgeInsets.only(left: 30, right: 30),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(39, 49, 65, 1),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(21)
-                      )
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                  decoration: kTextFieldFormContainerDecoration,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextFormField(
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                      color: const Color(0xFFBDC7DC),
-                    ),
+                    style: kTextFieldFormTextStyle,
                     keyboardType: TextInputType.name,
                     maxLength: 20,
-                    onChanged: (value){
-                      name=value.trim();
+                    onChanged: (value) {
+                      name = value.trim();
                     },
-                    validator: (value){
+                    validator: (value) {
                       if (value == null) {
                         return 'Please enter your name';
                       }
-                      value=value.trim();
-                      if(value.isEmpty){
+                      value = value.trim();
+                      if (value.isEmpty) {
                         return 'Please enter your name';
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
-                      hintText: "Enter Name",
-                      hintStyle: TextStyle(
-                        color: Colors.white60,
-                      ),
-                    ),
+                    decoration: kTextFieldFormDecoration.copyWith(
+                        hintText: "Enter Name"),
                   ),
                 ),
-                const SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: 30, right: 30),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(39, 49, 65, 1),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(20)
-                      )
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                  decoration: kTextFieldFormContainerDecoration,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextFormField(
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                      color: const Color(0xFFBDC7DC),
-                    ),
+                    style: kTextFieldFormTextStyle,
                     keyboardType: TextInputType.emailAddress,
-                    onChanged: (value){
-                      email=value.trim();
+                    onChanged: (value) {
+                      email = value.trim();
                     },
-                    validator: (value){
+                    validator: (value) {
                       if (value == null) {
                         return 'Please enter your email';
                       }
-                      value=value.trim();
-                      if(value.isEmpty){
+                      value = value.trim();
+                      if (value.isEmpty) {
                         return 'Please enter your email';
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
-                      hintText: "Enter Email",
-                      hintStyle: TextStyle(
-                        color: Colors.white60,
-                      ),
-                    ),
+                    decoration: kTextFieldFormDecoration.copyWith(
+                        hintText: "Enter Email"),
                   ),
                 ),
-                const SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: 30, right: 30),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(39, 49, 65, 1),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(20)
-                      )
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                  decoration: kTextFieldFormContainerDecoration,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextFormField(
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                      color: const Color(0xFFBDC7DC),
-                    ),
+                    style: kTextFieldFormTextStyle,
                     keyboardType: TextInputType.text,
                     obscureText: true,
                     maxLength: 12,
-                    onChanged: (value){
-                      password=value.trim();
+                    onChanged: (value) {
+                      password = value.trim();
                     },
-                    validator: (value){
+                    validator: (value) {
                       if (value == null) {
                         return 'Please enter a password';
                       }
-                      value=value.trim();
-                      if(value.isEmpty){
+                      value = value.trim();
+                      if (value.isEmpty) {
                         return 'Please enter a password';
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
-                      hintText: "Enter Password",
-                      hintStyle: TextStyle(
-                        color: Colors.white60,
-                      ),
-                    ),
+                    decoration: kTextFieldFormDecoration.copyWith(
+                        hintText: "Enter Password"),
                   ),
                 ),
-                const SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: 30, right: 30),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(39, 49, 65, 1),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(20)
-                      )
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+                  decoration: kTextFieldFormContainerDecoration,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: TextFormField(
-                    style: GoogleFonts.montserrat(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.5,
-                      color: const Color(0xFFBDC7DC),
-                    ),
+                    style: kTextFieldFormTextStyle,
                     keyboardType: TextInputType.number,
-                    onChanged: (value){
-                      phoneNumber=value.trim();
+                    onChanged: (value) {
+                      phoneNumber = value.trim();
                     },
                     maxLength: 10,
-                    validator: (value){
+                    validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your phone number';
                       }
-                      value=value.trim();
-                      if(value.length !=10){
+                      value = value.trim();
+                      if (value.length != 10) {
                         return 'Phonenumber must be of 10 digits';
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
-                      hintText: "Enter Phone Number",
-                      hintStyle: TextStyle(
-                        color: Colors.white60,
+                    decoration: kTextFieldFormDecoration.copyWith(
+                        hintText: "Enter Phone Number"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Builder(
+                  builder: (builderContext) => GestureDetector(
+                    onTap: () async {
+                      try {
+                        bool validate = _formKey.currentState!.validate();
+                        if (validate) {
+                          await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: email, password: password);
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(email)
+                              .set({
+                            "email": email,
+                            "name": name,
+                            "phonenumber": phoneNumber
+                          });
+                          if (!mounted) {
+                            return;
+                          }
+                          context
+                              .read<LoginStore>()
+                              .saveUserData(name, email, phoneNumber);
+                          Navigator.of(context).pushReplacementNamed('/home');
+                        }
+                      } catch (err) {
+                        ScaffoldMessenger.of(builderContext).showSnackBar(
+                            SnackBar(content: Text(err.toString())));
+                      }
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 150,
+                      decoration: kSignUpTextContainerDecoration,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 15),
+                      child: Text(
+                        "Sign Up",
+                        textAlign: TextAlign.center,
+                        style: kSignUpTextStyle,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 40,),
-                Builder(builder: (builderContext) => GestureDetector(
-                  onTap: () async {
-                    try{
-                      bool validate = _formKey.currentState!.validate();
-                      if(validate){
-                        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-                        await FirebaseFirestore.instance.collection("users").doc(email).set({"email" : email,"name" : name,"phonenumber":phoneNumber});
-                        if(!mounted)
-                          {
-                            return;
-                          }
-                        context.read<LoginStore>().saveUserData(name, email, phoneNumber);
-                        Navigator.of(context).pushReplacementNamed('/home');
-                      }
-                    }
-                    catch (err){
-                      ScaffoldMessenger.of(builderContext).showSnackBar(SnackBar(content: Text(err.toString())));
-                    }
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 150,
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(118, 172, 255, 1),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(16)
-                        )
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 15),
-                    child: Text(
-                      "Sign Up",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                ),),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "Already have an account ?",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                        color: const Color(0xFFBDC7DC),
-                      ),
+                      style: kAlreadyHaveAnAccountTextStyle,
                     ),
                     TextButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.of(context).pushReplacementNamed('/signin');
-                        }, child: Text(
-                      "SignIn",
-                      style: GoogleFonts.montserrat(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                        color:const Color.fromRGBO(118, 172, 255, 1),
-                      ),
-                    ))
+                        },
+                        child: Text(
+                          "SignIn",
+                          style: kSignInTextStyle,
+                        ))
                   ],
                 ),
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }

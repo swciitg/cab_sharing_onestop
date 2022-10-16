@@ -1,6 +1,6 @@
+import 'package:campus_ola/decorations/post_widget_style.dart';
 import 'package:campus_ola/models/post_model.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PostWidget extends StatelessWidget {
   Post post;
@@ -16,12 +16,7 @@ class PostWidget extends StatelessWidget {
       child: Container(
         height: 96.0,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(21.0),
-          ),
-          color: Color(0xFF273141),
-        ),
+        decoration: kRowContainerDecoration,
         child: Row(
           children: [
             Expanded(
@@ -34,33 +29,18 @@ class PostWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 16.0),
                       child: Text(
                         post.name,
-                        style: GoogleFonts.montserrat(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.1,
-                          color: Colors.white,
-                        ),
+                        style: kPostNameTextStyle,
                       ),
                     ),
                     Text(
                       post.email,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.25,
-                        color: const Color(0xFF76ACFF),
-                      ),
+                      style: kPostEmailTextStyle,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         post.getNote(),
-                        style: GoogleFonts.montserrat(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.4,
-                          color: Colors.white,
-                        ),
+                        style: kPostGetNoteTextStyle,
                       ),
                     ),
                   ],
@@ -81,12 +61,7 @@ class PostWidget extends StatelessWidget {
                       ),
                       child: Text(
                         post.time,
-                        style: GoogleFonts.montserrat(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.1,
-                          color: Colors.white,
-                        ),
+                        style: kPostTimeTextStyle,
                       ),
                     ),
                     Image.asset(
