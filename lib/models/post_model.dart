@@ -12,15 +12,14 @@ class Post {
   int mode;
   int note;
 
-  Post({
-    required this.name,
-    required this.email,
-    required this.time,
-    required this.mode,
-    required this.note,
-  });
+  Post(
+      {required this.name,
+      required this.email,
+      required this.time,
+      required this.mode,
+      required this.note});
 
-  String getNote() {
+  String getNote () {
     switch (note) {
       case exact:
         return "Can leave exactly at this time.";

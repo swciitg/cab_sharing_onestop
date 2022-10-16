@@ -1,8 +1,8 @@
+import 'package:campus_ola/decorations/home_screen_style.dart';
 import 'package:campus_ola/models/post_model.dart';
 import 'package:campus_ola/screens/campus_ola_5/campus_ola_five.dart';
 import 'package:campus_ola/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   static const id = "/home";
@@ -17,12 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Campus Ola",
-            style: GoogleFonts.montserrat(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                color: const Color.fromRGBO(253, 252, 255, 1))),
+        title: Text(
+          "Campus Ola",
+          style: kAppBarTextStyle,
+        ),
         actions: [
           Row(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,24 +64,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
                 child: Text(
                   "Today | ",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
-                    color: const Color(0xFFBDC7DC),
-                  ),
+                  style: kTodayTextStyle,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
                   "Oct 21st, 2022",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.5,
-                    color: const Color(0xFFBDC7DC),
-                  ),
+                  style: kDateTextStyle,
                 ),
               ),
             ],
@@ -134,12 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
             child: Text(
               "Oct 22nd, 2022",
-              style: GoogleFonts.montserrat(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.5,
-                color: const Color(0xFFBDC7DC),
-              ),
+              style: kDateTextStyle,
             ),
           ),
           PostWidget(

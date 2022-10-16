@@ -1,5 +1,5 @@
+import 'package:campus_ola/decorations/custom_button_style.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -16,10 +16,7 @@ class CustomButton extends StatelessWidget {
       alignment: Alignment.center,
       height: 52,
       width: 328,
-      decoration: BoxDecoration(
-        color: const Color(0xff76ACFF),
-        borderRadius: BorderRadius.circular(15),
-      ),
+      decoration: kCustomButtonContainerDecoration,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -29,12 +26,7 @@ class CustomButton extends StatelessWidget {
           ),
           Text(
             text,
-            style: GoogleFonts.montserrat(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.5,
-              color: Colors.black,
-            ),
+            style: kCustomButtonTextStyle,
           ),
         ],
       ),

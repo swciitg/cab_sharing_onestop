@@ -1,5 +1,5 @@
+import 'package:campus_ola/decorations/campus_ola_five_style.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/post_model.dart';
 import '../../widgets/custom_button.dart';
@@ -47,24 +47,14 @@ class CampusOlaFive extends StatelessWidget {
 
                           Text(
                             post.name,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
-                              color: Colors.white,
-                            ),
+                            style: kiPostNameTextStyle,
                           ),
 
                           //Email
 
                           Text(
                             post.email,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.5,
-                              color: const Color(0xff76ACFF),
-                            ),
+                            style: kiPostEmailTextStyle,
                           ),
 
                           //Departure Time
@@ -75,12 +65,7 @@ class CampusOlaFive extends StatelessWidget {
 
                           Text(
                             post.getNote(),
-                            style: GoogleFonts.montserrat(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.5,
-                              color: Colors.white,
-                            ),
+                            style: kiPostGetNoteTextStyle,
                           ),
                         ],
                       ),
@@ -94,12 +79,7 @@ class CampusOlaFive extends StatelessWidget {
 
                           Text(
                             post.time,
-                            style: GoogleFonts.montserrat(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
-                              color: Colors.white,
-                            ),
+                            style: kiPostTimeTextStyle,
                           ),
 
                           //Travel Mode Icon
@@ -129,21 +109,13 @@ class CampusOlaFive extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.1,
-                    decoration: BoxDecoration(
-                      color: const Color(0xff1B1B1D),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                    decoration: kContainerDecoration,
                     child: Text(
                       'Note : Lorem ipsum dolor sit amet, consect'
                       'etur adipiscing elit, sed do eiusmod tempor'
                       'incididunt ut labore et dolore magna aliqua.'
                       'Ut enim ad minim veniam, quis nostrud.',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 10.0,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.5,
-                        color: Colors.white,
-                      ),
+                      style: kContainerTextStyle,
                     ),
                   ),
                 ],
