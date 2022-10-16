@@ -1,5 +1,6 @@
 import 'package:campus_ola/decorations/home_screen_style.dart';
 import 'package:campus_ola/models/post_model.dart';
+import 'package:campus_ola/screens/campus_ola_5/campus_ola_five.dart';
 import 'package:campus_ola/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Campus Ola", style: kAppBarTextStyle),
+        title: Text(
+          "Campus Ola",
+          style: kAppBarTextStyle,
+        ),
         actions: [
           Row(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,13 +76,31 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          PostWidget(
-            post: Post(
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return CampusOlaFive(
+                      post: Post(
+                    name: "Sanika S. Kamble",
+                    email: "sanika19@iitg.ac.in",
+                    note: Post.oneHour,
+                    mode: Post.airway,
+                    time: "10.30 am",
+                  ));
+                }),
+              );
+            },
+            child: PostWidget(
+              post: Post(
                 name: "Sanika S. Kamble",
                 email: "sanika19@iitg.ac.in",
                 note: Post.oneHour,
                 mode: Post.airway,
-                time: "10.30 am"),
+                time: "10.30 am",
+              ),
+            ),
           ),
           PostWidget(
             post: Post(
