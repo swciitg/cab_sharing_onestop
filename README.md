@@ -3,6 +3,7 @@
 People often try to search for others who are also leaving for airport/railway station from IITG campus during vacations, trips etc because solo cab booking will cost high and they tend to look for others who are also leaving at same date & time and can divide the fare accordingly. Campus OLA will help people in finding cab partners via interactive searching, creating search posts etc.
 
 ## Technologies 🛠️
+![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 
 This project needs to be built using Flutter & Firebase
 
@@ -25,8 +26,7 @@ Look at design and Firestore Schema design [here](https://www.figma.com/file/V47
 - If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
 
 ## Contribution Guide 🤠
-
-Look at [CONTRIBUTING.md](CONTRIBUTING.md) for more info
+Before contributing be sure to check out the [CONTRIBUTION](CONTRIBUTING.md) guidelines.
 
 ## Help & Discussions 🙌
 
