@@ -25,8 +25,7 @@ Look at design and Firestore Schema design [here](https://www.figma.com/file/V47
 - If you are new to Flutter checkout these [learning resources](https://swciitg.notion.site/8eb17b6e8f034d7cbd04f98054640cd0?v=50726fa13f6d40c1882448900ee36b03) from workshop conducted by SWC IIT Guwahati
 
 ## Contribution Guide 🤠
-
-Look at [CONTRIBUTING.md](CONTRIBUTING.md) for more info
+Before contributing be sure to check out the [CONTRIBUTION](CONTRIBUTING.md) guidelines.
 
 ## Help & Discussions 🙌
 
