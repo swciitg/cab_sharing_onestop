@@ -1,6 +1,8 @@
 import 'package:campus_ola/decorations/home_screen_style.dart';
 import 'package:campus_ola/models/post_model.dart';
 import 'package:campus_ola/screens/campus_ola_5/campus_ola_five.dart';
+import 'package:campus_ola/screens/create_post/create_post.dart';
+import 'package:campus_ola/screens/search_page/search_page.dart';
 import 'package:campus_ola/widgets/post_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +27,19 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.asset(
-                "assets/search.png",
-                width: 15.00,
-                height: 15.00,
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Color.fromRGBO(39, 49, 65, 1)),
+                ),
+                onPressed: () { 
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()),
+                  );
+                },
+                child: Image.asset(
+                  "assets/search.png",
+                  width: 15.00,
+                  height: 15.00,
+                ),
               ),
               Container(
                 width: 14.00,
@@ -150,6 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 time: "10.30 am"),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const CreatePost()),
+            );
+          },
+          label: Text("+", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300), ),
+          backgroundColor: Color(0xFF76ACFF),
       ),
     );
   }
