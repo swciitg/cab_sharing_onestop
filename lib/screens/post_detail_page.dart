@@ -1,15 +1,12 @@
 import 'package:campus_ola/decorations/campus_ola_five_style.dart';
+import 'package:campus_ola/models/post_model.dart';
+import 'package:campus_ola/widgets/post_detail/custom_button.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/post_model.dart';
-import '../../widgets/custom_button.dart';
-
-class CampusOlaFive extends StatelessWidget {
-  // static const id = "/campus-ola-five";
-
+class PostDetailPage extends StatelessWidget {
   final Post post;
 
-  const CampusOlaFive({
+  const PostDetailPage({
     Key? key,
     required this.post,
   }) : super(key: key);
@@ -34,56 +31,43 @@ class CampusOlaFive extends StatelessWidget {
               child: Column(
                 children: [
                   //Info Row
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       //Left Column
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           //Name
-
                           Text(
                             post.name,
                             style: kiPostNameTextStyle,
                           ),
-
                           //Email
-
                           Text(
                             post.email,
                             style: kiPostEmailTextStyle,
                           ),
-
                           //Departure Time
-
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
-
                           Text(
                             post.getNote(),
                             style: kiPostGetNoteTextStyle,
                           ),
                         ],
                       ),
-
                       //Right Column
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           //Time
-
                           Text(
                             post.time,
                             style: kiPostTimeTextStyle,
                           ),
-
                           //Travel Mode Icon
-
                           IconButton(
                             onPressed: () {},
                             icon: Icon(
@@ -98,12 +82,10 @@ class CampusOlaFive extends StatelessWidget {
                       ),
                     ],
                   ),
-
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   //Info Box
-
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(10),
@@ -121,13 +103,10 @@ class CampusOlaFive extends StatelessWidget {
                 ],
               ),
             ),
-
             //Buttons Column
-
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.04,
             ),
-
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(
@@ -137,28 +116,20 @@ class CampusOlaFive extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: const [
-                  //Chats Button
-
                   CustomButton(
                     text: 'Chat',
                     icon: Icons.chat_outlined,
                   ),
-
                   SizedBox(
                     height: 40,
                   ),
-
-                  //Call Button
                   CustomButton(
                     text: 'Call',
                     icon: Icons.call_outlined,
                   ),
-
                   SizedBox(
                     height: 40,
                   ),
-
-                  //Mail Button
                   CustomButton(
                     text: 'Mail',
                     icon: Icons.email_outlined,
