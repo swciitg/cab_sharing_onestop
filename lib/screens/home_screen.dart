@@ -1,9 +1,8 @@
 import 'package:campus_ola/decorations/home_screen_style.dart';
 import 'package:campus_ola/models/post_model.dart';
-import 'package:campus_ola/screens/campus_ola_5/campus_ola_five.dart';
 import 'package:campus_ola/screens/create_post/create_post.dart';
 import 'package:campus_ola/screens/search_page/search_page.dart';
-import 'package:campus_ola/widgets/post_widget.dart';
+import 'package:campus_ola/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,14 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Color.fromRGBO(39, 49, 65, 1)),
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SearchPage()),
                   );
                 },
                 child: Image.asset(
@@ -72,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding:
-                const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
+                    const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
                 child: Text(
                   "Today | ",
                   style: kTodayTextStyle,
@@ -87,47 +84,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return CampusOlaFive(
-                      post: Post(
-                        name: "Sanika S. Kamble",
-                        email: "sanika19@iitg.ac.in",
-                        note: Post.oneHour,
-                        mode: Post.airway,
-                        time: "10.30 am",
-                      ));
-                }),
-              );
-            },
-            child: PostWidget(
-              post: Post(
-                name: "Sanika S. Kamble",
-                email: "sanika19@iitg.ac.in",
-                note: Post.oneHour,
-                mode: Post.airway,
-                time: "10.30 am",
-              ),
+          PostWidget(
+            post: Post(
+              name: "Sanika S. Kamble",
+              email: "sanika19@iitg.ac.in",
+              note: Post.oneHour,
+              mode: Post.airway,
+              time: "10.30 am",
             ),
-          ),
-          PostWidget(
-            post: Post(
-                name: "Sanika S. Kamble",
-                email: "sanika19@iitg.ac.in",
-                note: Post.exact,
-                mode: Post.railway,
-                time: "10.30 am"),
-          ),
-          PostWidget(
-            post: Post(
-                name: "Sanika S. Kamble",
-                email: "sanika19@iitg.ac.in",
-                note: Post.twoHour,
-                mode: Post.airway,
-                time: "10.30 am"),
+            context: context,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
@@ -143,32 +108,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 note: Post.oneHour,
                 mode: Post.airway,
                 time: "10.30 am"),
-          ),
-          PostWidget(
-            post: Post(
-                name: "Sanika S. Kamble",
-                email: "sanika19@iitg.ac.in",
-                note: Post.twoHour,
-                mode: Post.railway,
-                time: "10.30 am"),
-          ),
-          PostWidget(
-            post: Post(
-                name: "Sanika S. Kamble",
-                email: "sanika19@iitg.ac.in",
-                note: Post.exact,
-                mode: Post.airway,
-                time: "10.30 am"),
+            context: context,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreatePost()),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CreatePost()),
           );
         },
-        label: Text("+", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300), ),
-        backgroundColor: Color(0xFF76ACFF),
+        label: const Text(
+          "+",
+          style: TextStyle(
+              color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),
+        ),
+        backgroundColor: const Color(0xFF76ACFF),
       ),
     );
   }
