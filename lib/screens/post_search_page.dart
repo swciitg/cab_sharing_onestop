@@ -1,21 +1,21 @@
 import 'package:campus_ola/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/create_post_and_search/align_button.dart';
-import '../../widgets/scrollable/date_scroll.dart';
-import '../../widgets/scrollable/hours_scroll.dart';
-import '../../widgets/scrollable/minutes_scroll.dart';
-import '../../widgets/scrollable/month_scroll.dart';
-import '../../widgets/scrollable/year_scroll.dart';
+import '../widgets/create_post_and_search/align_button.dart';
+import '../widgets/scrollable/date_scroll.dart';
+import '../widgets/scrollable/hours_scroll.dart';
+import '../widgets/scrollable/minutes_scroll.dart';
+import '../widgets/scrollable/month_scroll.dart';
+import '../widgets/scrollable/year_scroll.dart';
 
-class MainPostSearch extends StatefulWidget {
+class PostSearchPage extends StatefulWidget {
   final String category;
-  const MainPostSearch({Key? key, required this.category}) : super(key: key);
+  const PostSearchPage({Key? key, required this.category}) : super(key: key);
 
   @override
-  State<MainPostSearch> createState() => _MainPostSearchState();
+  State<PostSearchPage> createState() => _PostSearchPageState();
 }
 
-class _MainPostSearchState extends State<MainPostSearch> {
+class _PostSearchPageState extends State<PostSearchPage> {
 
   late FixedExtentScrollController _controller;
   int hoursValue = 0;

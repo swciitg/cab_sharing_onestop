@@ -93,10 +93,7 @@ class PostDetailPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.1,
                     decoration: kContainerDecoration,
                     child: Text(
-                      'Note : Lorem ipsum dolor sit amet, consect'
-                      'etur adipiscing elit, sed do eiusmod tempor'
-                      'incididunt ut labore et dolore magna aliqua.'
-                      'Ut enim ad minim veniam, quis nostrud.',
+                      'Note:- ${post.note}',
                       style: kContainerTextStyle,
                     ),
                   ),

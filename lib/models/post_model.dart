@@ -9,18 +9,20 @@ class Post {
   String name;
   String email;
   String time;
+  String note;
   int mode;
-  int note;
+  int margin;
 
   Post(
       {required this.name,
       required this.email,
+        required this.note,
       required this.time,
       required this.mode,
-      required this.note});
+      required this.margin});
 
   String getNote () {
-    switch (note) {
+    switch (margin) {
       case exact:
         return "Can leave exactly at this time.";
       case oneHour:
