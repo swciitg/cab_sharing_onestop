@@ -1,7 +1,6 @@
 import 'package:campus_ola/decorations/home_screen_style.dart';
 import 'package:campus_ola/models/post_model.dart';
-import 'package:campus_ola/screens/create_post/create_post.dart';
-import 'package:campus_ola/screens/search_page/search_page.dart';
+import 'package:campus_ola/screens/create_post_and_search/post_and_search_main.dart';
 import 'package:campus_ola/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SearchPage()),
+                    MaterialPageRoute(builder: (context) => const MainPostSearch(category: "search")),
                   );
                 },
                 child: Image.asset(
@@ -116,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CreatePost()),
+            MaterialPageRoute(builder: (context) => const MainPostSearch(category: "post")),
           );
         },
         label: const Text(
