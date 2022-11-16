@@ -1,38 +1,8 @@
 library cab_sharing;
-
+import 'package:cab_sharing/decorations/home_screen_style.dart';
+import 'package:cab_sharing/models/post_model.dart';
+import 'package:cab_sharing/screens/post_search_page.dart';
+import 'package:cab_sharing/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
-
-class AWidget extends StatelessWidget {
-  const AWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Page 1')),
-      floatingActionButton: ElevatedButton(
-        onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>WidgetTwo()));
-        },
-        child: Text('Here'),
-      ),
-    );
-  }
-}
-
-class WidgetTwo extends StatelessWidget {
-  const WidgetTwo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Page 2')),
-      floatingActionButton: ElevatedButton(
-        onPressed: (){
-          Navigator.of(context).pop();
-        },
-        child: Text('Here 2'),
-      ),
-    );
-  }
-}
+part 'screens/home.dart';
 
