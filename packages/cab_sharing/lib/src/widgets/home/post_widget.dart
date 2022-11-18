@@ -1,13 +1,13 @@
-import 'package:cab_sharing/decorations/post_widget_style.dart';
-import 'package:cab_sharing/models/post_model.dart';
-import 'package:cab_sharing/screens/post_detail_page.dart';
 import 'package:flutter/material.dart';
+import '../../decorations/post_widget_style.dart';
+import '../../screens/post_detail_page.dart';
+import '../../models/post_model.dart';
 
 class PostWidget extends StatefulWidget {
-  final String color_category;
+  final String colorCategory;
   final Post post;
   final BuildContext context;
-  const PostWidget({Key? key, required this.post, required this.context, required this.color_category}) : super(key: key);
+  const PostWidget({Key? key, required this.post, required this.context, required this.colorCategory}) : super(key: key);
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -35,7 +35,7 @@ class _PostWidgetState extends State<PostWidget> {
           height: 96.0,
           width: double.infinity,
           decoration:
-          (widget.color_category == "mypost")
+          (widget.colorCategory == "mypost")
               ? kRowContainerDecorationMyPost
               : kRowContainerDecoration,
           child: Row(
@@ -51,7 +51,7 @@ class _PostWidgetState extends State<PostWidget> {
                         child: Text(
                           widget.post.name,
                           style:
-                          (widget.color_category == "mypost")
+                          (widget.colorCategory == "mypost")
                               ? kPostNameTextStyleMyPost
                               : kPostNameTextStyle,
                         ),
@@ -59,7 +59,7 @@ class _PostWidgetState extends State<PostWidget> {
                       Text(
                         widget.post.email,
                         style:
-                        (widget.color_category == "mypost")
+                        (widget.colorCategory == "mypost")
                             ? kPostEmailTextStyleMyPost
                             : kPostEmailTextStyle,
                       ),
@@ -68,7 +68,7 @@ class _PostWidgetState extends State<PostWidget> {
                         child: Text(
                           widget.post.getNote(),
                           style:
-                          (widget.color_category == "mypost")
+                          (widget.colorCategory == "mypost")
                               ? kPostGetNoteTextStyleMyPost
                               : kPostGetNoteTextStyle,
                         ),
@@ -85,12 +85,12 @@ class _PostWidgetState extends State<PostWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      (widget.color_category == "mypost")
-                          ? Icon(
+                      (widget.colorCategory == "mypost")
+                          ? const Icon(
                           Icons.delete_outline,
                           color: Colors.black
                       )
-                          : SizedBox(height: 1,),
+                          : const SizedBox(height: 1,),
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 4.0,
@@ -99,7 +99,7 @@ class _PostWidgetState extends State<PostWidget> {
                         child: Text(
                           widget.post.time,
                           style:
-                          (widget.color_category == "mypost")
+                          (widget.colorCategory == "mypost")
                               ? kPostTimeTextStyleMyPost
                               : kPostTimeTextStyle,
                         ),
@@ -110,7 +110,7 @@ class _PostWidgetState extends State<PostWidget> {
                             : Icons.directions_railway,
                         size: 20,
                         color:
-                        (widget.color_category == "mypost")
+                        (widget.colorCategory == "mypost")
                             ? Colors.black
                             : Colors.white,
                       ),

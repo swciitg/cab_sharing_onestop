@@ -1,7 +1,12 @@
-part of cab_sharing;
+import 'package:flutter/material.dart';
+import '../models/post_model.dart';
+import '../widgets/home/post_widget.dart';
+import '../screens/post_search_page.dart';
+import '../decorations/home_screen_style.dart';
 
 class CabSharingScreen extends StatefulWidget {
-  const CabSharingScreen({Key? key}) : super(key: key);
+  final Map<String,String> userData;
+  const CabSharingScreen({Key? key, required this.userData}) : super(key: key);
 
   @override
   State<CabSharingScreen> createState() => _CabSharingScreenState();
@@ -23,10 +28,10 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const PostSearchPage(category: "search")),
+                    MaterialPageRoute(builder: (context) => PostSearchPage(category: "search", userData: widget.userData,)),
                   );
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.search,
                   color: Colors.white,
                 )
@@ -59,7 +64,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               time: "10.30 am",
             ),
             context: context,
-            color_category: 'mypost',
+            colorCategory: 'mypost',
           ),
           Row(
             children: [
@@ -93,7 +98,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               time: "10.30 am",
             ),
             context: context,
-            color_category: "post",
+            colorCategory: "post",
           ),
           Padding(
             padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
@@ -114,7 +119,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 mode: Post.airway,
                 time: "10.30 am"),
             context: context,
-            color_category: "post",
+            colorCategory: "post",
           ),
         ],
       ),
@@ -122,7 +127,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const PostSearchPage(category: "post")),
+            MaterialPageRoute(builder: (context) => PostSearchPage(category: "post", userData: widget.userData,)),
           );
         },
         label: const Text(

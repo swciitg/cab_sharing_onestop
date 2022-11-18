@@ -1,16 +1,17 @@
-import 'package:cab_sharing/decorations/post_and_search_style.dart';
-import 'package:cab_sharing/widgets/create_post_and_search/align_button.dart';
-import 'package:cab_sharing/widgets/scrollable/date_scroll.dart';
-import 'package:cab_sharing/widgets/scrollable/hours_scroll.dart';
-import 'package:cab_sharing/widgets/scrollable/minutes_scroll.dart';
-import 'package:cab_sharing/widgets/scrollable/month_scroll.dart';
-import 'package:cab_sharing/widgets/scrollable/year_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../decorations/post_and_search_style.dart';
+import '../widgets/scrollable/date_scroll.dart';
+import '../widgets/scrollable/hours_scroll.dart';
+import '../widgets/scrollable/minutes_scroll.dart';
+import '../widgets/scrollable/month_scroll.dart';
+import '../widgets/scrollable/year_scroll.dart';
+import '../widgets/create_post_and_search/align_button.dart';
 
 class PostSearchPage extends StatefulWidget {
   final String category;
-  const PostSearchPage({Key? key, required this.category}) : super(key: key);
+  final Map<String,String> userData;
+  const PostSearchPage({Key? key, required this.category, required this.userData}) : super(key: key);
 
   @override
   State<PostSearchPage> createState() => _PostSearchPageState();

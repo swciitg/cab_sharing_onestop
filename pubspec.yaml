@@ -36,11 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   cab_sharing:
     path: packages/cab_sharing
-  firebase_core: ^1.24.0
-  firebase_auth: ^3.11.1
-  cloud_firestore: ^3.5.0
-  provider: ^6.0.3
-  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -65,12 +60,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/airway.png
-    - assets/railway.png
-    - assets/search.png
-    - assets/message.png
-    - assets/profile.png
+#  assets:
+#    - assets/airway.png
+#    - assets/railway.png
+#    - assets/search.png
+#    - assets/message.png
+#    - assets/profile.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
