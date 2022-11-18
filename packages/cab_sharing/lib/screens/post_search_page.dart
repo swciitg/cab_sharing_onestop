@@ -6,6 +6,7 @@ import 'package:cab_sharing/widgets/scrollable/minutes_scroll.dart';
 import 'package:cab_sharing/widgets/scrollable/month_scroll.dart';
 import 'package:cab_sharing/widgets/scrollable/year_scroll.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PostSearchPage extends StatefulWidget {
   final String category;
@@ -39,13 +40,14 @@ class _PostSearchPageState extends State<PostSearchPage> {
           builder: (BuildContext context, BoxConstraints viewportConstraints ) {
             return SingleChildScrollView(
               child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                      minHeight: viewportConstraints.maxHeight
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 60,),
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0, left: 20.0),
                       child: Text(
@@ -260,12 +262,39 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                 ),
                                 value: marginValue,
                                 items: <String>[
-                                  "${hoursValue.toString()}:${minutesValue
+                                  (hoursValue > 9)
+                                      ? (minutesValue > 9)
+                                      ? "${hoursValue.toString()} : ${minutesValue
+                                      .toString()} as it is"
+                                      : "${hoursValue.toString()} : 0${minutesValue
+                                      .toString()} as it is"
+                                      : (minutesValue > 9)
+                                      ? "0${hoursValue.toString()} : ${minutesValue
+                                      .toString()} as it is"
+                                      : "0${hoursValue.toString()} : 0${minutesValue
                                       .toString()} as it is",
-                                  "${hoursValue.toString()}:${minutesValue
-                                      .toString()} or 1 hr early",
-                                  "${hoursValue.toString()}:${minutesValue
-                                      .toString()} or 2 hrs early"
+                                  (hoursValue > 9)
+                                      ? (minutesValue > 9)
+                                      ? "${hoursValue.toString()} : ${minutesValue
+                                      .toString()} or 1 hour early"
+                                      : "${hoursValue.toString()} : 0${minutesValue
+                                      .toString()} or 1 hour early"
+                                      : (minutesValue > 9)
+                                      ? "0${hoursValue.toString()} : ${minutesValue
+                                      .toString()} or 1 hour early"
+                                      : "0${hoursValue.toString()} : 0${minutesValue
+                                      .toString()} or 1 hour early",
+                                  (hoursValue > 9)
+                                      ? (minutesValue > 9)
+                                      ? "${hoursValue.toString()} : ${minutesValue
+                                      .toString()} or 2 hours early"
+                                      : "${hoursValue.toString()} : 0${minutesValue
+                                      .toString()} or 2 hours early"
+                                      : (minutesValue > 9)
+                                      ? "0${hoursValue.toString()} : ${minutesValue
+                                      .toString()} or 2 hours early"
+                                      : "0${hoursValue.toString()} : 0${minutesValue
+                                      .toString()} or 2 hours early",
                                 ].map((String val) {
                                   return DropdownMenuItem<String>(
                                     value: val,
@@ -281,46 +310,62 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           }
                       ),
                     ),
-                      (widget.category == "post")
-                      ? Padding(
-                        padding: const EdgeInsets.only(top: 24.0, left: 20.0),
-                        child: Text(
-                          "Note if any",
-                          style: titleStyle,
-                        ),
-                      )
-                      : Container(),
-                      (widget.category == "post")
-                      ? Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15, top: 8,),
-                        decoration: commonBoxDecoration,
-                        height: 70,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: TextFormField(
-                          style: titleStyle,
-                        ),
-                      )
-                      : Container(),
-                      (widget.category == "post")
-                      ? Padding(
-                        padding: const EdgeInsets.only(top: 15.0, left: 30.0),
-                        child: Text(
-                          "Share your call details.",
-                          style: secondStyle,
-                        ),
-                      )
-                      : Container(),
-                    AlignButton(
-                      text: (widget.category == "post") ? "Create Post" : "Search"
+                    (widget.category == "post")
+                        ? Padding(
+                      padding: const EdgeInsets.only(top: 24.0, left: 20.0),
+                      child: Text(
+                        "Phone Number",
+                        style: titleStyle,
+                      ),
                     )
-              ],
-            ),
-            ),
+                        : Container(),
+                    (widget.category == "post")
+                        ? Container(
+                      margin: const EdgeInsets.only(left: 15, right: 15, top: 8,),
+                      decoration: commonBoxDecoration,
+                      height: 70,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        maxLength: 10,
+                        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                        style: titleStyle,
+                      ),
+                    )
+                        : Container(),
+                    (widget.category == "post")
+                        ? Padding(
+                      padding: const EdgeInsets.only(top: 24.0, left: 20.0),
+                      child: Text(
+                        "Note if any",
+                        style: titleStyle,
+                      ),
+                    )
+                        : Container(),
+                    (widget.category == "post")
+                        ? Container(
+                      margin: const EdgeInsets.only(left: 15, right: 15, top: 8,),
+                      decoration: commonBoxDecoration,
+                      height: 70,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: TextFormField(
+                        style: titleStyle,
+                      ),
+                    )
+                        : Container(),
+                    SizedBox(height: 20,),
+                    AlignButton(
+                        text: (widget.category == "post") ? "Create Post" : "Search"
+                    )
+                  ],
+                ),
+              ),
             );
           }
       ),
     );
   }
 }
-

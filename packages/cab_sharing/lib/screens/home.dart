@@ -20,17 +20,16 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PostSearchPage(category: "search")),
-                );
-              },
-              child: Image.asset(
-                "assets/search.png",
-                width: 15.00,
-                height: 15.00,
-              ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PostSearchPage(category: "search")),
+                  );
+                },
+                child: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                )
             ),
           )
         ],
@@ -39,11 +38,34 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
       backgroundColor: const Color(0xFF1B1B1D),
       body: ListView(
         children: [
+          Padding(
+            padding:
+            const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
+            child: Text(
+              "My Post",
+              style: kTodayTextStyle,
+            ),
+          ),
+          PostWidget(
+            post: Post(
+              note: 'Lorem ipsum dolor sit amet, consect'
+                  'etur adipiscing elit, sed do eiusmod tempor'
+                  'incididunt ut labore et dolore magna aliqua.'
+                  'Ut enim ad minim veniam, quis nostrud.',
+              name: "Oct 21st, 2022",
+              email: "sanika19@iitg.ac.in",
+              margin: Post.oneHour,
+              mode: Post.airway,
+              time: "10.30 am",
+            ),
+            context: context,
+            color_category: 'mypost',
+          ),
           Row(
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
+                const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
                 child: Text(
                   "Today | ",
                   style: kTodayTextStyle,
@@ -71,6 +93,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               time: "10.30 am",
             ),
             context: context,
+            color_category: "post",
           ),
           Padding(
             padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
@@ -91,6 +114,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 mode: Post.airway,
                 time: "10.30 am"),
             context: context,
+            color_category: "post",
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:cab_sharing/decorations/campus_ola_five_style.dart';
 import 'package:cab_sharing/models/post_model.dart';
 import 'package:cab_sharing/widgets/post_detail/custom_button.dart';
 import 'package:flutter/material.dart';
+import '../decorations/home_screen_style.dart';
 
 class PostDetailPage extends StatelessWidget {
   final Post post;
@@ -15,6 +16,13 @@ class PostDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
+      appBar: AppBar(
+        title: Text(
+          "Campus Ola",
+          style: kAppBarTextStyle,
+        ),
+        backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -101,35 +109,25 @@ class PostDetailPage extends StatelessWidget {
               ),
             ),
             //Buttons Column
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
-            ),
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height * 0.04,
                 horizontal: MediaQuery.of(context).size.width * 0.06,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  CustomButton(
-                    text: 'Chat',
-                    icon: Icons.chat_outlined,
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
                   CustomButton(
                     text: 'Call',
                     icon: Icons.call_outlined,
                   ),
                   SizedBox(
-                    height: 40,
+                    width : 20,
                   ),
                   CustomButton(
                     text: 'Mail',
-                    icon: Icons.email_outlined,
+                    icon: Icons.mail_outlined,
                   ),
                 ],
               ),
