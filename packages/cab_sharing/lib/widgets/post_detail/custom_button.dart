@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       height: 52,
-      width: 328,
+      width: 156,
       decoration: kCustomButtonContainerDecoration,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

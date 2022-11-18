@@ -1,13 +1,13 @@
-
 import 'package:cab_sharing/decorations/post_widget_style.dart';
 import 'package:cab_sharing/models/post_model.dart';
 import 'package:cab_sharing/screens/post_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class PostWidget extends StatefulWidget {
+  final String color_category;
   final Post post;
   final BuildContext context;
-  const PostWidget({Key? key, required this.post, required this.context}) : super(key: key);
+  const PostWidget({Key? key, required this.post, required this.context, required this.color_category}) : super(key: key);
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -34,7 +34,10 @@ class _PostWidgetState extends State<PostWidget> {
         child: Container(
           height: 96.0,
           width: double.infinity,
-          decoration: kRowContainerDecoration,
+          decoration:
+          (widget.color_category == "mypost")
+              ? kRowContainerDecorationMyPost
+              : kRowContainerDecoration,
           child: Row(
             children: [
               Expanded(
@@ -47,18 +50,27 @@ class _PostWidgetState extends State<PostWidget> {
                         padding: const EdgeInsets.only(top: 16.0),
                         child: Text(
                           widget.post.name,
-                          style: kPostNameTextStyle,
+                          style:
+                          (widget.color_category == "mypost")
+                              ? kPostNameTextStyleMyPost
+                              : kPostNameTextStyle,
                         ),
                       ),
                       Text(
                         widget.post.email,
-                        style: kPostEmailTextStyle,
+                        style:
+                        (widget.color_category == "mypost")
+                            ? kPostEmailTextStyleMyPost
+                            : kPostEmailTextStyle,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           widget.post.getNote(),
-                          style: kPostGetNoteTextStyle,
+                          style:
+                          (widget.color_category == "mypost")
+                              ? kPostGetNoteTextStyleMyPost
+                              : kPostGetNoteTextStyle,
                         ),
                       ),
                     ],
@@ -70,23 +82,37 @@ class _PostWidgetState extends State<PostWidget> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 16.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      (widget.color_category == "mypost")
+                          ? Icon(
+                          Icons.delete_outline,
+                          color: Colors.black
+                      )
+                          : SizedBox(height: 1,),
                       Padding(
                         padding: const EdgeInsets.only(
-                          top: 16.0,
+                          top: 4.0,
                           bottom: 4.0,
                         ),
                         child: Text(
                           widget.post.time,
-                          style: kPostTimeTextStyle,
+                          style:
+                          (widget.color_category == "mypost")
+                              ? kPostTimeTextStyleMyPost
+                              : kPostTimeTextStyle,
                         ),
                       ),
-                      Image.asset(
+                      Icon(
                         widget.post.mode == Post.airway
-                            ? "assets/airway.png"
-                            : "assets/railway.png",
-                        width: 16.0,
+                            ? Icons.airplanemode_active_outlined
+                            : Icons.directions_railway,
+                        size: 20,
+                        color:
+                        (widget.color_category == "mypost")
+                            ? Colors.black
+                            : Colors.white,
                       ),
                     ],
                   ),
@@ -99,4 +125,3 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 }
-
