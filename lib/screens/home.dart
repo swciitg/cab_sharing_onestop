@@ -44,28 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color(0xFF1B1B1D),
       body: ListView(
         children: [
-          Padding(
-            padding:
-            const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
-            child: Text(
-              "My Post",
-              style: kTodayTextStyle,
-            ),
-          ),
-          PostWidget(
-            post: Post(
-              note: 'Lorem ipsum dolor sit amet, consect'
-                  'etur adipiscing elit, sed do eiusmod tempor'
-                  'incididunt ut labore et dolore magna aliqua.'
-                  'Ut enim ad minim veniam, quis nostrud.',
-              name: "Oct 21st, 2022",
-              email: "sanika19@iitg.ac.in",
-              margin: Post.oneHour,
-              mode: Post.airway,
-              time: "10.30 am",
-            ),
-            context: context, color_category: 'mypost',
-          ),
           Row(
             children: [
               Padding(
@@ -97,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mode: Post.airway,
               time: "10.30 am",
             ),
-            context: context, color_category: 'post',
+            context: context,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
@@ -117,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Ut enim ad minim veniam, quis nostrud.',
                 mode: Post.airway,
                 time: "10.30 am"),
-            context: context, color_category: 'post',
+            context: context,
           ),
         ],
       ),

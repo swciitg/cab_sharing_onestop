@@ -1,6 +1,5 @@
 import 'package:campus_ola/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../widgets/create_post_and_search/align_button.dart';
 import '../widgets/scrollable/date_scroll.dart';
 import '../widgets/scrollable/hours_scroll.dart';
@@ -47,8 +46,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 40,),
-                      Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 15.0, left: 20.0),
                       child: Text(
                         "Date ",
@@ -287,30 +285,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
                       ? Padding(
                         padding: const EdgeInsets.only(top: 24.0, left: 20.0),
                         child: Text(
-                          "Phone Number",
-                          style: titleStyle,
-                        ),
-                      )
-                      : Container(),
-                      (widget.category == "post") ? Container(
-                        margin: const EdgeInsets.only(left: 15, right: 15, top: 8,),
-                        decoration: commonBoxDecoration,
-                        height: 70,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          maxLength: 10,
-                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          style: titleStyle,
-                        ),
-                      )
-                      : Container(),
-                      (widget.category == "post")
-                      ? Padding(
-                        padding: const EdgeInsets.only(top: 24.0, left: 20.0),
-                        child: Text(
                           "Note if any",
                           style: titleStyle,
                         ),
@@ -328,7 +302,15 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         ),
                       )
                       : Container(),
-                    SizedBox(height: 20,),
+                      (widget.category == "post")
+                      ? Padding(
+                        padding: const EdgeInsets.only(top: 15.0, left: 30.0),
+                        child: Text(
+                          "Share your call details.",
+                          style: secondStyle,
+                        ),
+                      )
+                      : Container(),
                     AlignButton(
                       text: (widget.category == "post") ? "Create Post" : "Search"
                     )
