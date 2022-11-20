@@ -29,7 +29,6 @@ class PostDetailPage extends StatelessWidget {
             //Upper Column
 
             Container(
-              height: MediaQuery.of(context).size.height * 0.30,
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(
                 vertical: MediaQuery.of(context).size.height * 0.04,
@@ -95,10 +94,10 @@ class PostDetailPage extends StatelessWidget {
                   ),
                   //Info Box
                   Container(
-                    alignment: Alignment.center,
+                    alignment: Alignment.topRight,
                     padding: const EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.15,
                     decoration: kContainerDecoration,
                     child: Text(
                       'Note:- ${post.note}',
@@ -118,18 +117,22 @@ class PostDetailPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  CustomButton(
-                    text: 'Call',
-                    icon: Icons.call_outlined,
-                    value: '8888888888',
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Call',
+                      icon: Icons.call_outlined,
+                      value: '8888888888',
+                    ),
                   ),
                   SizedBox(
                     width : 20,
                   ),
-                  CustomButton(
-                    text: 'Mail',
-                    icon: Icons.mail_outlined,
-                    value: 'abcd@gmail.com',
+                  Expanded(
+                    child: CustomButton(
+                      text: 'Mail',
+                      icon: Icons.mail_outlined,
+                      value: 'abcd@gmail.com',
+                    ),
                   ),
                 ],
               ),
