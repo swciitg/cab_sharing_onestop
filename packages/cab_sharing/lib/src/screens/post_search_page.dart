@@ -1,7 +1,8 @@
+import 'package:cab_sharing/src/services/api.dart';
+import 'package:cab_sharing/src/widgets/create_post_and_search/post_input_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../decorations/home_screen_style.dart';
 import '../decorations/post_and_search_style.dart';
+import '../functions/helpers.dart';
 import '../widgets/scrollable/date_scroll.dart';
 import '../widgets/scrollable/hours_scroll.dart';
 import '../widgets/scrollable/minutes_scroll.dart';
@@ -22,6 +23,8 @@ class PostSearchPage extends StatefulWidget {
 
 class _PostSearchPageState extends State<PostSearchPage> {
   late FixedExtentScrollController _controller;
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController note = TextEditingController();
   int hoursValue = 0;
   int minutesValue = 00;
   int date = 0;
@@ -106,10 +109,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
                             diameterRatio: 1.2,
                             physics: const FixedExtentScrollPhysics(),
                             onSelectedItemChanged: (index) => {
-                              setState(() {
-                                date = index;
-                              })
-                            },
+                                  setState(() {
+                                    date = index;
+                                  })
+                                },
                             childDelegate: ListWheelChildBuilderDelegate(
                                 childCount: 31,
                                 builder: (context, index) {
@@ -131,10 +134,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
                             diameterRatio: 1.2,
                             physics: const FixedExtentScrollPhysics(),
                             onSelectedItemChanged: (index) => {
-                              setState(() {
-                                month = index;
-                              })
-                            },
+                                  setState(() {
+                                    month = index;
+                                  })
+                                },
                             childDelegate: ListWheelChildBuilderDelegate(
                                 childCount: 12,
                                 builder: (context, index) {
@@ -156,10 +159,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
                             diameterRatio: 1.2,
                             physics: const FixedExtentScrollPhysics(),
                             onSelectedItemChanged: (index) => {
-                              setState(() {
-                                year = index;
-                              })
-                            },
+                                  setState(() {
+                                    year = index;
+                                  })
+                                },
                             childDelegate: ListWheelChildBuilderDelegate(
                                 childCount: 5,
                                 builder: (context, index) {
@@ -171,87 +174,87 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     ],
                   ),
                 ),
-                (widget.category=="post")
-                ? Padding(
-                  padding: const EdgeInsets.only(top: 28.0, left: 20.0),
-                  child: Text(
-                    "Time",
-                    style: titleStyle,
-                  ),
-                )
-                : Container(),
-                (widget.category=="post")
-                ? Container(
-                  margin: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 8,
-                  ),
-                  decoration: commonBoxDecoration,
-                  height: 70,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 70,
-                        child: ListWheelScrollView.useDelegate(
-                          itemExtent: 40,
-                          controller: _controller,
-                          perspective: 0.005,
-                          diameterRatio: 1.2,
-                          physics: const FixedExtentScrollPhysics(),
-                          childDelegate: ListWheelChildBuilderDelegate(
-                              childCount: 24,
-                              builder: (context, index) {
-                                return Hours(
-                                  hours: index,
-                                );
-                              }),
-                          onSelectedItemChanged: (index) => {
-                            setState(() {
-                              marginValue = null;
-                              hoursValue = index;
-                            })
-                          },
+                (widget.category == "post")
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 28.0, left: 20.0),
+                        child: Text(
+                          "Time",
+                          style: titleStyle,
                         ),
-                      ),
-                      const Text(
-                        ":",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 70,
-                        child: ListWheelScrollView.useDelegate(
-                          itemExtent: 40,
-                          controller: _controller,
-                          perspective: 0.005,
-                          diameterRatio: 1.2,
-                          physics: const FixedExtentScrollPhysics(),
-                          childDelegate: ListWheelChildBuilderDelegate(
-                              childCount: 60,
-                              builder: (context, index) {
-                                return Minutes(
-                                  mins: index,
-                                );
-                              }),
-                          onSelectedItemChanged: (index) => {
-                            setState(() {
-                              marginValue = null;
-                              minutesValue = index;
-                              //print(minutesValue);
-                            })
-                          },
+                      )
+                    : Container(),
+                (widget.category == "post")
+                    ? Container(
+                        margin: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                          top: 8,
                         ),
-                      ),
-                    ],
-                  ),
-                )
-                : Container(),
+                        decoration: commonBoxDecoration,
+                        height: 70,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              width: 70,
+                              child: ListWheelScrollView.useDelegate(
+                                itemExtent: 40,
+                                controller: _controller,
+                                perspective: 0.005,
+                                diameterRatio: 1.2,
+                                physics: const FixedExtentScrollPhysics(),
+                                childDelegate: ListWheelChildBuilderDelegate(
+                                    childCount: 24,
+                                    builder: (context, index) {
+                                      return Hours(
+                                        hours: index,
+                                      );
+                                    }),
+                                onSelectedItemChanged: (index) => {
+                                  setState(() {
+                                    marginValue = null;
+                                    hoursValue = index;
+                                  })
+                                },
+                              ),
+                            ),
+                            const Text(
+                              ":",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 70,
+                              child: ListWheelScrollView.useDelegate(
+                                itemExtent: 40,
+                                controller: _controller,
+                                perspective: 0.005,
+                                diameterRatio: 1.2,
+                                physics: const FixedExtentScrollPhysics(),
+                                childDelegate: ListWheelChildBuilderDelegate(
+                                    childCount: 60,
+                                    builder: (context, index) {
+                                      return Minutes(
+                                        mins: index,
+                                      );
+                                    }),
+                                onSelectedItemChanged: (index) => {
+                                  setState(() {
+                                    marginValue = null;
+                                    minutesValue = index;
+                                    //print(minutesValue);
+                                  })
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Container(),
                 Padding(
                   padding: const EdgeInsets.only(top: 28.0, left: 20.0),
                   child: Text(
@@ -312,7 +315,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   decoration: commonBoxDecoration,
                   height: 70,
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Builder(builder: (context) {
                     return DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
@@ -405,74 +408,36 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     );
                   }),
                 ),
-                (widget.category == "post")
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 24.0, left: 20.0),
-                        child: Text(
-                          "Phone Number",
-                          style: titleStyle,
-                        ),
-                      )
-                    : Container(),
-                (widget.category == "post")
-                    ? Container(
-                        margin: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          top: 8,
-                        ),
-                        decoration: commonBoxDecoration,
-                        height: 70,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          maxLength: 10,
-                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                          style: titleStyle,
-                        ),
-                      )
-                    : Container(),
-                (widget.category == "post")
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 24.0, left: 20.0),
-                        child: Text(
-                          "Note if any",
-                          style: titleStyle,
-                        ),
-                      )
-                    : Container(),
-                (widget.category == "post")
-                    ? Container(
-                        margin: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                          top: 8,
-                        ),
-                        decoration: commonBoxDecoration,
-                        height: 70,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        child: TextFormField(
-                          style: titleStyle,
-                        ),
-                      )
+                (widget.category == 'post')
+                    ? PostFields(phoneController: phone, noteController: note)
                     : Container(),
                 const SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: (){
-                    print(date);
-                    print(month);
-                    print(year);
+                  onTap: () async {
+                    var res = await APIService.postSellData({
+                      'name': widget.userData['name'],
+                      'email': widget.userData['email'],
+                      'security-key': widget.userData['security-key'],
+                      'to': toValue,
+                      'from': fromValue,
+                      'note': note.text,
+                      'margin': 1,
+                      'travelDateTime': timeHelper({
+                        'date': date,
+                        'month': month,
+                        'year': year,
+                        'hour': hoursValue,
+                        'min': minutesValue,
+                      })
+                    });
+                    print(res);
                   },
                   child: AlignButton(
-                      text:
-                          (widget.category == "post") ? "Create Post" : "Search"),
+                      text: (widget.category == "post")
+                          ? "Create Post"
+                          : "Search"),
                 )
               ],
             ),
