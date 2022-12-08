@@ -104,15 +104,42 @@ class _PostWidgetState extends State<PostWidget> {
                               : kPostTimeTextStyle,
                         ),
                       ),
-                      Icon(
-                        widget.post.mode == Post.airway
-                            ? Icons.airplanemode_active_outlined
-                            : Icons.directions_railway,
-                        size: 20,
-                        color:
-                        (widget.colorCategory == "mypost")
-                            ? Colors.black
-                            : Colors.white,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(
+                            widget.post.from == Post.airway
+                                ? Icons.airplanemode_active_outlined
+                                : widget.post.from == Post.railway
+                                  ? Icons.directions_railway
+                                  : Icons.school,
+                            size: 20,
+                            color:
+                            (widget.colorCategory == "mypost")
+                                ? Colors.black
+                                : Colors.white,
+                          ),
+                          Icon(
+                            Icons.arrow_right_alt,
+                            size: 20,
+                            color:
+                              (widget.colorCategory == "mypost")
+                                  ? Colors.black
+                                  : Colors.white,
+                          ),
+                          Icon(
+                            widget.post.to == Post.airway
+                                ? Icons.airplanemode_active_outlined
+                                : widget.post.to == Post.railway
+                                ? Icons.directions_railway
+                                : Icons.school,
+                            size: 20,
+                            color:
+                            (widget.colorCategory == "mypost")
+                                ? Colors.black
+                                : Colors.white,
+                          ),
+                        ],
                       ),
                     ],
                   ),

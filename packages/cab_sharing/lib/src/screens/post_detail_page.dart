@@ -1,12 +1,13 @@
+// import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
+// import 'package:cab_sharing/src/models/reply_model.dart';
+// import 'package:cab_sharing/src/widgets/post_detail/reply_widget.dart';
 import 'package:flutter/material.dart';
 import '../widgets/post_detail/custom_button.dart';
 import '../decorations/campus_ola_five_style.dart';
-import '../decorations/home_screen_style.dart';
 import '../models/post_model.dart';
 
 class PostDetailPage extends StatelessWidget {
   final Post post;
-
   const PostDetailPage({
     Key? key,
     required this.post,
@@ -17,17 +18,20 @@ class PostDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
       appBar: AppBar(
-        title: Text(
-          "Campus Ola",
-          style: kAppBarTextStyle,
+        backgroundColor: const Color(0xff1B1B1D),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: Navigator.of(context).pop,
+          icon: const Icon(
+            Icons.arrow_back_ios_outlined,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
       ),
       body: SafeArea(
         child: Column(
           children: [
             //Upper Column
-
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(
@@ -67,6 +71,7 @@ class PostDetailPage extends StatelessWidget {
                       ),
                       //Right Column
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           //Time
@@ -75,16 +80,34 @@ class PostDetailPage extends StatelessWidget {
                             style: kiPostTimeTextStyle,
                           ),
                           //Travel Mode Icon
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              post.mode == Post.airway
-                                  ? Icons.airplanemode_active
-                                  : Icons.train,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                post.from == Post.airway
+                                    ? Icons.airplanemode_active_outlined
+                                    : post.from == Post.railway
+                                    ? Icons.directions_railway
+                                    : Icons.school,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              Icon(
+                                Icons.arrow_right_alt,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              Icon(
+                               post.to == Post.airway
+                                    ? Icons.airplanemode_active_outlined
+                                    : post.to == Post.railway
+                                    ? Icons.directions_railway
+                                    : Icons.school,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ],
@@ -137,6 +160,70 @@ class PostDetailPage extends StatelessWidget {
                 ],
               ),
             ),
+            // ReplyWidget(
+            //     reply: Reply(
+            //         replyid: 'xyz',
+            //         email: post.email,
+            //         description: 'hellob',
+            //         time: '10:30'
+            //     ),
+            //     context: context,
+            //     post: post
+            // ),
+            // ReplyWidget(
+            //     reply: Reply(
+            //         replyid: 'xyz',
+            //         email: "b",
+            //         description: 'hellob',
+            //         time: '10:30'
+            //     ),
+            //     context: context,
+            //     post: post
+            // ),
+            // Positioned(
+            //   bottom: 0,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       Container(
+            //         width: MediaQuery.of(context).size.width*0.75,
+            //         height: MediaQuery.of(context).size.width*0.15,
+            //         margin: const EdgeInsets.all(4),
+            //         padding: const EdgeInsets.only(
+            //           left: 10,
+            //           right: 8,
+            //           top: 8,
+            //           bottom: 8,
+            //         ),
+            //         decoration: BoxDecoration(
+            //             color: Color.fromRGBO(35, 41, 52, 1),
+            //             borderRadius: BorderRadius.all(
+            //                 Radius.circular(16)
+            //             )
+            //         ),
+            //         child: TextFormField(
+            //           style: chatTextStyle,
+            //         ),
+            //       ),
+            //       Container(
+            //         width: MediaQuery.of(context).size.width*0.15,
+            //         height: MediaQuery.of(context).size.width*0.15,
+            //         decoration: BoxDecoration(
+            //             color: Color.fromRGBO(35, 41, 52, 1),
+            //             borderRadius: BorderRadius.all(
+            //                 Radius.circular(MediaQuery.of(context).size.width*0.15),
+            //             )
+            //         ),
+            //         child: IconButton(
+            //           onPressed: () {  },
+            //           icon: Icon(Icons.send_outlined),
+            //           color: Colors.white,
+            //           iconSize: MediaQuery.of(context).size.width*0.075,
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
