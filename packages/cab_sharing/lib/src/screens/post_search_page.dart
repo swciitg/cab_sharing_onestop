@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../decorations/home_screen_style.dart';
 import '../decorations/post_and_search_style.dart';
 import '../widgets/scrollable/date_scroll.dart';
 import '../widgets/scrollable/hours_scroll.dart';
@@ -27,7 +28,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
   int month = 0;
   int year = 0;
   String? marginValue;
-  String? whereValue;
+  String? fromValue;
+  String? toValue;
   List<String> myMonths = [
     'Jan',
     'Feb',
@@ -53,6 +55,17 @@ class _PostSearchPageState extends State<PostSearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: Navigator.of(context).pop,
+          icon: const Icon(
+            Icons.arrow_back_ios_outlined,
+            color: Colors.white,
+          ),
+        ),
+      ),
       backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
@@ -64,9 +77,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 60,
-                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0, left: 20.0),
                   child: Text(
@@ -161,14 +171,17 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     ],
                   ),
                 ),
-                Padding(
+                (widget.category=="post")
+                ? Padding(
                   padding: const EdgeInsets.only(top: 28.0, left: 20.0),
                   child: Text(
                     "Time",
                     style: titleStyle,
                   ),
-                ),
-                Container(
+                )
+                : Container(),
+                (widget.category=="post")
+                ? Container(
                   margin: const EdgeInsets.only(
                     left: 15,
                     right: 15,
@@ -237,11 +250,12 @@ class _PostSearchPageState extends State<PostSearchPage> {
                       ),
                     ],
                   ),
-                ),
+                )
+                : Container(),
                 Padding(
                   padding: const EdgeInsets.only(top: 28.0, left: 20.0),
                   child: Text(
-                    "Where",
+                    "From",
                     style: titleStyle,
                   ),
                 ),
@@ -266,8 +280,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           color: Colors.white,
                           size: 30,
                         ),
-                        value: whereValue,
-                        items: <String>["Airport", "Railway Station"]
+                        value: fromValue,
+                        items: <String>["Campus", "Airport", "Railway Station"]
                             .map((String val) {
                           return DropdownMenuItem<String>(
                             value: val,
@@ -275,7 +289,51 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           );
                         }).toList(),
                         onChanged: (String? val) {
-                          whereValue = val!;
+                          fromValue = val!;
+                          setState(() {});
+                        },
+                      ),
+                    );
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 28.0, left: 20.0),
+                  child: Text(
+                    "To",
+                    style: titleStyle,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    left: 15,
+                    right: 15,
+                    top: 8,
+                  ),
+                  decoration: commonBoxDecoration,
+                  height: 70,
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Builder(builder: (context) {
+                    return DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        dropdownColor: const Color.fromRGBO(39, 49, 65, 1),
+                        isExpanded: true,
+                        style: secondStyle,
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        value: toValue,
+                        items: <String>["Campus", "Airport", "Railway Station"]
+                            .map((String val) {
+                          return DropdownMenuItem<String>(
+                            value: val,
+                            child: Text(val),
+                          );
+                        }).toList(),
+                        onChanged: (String? val) {
+                          toValue = val!;
                           setState(() {});
                         },
                       ),
