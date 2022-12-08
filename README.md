@@ -16,7 +16,7 @@ This project needs to be built using Flutter & Firebase
 
 ## UI & Firestore Schema design 🦄
 
-Look at design and Firestore Schema design [here](https://www.figma.com/file/V478qN81WQ0nGJi0QKtPJI/Campus-OLA-Design?node-id=0%3A1)
+Look at design and Firestore Schema design [here](https://www.figma.com/file/dB7XfKyU9MdJE1jWZaMWQq/Campus-Ola-Initial-Screens?node-id=6%3A598&t=K3soJrq6wVq6j9z9-1)
 
 ## Setting up project on your machine ⚙️
 
