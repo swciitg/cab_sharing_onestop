@@ -176,8 +176,12 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           'name': widget.userData['name'],
                           'email': widget.userData['email'],
                           'note': note.text,
-                          'margin': 1,
+                          'margin': marginHelper(marginValue),
                         };
+                        if(phone.text.isNotEmpty)
+                          {
+                            moreData['phonenumber'] = phone.text;
+                          }
                         res = await APIService.postTripData(
                             {...data, ...moreData});
                       } else {
