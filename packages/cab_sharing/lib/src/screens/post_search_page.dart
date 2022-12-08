@@ -157,14 +157,11 @@ class _PostSearchPageState extends State<PostSearchPage> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    var res = await APIService.postSellData({
-                      'name': widget.userData['name'],
-                      'email': widget.userData['email'],
-                      'security-key': widget.userData['security-key'],
+                    var res = {};
+                    Map<String, dynamic> data = {
                       'to': toValue,
                       'from': fromValue,
-                      'note': note.text,
-                      'margin': 1,
+                      'security-key': widget.userData['security-key'],
                       'travelDateTime': timeHelper({
                         'date': date,
                         'month': month,
@@ -172,7 +169,24 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         'hour': hoursValue,
                         'min': minutesValue,
                       })
-                    });
+                    };
+                    try {
+                      if (widget.category == 'post') {
+                        Map<String, dynamic> moreData = {
+                          'name': widget.userData['name'],
+                          'email': widget.userData['email'],
+                          'note': note.text,
+                          'margin': 1,
+                        };
+                        res = await APIService.postTripData(
+                            {...data, ...moreData});
+                      } else {
+                        res = await APIService.getSearchResults(data);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+
                     print(res);
                   },
                   child: AlignButton(
