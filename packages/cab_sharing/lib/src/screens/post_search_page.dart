@@ -179,31 +179,28 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           'note': note.text,
                           'margin': marginHelper(marginValue),
                         };
-                        if(phone.text.isNotEmpty)
-                          {
-                            moreData['phonenumber'] = phone.text;
-                          }
+                        if (phone.text.isNotEmpty) {
+                          moreData['phonenumber'] = phone.text;
+                        }
                         res = await APIService.postTripData(
                             {...data, ...moreData});
-
                       } else {
                         res = await APIService.getSearchResults(data);
                       }
                     } catch (e) {
                       print(e);
                     }
-                    if(res['success'])
-                      {
-                        print('we won');
-                        if (!mounted) return;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CabSharingScreen(
-                                userData: widget.userData,
-                              )),
-                        );
-                      }
+                    if (res['success']) {
+                      print('we won');
+                      if (!mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CabSharingScreen(
+                                  userData: widget.userData,
+                                )),
+                      );
+                    }
                   },
                   child: AlignButton(
                       text: (widget.category == "post")

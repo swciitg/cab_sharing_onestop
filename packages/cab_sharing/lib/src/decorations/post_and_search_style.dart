@@ -10,10 +10,7 @@ final titleStyle = GoogleFonts.montserrat(
 
 const commonBoxDecoration = BoxDecoration(
     color: Color.fromRGBO(39, 49, 65, 1),
-    borderRadius: BorderRadius.all(
-        Radius.circular(21)
-    )
-);
+    borderRadius: BorderRadius.all(Radius.circular(21)));
 
 final secondStyle = GoogleFonts.montserrat(
   fontSize: 16.0,

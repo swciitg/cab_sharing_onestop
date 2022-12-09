@@ -15,30 +15,41 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    List <Reply> replies = [
-      Reply(replyid: 'abc', email: widget.post.email, description: 'loreum ipsum dolor set amit', time: '10:30'
-      ),
-      Reply(replyid: 'abc', email: widget.post.email, description: 'loreum ipsum dolor set amit', time: '10:30'
-      ),
-      Reply(replyid: 'xyz', email: 'xyz@gmail.com', description: 'loreum ipsum dolor set amit', time: '10:30'
-      ),
-      Reply(replyid: 'abc', email: widget.post.email, description: 'loreum ipsum dolor set amit', time: '10:30'
-      ),
-      Reply(replyid: 'xyz', email: 'xyz@gmail.com', description: 'loreum ipsum dolor set amit', time: '10:30'
-      ),
+    List<Reply> replies = [
+      Reply(
+          replyid: 'abc',
+          email: widget.post.email,
+          description: 'loreum ipsum dolor set amit',
+          time: '10:30'),
+      Reply(
+          replyid: 'abc',
+          email: widget.post.email,
+          description: 'loreum ipsum dolor set amit',
+          time: '10:30'),
+      Reply(
+          replyid: 'xyz',
+          email: 'xyz@gmail.com',
+          description: 'loreum ipsum dolor set amit',
+          time: '10:30'),
+      Reply(
+          replyid: 'abc',
+          email: widget.post.email,
+          description: 'loreum ipsum dolor set amit',
+          time: '10:30'),
+      Reply(
+          replyid: 'xyz',
+          email: 'xyz@gmail.com',
+          description: 'loreum ipsum dolor set amit',
+          time: '10:30'),
     ];
     // reply in replies
     return Expanded(
-      child: ListView.builder(itemCount: replies.length,
-          itemBuilder: (BuildContext context, index){
-            final item = replies[index];
-            return ReplyWidget(
-                reply: item,
-                context: context,
-                post: widget.post
-            );
-          }
-      )
-    );
+        child: ListView.builder(
+            itemCount: replies.length,
+            itemBuilder: (BuildContext context, index) {
+              final item = replies[index];
+              return ReplyWidget(
+                  reply: item, context: context, post: widget.post);
+            }));
   }
 }

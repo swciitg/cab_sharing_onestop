@@ -8,8 +8,14 @@ class PostWidget extends StatefulWidget {
   final String colorCategory;
   final PostModel post;
   final BuildContext context;
-  Map<String,dynamic>? userData;
-  PostWidget({Key? key, required this.post, required this.context, required this.colorCategory, this.userData}) : super(key: key);
+  Map<String, dynamic>? userData;
+  PostWidget(
+      {Key? key,
+      required this.post,
+      required this.context,
+      required this.colorCategory,
+      this.userData})
+      : super(key: key);
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -19,12 +25,11 @@ class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           widget.context,
           MaterialPageRoute(builder: (context) {
-            return PostDetailPage(
-                post: widget.post);
+            return PostDetailPage(post: widget.post);
           }),
         );
       },
@@ -36,8 +41,7 @@ class _PostWidgetState extends State<PostWidget> {
         child: Container(
           height: 96.0,
           width: double.infinity,
-          decoration:
-          (widget.colorCategory == "mypost")
+          decoration: (widget.colorCategory == "mypost")
               ? kRowContainerDecorationMyPost
               : kRowContainerDecoration,
           child: Row(
@@ -52,16 +56,14 @@ class _PostWidgetState extends State<PostWidget> {
                         padding: const EdgeInsets.only(top: 16.0),
                         child: Text(
                           widget.post.name,
-                          style:
-                          (widget.colorCategory == "mypost")
+                          style: (widget.colorCategory == "mypost")
                               ? kPostNameTextStyleMyPost
                               : kPostNameTextStyle,
                         ),
                       ),
                       Text(
                         widget.post.email,
-                        style:
-                        (widget.colorCategory == "mypost")
+                        style: (widget.colorCategory == "mypost")
                             ? kPostEmailTextStyleMyPost
                             : kPostEmailTextStyle,
                       ),
@@ -69,8 +71,7 @@ class _PostWidgetState extends State<PostWidget> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           widget.post.getMargin(),
-                          style:
-                          (widget.colorCategory == "mypost")
+                          style: (widget.colorCategory == "mypost")
                               ? kPostGetNoteTextStyleMyPost
                               : kPostGetNoteTextStyle,
                         ),
@@ -89,19 +90,20 @@ class _PostWidgetState extends State<PostWidget> {
                     children: [
                       (widget.colorCategory == "mypost")
                           ? GestureDetector(
-                        onTap: (){
-                          Map<String,String> data = {};
-                          data['postId'] = widget.post.id;
-                          data['email'] = widget.userData!['email'];
-                          data['security-key'] = widget.userData!['security-key'];
-                          APIService.deletePost(data);
-                        },
-                            child: const Icon(
-                            Icons.delete_outline,
-                            color: Colors.black
-                      ),
-                          )
-                          : const SizedBox(height: 1,),
+                              onTap: () {
+                                Map<String, String> data = {};
+                                data['postId'] = widget.post.id;
+                                data['email'] = widget.userData!['email'];
+                                data['security-key'] =
+                                    widget.userData!['security-key'];
+                                APIService.deletePost(data);
+                              },
+                              child: const Icon(Icons.delete_outline,
+                                  color: Colors.black),
+                            )
+                          : const SizedBox(
+                              height: 1,
+                            ),
                       Padding(
                         padding: const EdgeInsets.only(
                           top: 4.0,
@@ -109,8 +111,7 @@ class _PostWidgetState extends State<PostWidget> {
                         ),
                         child: Text(
                           widget.post.getTime(),
-                          style:
-                          (widget.colorCategory == "mypost")
+                          style: (widget.colorCategory == "mypost")
                               ? kPostTimeTextStyleMyPost
                               : kPostTimeTextStyle,
                         ),
@@ -122,31 +123,28 @@ class _PostWidgetState extends State<PostWidget> {
                             widget.post.from == 'Airport'
                                 ? Icons.airplanemode_active_outlined
                                 : widget.post.from == 'Railway Station'
-                                  ? Icons.directions_railway
-                                  : Icons.school,
+                                    ? Icons.directions_railway
+                                    : Icons.school,
                             size: 20,
-                            color:
-                            (widget.colorCategory == "mypost")
+                            color: (widget.colorCategory == "mypost")
                                 ? Colors.black
                                 : Colors.white,
                           ),
                           Icon(
                             Icons.arrow_right_alt,
                             size: 20,
-                            color:
-                              (widget.colorCategory == "mypost")
-                                  ? Colors.black
-                                  : Colors.white,
+                            color: (widget.colorCategory == "mypost")
+                                ? Colors.black
+                                : Colors.white,
                           ),
                           Icon(
                             widget.post.to == 'Airport'
                                 ? Icons.airplanemode_active_outlined
                                 : widget.post.to == 'Railway Station'
-                                ? Icons.directions_railway
-                                : Icons.school,
+                                    ? Icons.directions_railway
+                                    : Icons.school,
                             size: 20,
-                            color:
-                            (widget.colorCategory == "mypost")
+                            color: (widget.colorCategory == "mypost")
                                 ? Colors.black
                                 : Colors.white,
                           ),

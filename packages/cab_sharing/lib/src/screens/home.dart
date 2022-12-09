@@ -20,7 +20,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.popUntil(context, ModalRoute.withName("/home2"));
           },
           child: const Icon(
@@ -113,6 +113,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     ),
                   );
                 }
+                print("snapshot data = ${snapshot.data}");
 
                 return ListView.builder(
                     shrinkWrap: true,

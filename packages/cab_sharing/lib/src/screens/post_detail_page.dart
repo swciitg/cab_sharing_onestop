@@ -89,8 +89,8 @@ class PostDetailPage extends StatelessWidget {
                                 post.from == 'Airport'
                                     ? Icons.airplanemode_active_outlined
                                     : post.from == 'Railway Station'
-                                    ? Icons.directions_railway
-                                    : Icons.school,
+                                        ? Icons.directions_railway
+                                        : Icons.school,
                                 size: 20,
                                 color: Colors.white,
                               ),
@@ -100,11 +100,11 @@ class PostDetailPage extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               Icon(
-                               post.to == 'Airport'
+                                post.to == 'Airport'
                                     ? Icons.airplanemode_active_outlined
                                     : post.to == 'Railway Station'
-                                    ? Icons.directions_railway
-                                    : Icons.school,
+                                        ? Icons.directions_railway
+                                        : Icons.school,
                                 size: 20,
                                 color: Colors.white,
                               ),
@@ -150,7 +150,7 @@ class PostDetailPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width : 20,
+                    width: 20,
                   ),
                   Expanded(
                     child: CustomButton(
@@ -162,7 +162,9 @@ class PostDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            ChatScreen(post: post,),
+            ChatScreen(
+              post: post,
+            ),
             Container(
               margin: const EdgeInsets.all(8),
               child: Row(
@@ -180,9 +182,10 @@ class PostDetailPage extends StatelessWidget {
                   Container(
                     child: IconButton(
                       alignment: Alignment.center,
-                      onPressed: () {  },
-                      icon: Icon( Icons.send_outlined,
-                      size: MediaQuery.of(context).size.width * 0.07,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.send_outlined,
+                        size: MediaQuery.of(context).size.width * 0.07,
                         color: Colors.white,
                       ),
                     ),
@@ -190,10 +193,8 @@ class PostDetailPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.width * 0.14,
                     decoration: BoxDecoration(
                         color: const Color.fromRGBO(35, 41, 52, 1),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(MediaQuery.of(context).size.width * 0.07)
-                        )
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(
+                            MediaQuery.of(context).size.width * 0.07))),
                   ),
                 ],
               ),

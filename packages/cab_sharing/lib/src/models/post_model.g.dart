@@ -16,7 +16,8 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       margin: json['margin'] as int,
       chatId: json['chatId'] as String,
       id: json['_id'] as String,
-      phonenumber: (json['phonenumber'] == null)? null :json['phonenumber']  as String?,
+      phonenumber:
+          (json['phonenumber'] == null) ? null : json['phonenumber'] as String?,
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{

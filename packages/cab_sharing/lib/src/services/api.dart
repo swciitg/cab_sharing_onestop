@@ -3,7 +3,8 @@ import 'package:cab_sharing/src/models/post_model.dart';
 import 'package:http/http.dart' as http;
 
 class APIService {
-  static const String _api = "https://swc.iitg.ac.in/onestopapi/v2/campus-travel";
+  static const String _api =
+      "https://swc.iitg.ac.in/onestopapi/v2/campus-travel";
   static const String _path = "/onestopapi/v2/campus-travel";
   static const String _host = "swc.iitg.ac.in";
 
@@ -13,25 +14,21 @@ class APIService {
       'Content-Type': 'application/json',
       'security-key': data['security-key']!
     });
-    if(response.statusCode == 200)
-      {
-        var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
-        List<Map<String, List<PostModel>>> answer = [];
-        map.forEach((key, value) {
-          var postList = value as List<dynamic>;
-          List<PostModel> posts = [];
-          for (var json in postList) {
-            posts.add(PostModel.fromJson(json));
-          }
-          answer.add({key: posts});
-        });
-        return answer;
-      }
-    else
-      {
-        throw Exception('Posts could not be fetched');
-      }
-
+    if (response.statusCode == 200) {
+      var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
+      List<Map<String, List<PostModel>>> answer = [];
+      map.forEach((key, value) {
+        var postList = value as List<dynamic>;
+        List<PostModel> posts = [];
+        for (var json in postList) {
+          posts.add(PostModel.fromJson(json));
+        }
+        answer.add({key: posts});
+      });
+      return answer;
+    } else {
+      throw Exception('Posts could not be fetched');
+    }
   }
 
   static Future<Map<String, List<PostModel>>> getSearchResults(
@@ -46,25 +43,21 @@ class APIService {
       'Content-Type': 'application/json',
       'security-key': data['security-key']!
     });
-    if(response.statusCode == 200)
-      {
-        var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
-        Map<String, List<PostModel>> answer = {};
-        map.forEach((key, value) {
-          var postList = value as List<dynamic>;
-          List<PostModel> posts = [];
-          for (var json in postList) {
-            posts.add(PostModel.fromJson(json));
-          }
-          answer[key] = posts;
-        });
-        return answer;
-      }
-    else
-      {
-        throw Exception('Search Results could not be fetched');
-      }
-
+    if (response.statusCode == 200) {
+      var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
+      Map<String, List<PostModel>> answer = {};
+      map.forEach((key, value) {
+        var postList = value as List<dynamic>;
+        List<PostModel> posts = [];
+        for (var json in postList) {
+          posts.add(PostModel.fromJson(json));
+        }
+        answer[key] = posts;
+      });
+      return answer;
+    } else {
+      throw Exception('Search Results could not be fetched');
+    }
   }
 
   static Future<List<PostModel>> getMyPosts(Map<String, dynamic> data) async {
@@ -74,20 +67,16 @@ class APIService {
       'Content-Type': 'application/json',
       'security-key': data['security-key']!
     });
-    if(response.statusCode == 200)
-      {
-        var posts = jsonDecode(response.body)['details'] as List<dynamic>;
-        List<PostModel> answer = [];
-        for (var post in posts) {
-          answer.add(PostModel.fromJson(post));
-        }
-        return answer;
+    if (response.statusCode == 200) {
+      var posts = jsonDecode(response.body)['details'] as List<dynamic>;
+      List<PostModel> answer = [];
+      for (var post in posts) {
+        answer.add(PostModel.fromJson(post));
       }
-    else
-      {
-        throw Exception('My Posts could not be fetched');
-      }
-
+      return answer;
+    } else {
+      throw Exception('My Posts could not be fetched');
+    }
   }
 
   static Future<Map<String, dynamic>> postTripData(
@@ -114,14 +103,13 @@ class APIService {
   static Future<Map<String, dynamic>> deletePost(
       Map<String, String> data) async {
     print('delete post called');
-    var res = await http.delete(Uri.parse("$_api?travelPostId=${data['postId']}"),
-        body:jsonEncode({
-          'email': data['email']
-        }),
+    var res = await http.delete(
+        Uri.parse("$_api?travelPostId=${data['postId']}"),
+        body: jsonEncode({'email': data['email']}),
         headers: {
-      'Content-Type': 'application/json',
-      'security-key': data['security-key']!
-    });
+          'Content-Type': 'application/json',
+          'security-key': data['security-key']!
+        });
     print(jsonDecode(res.body));
     return jsonDecode(res.body);
   }

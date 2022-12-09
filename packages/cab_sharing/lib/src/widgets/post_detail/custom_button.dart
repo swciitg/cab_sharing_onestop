@@ -23,7 +23,6 @@ class CustomButton extends StatelessWidget {
             await launchPhoneURL(value);
           } else {
             await launchEmailURL(value);
-
           }
         } catch (e) {
           if (kDebugMode) {
