@@ -2,7 +2,7 @@ import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/widgets/home/date_tile.dart';
 import 'package:cab_sharing/src/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
-import '../models/posto_model.dart';
+import '../models/post_model.dart';
 import '../screens/post_search_page.dart';
 import '../decorations/home_screen_style.dart';
 

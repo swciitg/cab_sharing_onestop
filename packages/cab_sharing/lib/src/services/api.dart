@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cab_sharing/src/models/posto_model.dart';
+import 'package:cab_sharing/src/models/post_model.dart';
 import 'package:http/http.dart' as http;
 
 class APIService {

@@ -5,7 +5,7 @@ import '../../models/reply_model.dart';
 
 class ReplyWidget extends StatefulWidget {
   final Reply reply;
-  final Post post;
+  final PostModel post;
   const ReplyWidget({Key? key, required this.reply, required BuildContext context, required this.post,}) : super(key: key);
 
   @override

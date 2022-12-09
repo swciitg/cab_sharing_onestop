@@ -4,12 +4,12 @@
 import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
 import 'package:cab_sharing/src/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
+import '../models/post_model.dart';
 import '../widgets/post_detail/custom_button.dart';
 import '../decorations/campus_ola_five_style.dart';
-import '../models/post_model.dart';
 
 class PostDetailPage extends StatelessWidget {
-  final Post post;
+  final PostModel post;
   const PostDetailPage({
     Key? key,
     required this.post,
@@ -66,7 +66,7 @@ class PostDetailPage extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           Text(
-                            post.getNote(),
+                            post.note,
                             style: kiPostGetNoteTextStyle,
                           ),
                         ],
@@ -78,7 +78,7 @@ class PostDetailPage extends StatelessWidget {
                         children: [
                           //Time
                           Text(
-                            post.time,
+                            post.getTime(),
                             style: kiPostTimeTextStyle,
                           ),
                           //Travel Mode Icon
@@ -86,9 +86,9 @@ class PostDetailPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Icon(
-                                post.from == Post.airway
+                                post.from == 'Airport'
                                     ? Icons.airplanemode_active_outlined
-                                    : post.from == Post.railway
+                                    : post.from == 'Railway Station'
                                     ? Icons.directions_railway
                                     : Icons.school,
                                 size: 20,
@@ -100,9 +100,9 @@ class PostDetailPage extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               Icon(
-                               post.to == Post.airway
+                               post.to == 'Airport'
                                     ? Icons.airplanemode_active_outlined
-                                    : post.to == Post.railway
+                                    : post.to == 'Railway Station'
                                     ? Icons.directions_railway
                                     : Icons.school,
                                 size: 20,

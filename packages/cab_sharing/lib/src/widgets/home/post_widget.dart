@@ -1,7 +1,8 @@
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:flutter/material.dart';
 import '../../decorations/post_widget_style.dart';
-import '../../models/posto_model.dart';
+import '../../models/post_model.dart';
+import '../../screens/post_detail_page.dart';
 
 class PostWidget extends StatefulWidget {
   final String colorCategory;
@@ -19,13 +20,13 @@ class _PostWidgetState extends State<PostWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        // Navigator.push(
-        //   widget.context,
-        //   MaterialPageRoute(builder: (context) {
-        //     return PostDetailPage(
-        //         post: widget.post);
-        //   }),
-        // );
+        Navigator.push(
+          widget.context,
+          MaterialPageRoute(builder: (context) {
+            return PostDetailPage(
+                post: widget.post);
+          }),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
