@@ -14,7 +14,6 @@ dependencies:
   google_fonts: ^3.0.1
   http: ^0.13.4
   url_launcher: ^6.0.20
-
   build_runner_core: ^7.2.7
   json_annotation: ^4.7.0
 

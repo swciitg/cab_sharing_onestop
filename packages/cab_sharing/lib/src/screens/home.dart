@@ -1,11 +1,13 @@
+import 'package:cab_sharing/src/services/api.dart';
+import 'package:cab_sharing/src/widgets/home/date_tile.dart';
+import 'package:cab_sharing/src/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
-import '../models/post_model.dart';
-import '../widgets/home/post_widget.dart';
+import '../models/posto_model.dart';
 import '../screens/post_search_page.dart';
 import '../decorations/home_screen_style.dart';
 
 class CabSharingScreen extends StatefulWidget {
-  final Map<String,String> userData;
+  final Map<String, String> userData;
   const CabSharingScreen({Key? key, required this.userData}) : super(key: key);
 
   @override
@@ -17,6 +19,15 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.popUntil(context, ModalRoute.withName("/home2"));
+          },
+          child: const Icon(
+            Icons.arrow_back_sharp,
+            color: Colors.white,
+          ),
+        ),
         title: Text(
           "Campus Ola",
           style: kAppBarTextStyle,
@@ -28,109 +39,107 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PostSearchPage(category: "search", userData: widget.userData,)),
+                    MaterialPageRoute(
+                        builder: (context) => PostSearchPage(
+                              category: "search",
+                              userData: widget.userData,
+                            )),
                   );
                 },
                 child: const Icon(
                   Icons.search,
                   color: Colors.white,
-                )
-            ),
+                )),
           )
         ],
         backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
       ),
       backgroundColor: const Color(0xFF1B1B1D),
-      body: ListView(
-        children: [
-          Padding(
-            padding:
-            const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
-            child: Text(
-              "My Post",
-              style: kTodayTextStyle,
+      body: SingleChildScrollView(
+        physics: const ScrollPhysics(),
+        child: Column(
+          children: [
+            FutureBuilder(
+                future: APIService.getMyPosts(widget.userData),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<PostModel>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.data == null || snapshot.data!.isEmpty) {
+                    return Container();
+                  }
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 18.0, left: 15.0, bottom: 10.0),
+                        child: Text(
+                          "My Post",
+                          style: kTodayTextStyle,
+                        ),
+                      ),
+                      for (var post in snapshot.data!)
+                        PostWidget(
+                          context: context,
+                          colorCategory: 'mypost',
+                          post: post,
+                          userData: widget.userData,
+                        )
+                    ],
+                  );
+                }),
+            FutureBuilder(
+              future: APIService.getAllPosts(widget.userData),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                if (snapshot.data == null) {
+                  return const Center(
+                    child: Text(
+                      'No data found',
+                    ),
+                  );
+                }
+
+                if (snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No data found',
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      String date = snapshot.data![index].keys.toList().first;
+                      return DateTile(
+                        posts: snapshot.data![index][date]!,
+                        date: date,
+                        contexto: context,
+                      );
+                    });
+              },
             ),
-          ),
-          PostWidget(
-            post: Post(
-              note: 'Lorem ipsum dolor sit amet, consect'
-                  'etur adipiscing elit, sed do eiusmod tempor'
-                  'incididunt ut labore et dolore magna aliqua.'
-                  'Ut enim ad minim veniam, quis nostrud.',
-              name: "Oct 21st, 2022",
-              email: "sanika19@iitg.ac.in",
-              margin: Post.oneHour,
-              from: Post.airway,
-              to: Post.campus,
-              time: "10.30 am",
-            ),
-            context: context,
-            colorCategory: 'mypost',
-          ),
-          Row(
-            children: [
-              Padding(
-                padding:
-                const EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
-                child: Text(
-                  "Today | ",
-                  style: kTodayTextStyle,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  "Oct 21st, 2022",
-                  style: kDateTextStyle,
-                ),
-              ),
-            ],
-          ),
-          PostWidget(
-            post: Post(
-              note: 'Lorem ipsum dolor sit amet, consect'
-                  'etur adipiscing elit, sed do eiusmod tempor'
-                  'incididunt ut labore et dolore magna aliqua.'
-                  'Ut enim ad minim veniam, quis nostrud.',
-              name: "Sanika S. Kamble",
-              email: "sanika19@iitg.ac.in",
-              margin: Post.oneHour,
-              from: Post.airway,
-              time: "10.30 am",
-              to: Post.campus,
-            ),
-            context: context,
-            colorCategory: "post",
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
-            child: Text(
-              "Oct 22nd, 2022",
-              style: kDateTextStyle,
-            ),
-          ),
-          PostWidget(
-            post: Post(
-                name: "Sanika S. Kamble",
-                email: "sanika19@iitg.ac.in",
-                margin: Post.oneHour,
-                note: 'Lorem ipsum dolor sit amet, consect'
-                    'etur adipiscing elit, sed do eiusmod tempor'
-                    'incididunt ut labore et dolore magna aliqua.'
-                    'Ut enim ad minim veniam, quis nostrud.',
-                from: Post.airway,
-                time: "10.30 am",
-                to: Post.campus),
-            context: context,
-            colorCategory: "post",
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PostSearchPage(category: "post", userData: widget.userData,)),
+            MaterialPageRoute(
+                builder: (context) => PostSearchPage(
+                      category: "post",
+                      userData: widget.userData,
+                    )),
           );
         },
         label: const Text(

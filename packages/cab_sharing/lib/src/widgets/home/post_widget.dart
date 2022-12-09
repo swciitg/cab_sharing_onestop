@@ -1,13 +1,14 @@
+import 'package:cab_sharing/src/services/api.dart';
 import 'package:flutter/material.dart';
 import '../../decorations/post_widget_style.dart';
-import '../../screens/post_detail_page.dart';
-import '../../models/post_model.dart';
+import '../../models/posto_model.dart';
 
 class PostWidget extends StatefulWidget {
   final String colorCategory;
-  final Post post;
+  final PostModel post;
   final BuildContext context;
-  const PostWidget({Key? key, required this.post, required this.context, required this.colorCategory}) : super(key: key);
+  Map<String,dynamic>? userData;
+  PostWidget({Key? key, required this.post, required this.context, required this.colorCategory, this.userData}) : super(key: key);
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -18,13 +19,13 @@ class _PostWidgetState extends State<PostWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(
-          widget.context,
-          MaterialPageRoute(builder: (context) {
-            return PostDetailPage(
-                post: widget.post);
-          }),
-        );
+        // Navigator.push(
+        //   widget.context,
+        //   MaterialPageRoute(builder: (context) {
+        //     return PostDetailPage(
+        //         post: widget.post);
+        //   }),
+        // );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -66,7 +67,7 @@ class _PostWidgetState extends State<PostWidget> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          widget.post.getNote(),
+                          widget.post.getMargin(),
                           style:
                           (widget.colorCategory == "mypost")
                               ? kPostGetNoteTextStyleMyPost
@@ -86,10 +87,19 @@ class _PostWidgetState extends State<PostWidget> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       (widget.colorCategory == "mypost")
-                          ? const Icon(
-                          Icons.delete_outline,
-                          color: Colors.black
-                      )
+                          ? GestureDetector(
+                        onTap: (){
+                          Map<String,String> data = {};
+                          data['postId'] = widget.post.id;
+                          data['email'] = widget.userData!['email'];
+                          data['security-key'] = widget.userData!['security-key'];
+                          APIService.deletePost(data);
+                        },
+                            child: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.black
+                      ),
+                          )
                           : const SizedBox(height: 1,),
                       Padding(
                         padding: const EdgeInsets.only(
@@ -97,7 +107,7 @@ class _PostWidgetState extends State<PostWidget> {
                           bottom: 4.0,
                         ),
                         child: Text(
-                          widget.post.time,
+                          widget.post.getTime(),
                           style:
                           (widget.colorCategory == "mypost")
                               ? kPostTimeTextStyleMyPost
@@ -108,9 +118,9 @@ class _PostWidgetState extends State<PostWidget> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Icon(
-                            widget.post.from == Post.airway
+                            widget.post.from == 'Airport'
                                 ? Icons.airplanemode_active_outlined
-                                : widget.post.from == Post.railway
+                                : widget.post.from == 'Railway Station'
                                   ? Icons.directions_railway
                                   : Icons.school,
                             size: 20,
@@ -128,9 +138,9 @@ class _PostWidgetState extends State<PostWidget> {
                                   : Colors.white,
                           ),
                           Icon(
-                            widget.post.to == Post.airway
+                            widget.post.to == 'Airport'
                                 ? Icons.airplanemode_active_outlined
-                                : widget.post.to == Post.railway
+                                : widget.post.to == 'Railway Station'
                                 ? Icons.directions_railway
                                 : Icons.school,
                             size: 20,

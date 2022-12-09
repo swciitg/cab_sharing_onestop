@@ -39,4 +39,42 @@ class PostModel {
 
   /// Connect the generated [_$PostModelToJson] function to the `toJson` method.
   Map<String, dynamic> toJson() => _$PostModelToJson(this);
+
+  String getMargin()
+  {
+    if(margin == 1)
+      {
+        return "Can leave upto 1 hr early";
+      }
+    else if(margin == 2)
+      {
+        return "Can leave upto 2 hr early";
+      }
+    return "Need to leave at exact time";
+  }
+
+  String getTime()
+  {
+    String answer;
+    String time = travelDateTime.substring(11,16);
+    int hours = int.parse(time.substring(0,2));
+    if(hours == 0)
+    {
+      answer = '12${time.substring(2)} AM';
+    }
+    else if(hours < 12)
+    {
+      answer = '$hours${time.substring(2)} AM';
+    }
+    else if(hours == 12)
+    {
+      answer = '$hours${time.substring(2)} PM';
+    }
+    else
+    {
+      hours = hours - 12;
+      answer = '$hours${time.substring(2)} PM';
+    }
+    return answer;
+  }
 }

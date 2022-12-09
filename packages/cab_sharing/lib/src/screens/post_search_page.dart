@@ -184,16 +184,17 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           }
                         res = await APIService.postTripData(
                             {...data, ...moreData});
+
                       } else {
-                        data['email'] = widget.userData['email'];
-                        print('pressed');
-                        await APIService.getMyPosts(data);
+                        res = await APIService.getSearchResults(data);
                       }
                     } catch (e) {
                       print(e);
                     }
-
-                    print(res);
+                    if(res['success'])
+                      {
+                        print('we won');
+                      }
                   },
                   child: AlignButton(
                       text: (widget.category == "post")
