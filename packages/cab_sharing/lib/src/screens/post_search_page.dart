@@ -1,3 +1,4 @@
+import 'package:cab_sharing/cab_sharing.dart';
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/date_field.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/post_input_fields.dart';
@@ -194,6 +195,14 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     if(res['success'])
                       {
                         print('we won');
+                        if (!mounted) return;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CabSharingScreen(
+                                userData: widget.userData,
+                              )),
+                        );
                       }
                   },
                   child: AlignButton(
