@@ -185,7 +185,9 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         res = await APIService.postTripData(
                             {...data, ...moreData});
                       } else {
-                        res = await APIService.getSearchResults(data);
+                        data['email'] = widget.userData['email'];
+                        print('pressed');
+                        await APIService.getMyPosts(data);
                       }
                     } catch (e) {
                       print(e);
