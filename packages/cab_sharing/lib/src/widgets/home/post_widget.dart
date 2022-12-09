@@ -1,4 +1,5 @@
 import 'package:cab_sharing/src/services/api.dart';
+import 'package:cab_sharing/src/functions/snackbar.dart';
 import 'package:flutter/material.dart';
 import '../../decorations/post_widget_style.dart';
 import '../../models/post_model.dart';
@@ -8,12 +9,14 @@ class PostWidget extends StatefulWidget {
   final String colorCategory;
   final PostModel post;
   final BuildContext context;
+  final Function deleteCallback;
   Map<String, dynamic>? userData;
   PostWidget(
       {Key? key,
       required this.post,
       required this.context,
       required this.colorCategory,
+      required this.deleteCallback,
       this.userData})
       : super(key: key);
 
@@ -22,6 +25,7 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
+  bool allowDelete = true;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -74,6 +78,7 @@ class _PostWidgetState extends State<PostWidget> {
                           style: (widget.colorCategory == "mypost")
                               ? kPostGetNoteTextStyleMyPost
                               : kPostGetNoteTextStyle,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -90,14 +95,34 @@ class _PostWidgetState extends State<PostWidget> {
                     children: [
                       (widget.colorCategory == "mypost")
                           ? GestureDetector(
-                              onTap: () {
-                                Map<String, String> data = {};
-                                data['postId'] = widget.post.id;
-                                data['email'] = widget.userData!['email'];
-                                data['security-key'] =
-                                    widget.userData!['security-key'];
-                                APIService.deletePost(data);
-                              },
+                              onTap: allowDelete
+                                  ? () async {
+                                      Map<String, String> data = {};
+                                      data['postId'] = widget.post.id;
+                                      data['email'] = widget.userData!['email'];
+                                      data['security-key'] =
+                                          widget.userData!['security-key'];
+                                      setState(() {
+                                        allowDelete = false;
+                                      });
+                                      bool deleteSuccess =
+                                          await APIService.deletePost(data);
+                                      print("deleteSuccess = $deleteSuccess");
+                                      if (deleteSuccess) {
+                                        widget.deleteCallback();
+                                      } else {
+                                        if (!mounted) {
+                                          return;
+                                        }
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(getSnackbar(
+                                                "An error occurred. Your post could not be deleted at this moment."));
+                                        setState(() {
+                                          allowDelete = true;
+                                        });
+                                      }
+                                    }
+                                  : () => {},
                               child: const Icon(Icons.delete_outline,
                                   color: Colors.black),
                             )

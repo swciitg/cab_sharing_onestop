@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../decorations/home_screen_style.dart';
 import '../../models/post_model.dart';
 
-class DateTile extends StatelessWidget {
+class DateTile extends StatefulWidget {
   final String date;
   final List<PostModel> posts;
   final BuildContext contexto;
@@ -15,6 +15,11 @@ class DateTile extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<DateTile> createState() => _DateTileState();
+}
+
+class _DateTileState extends State<DateTile> {
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,12 +27,12 @@ class DateTile extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 14.0, left: 15.0, bottom: 10.0),
           child: Text(
-            date,
+            widget.date,
             style: kDateTextStyle,
           ),
         ),
-        for (var post in posts)
-          PostWidget(post: post, context: contexto, colorCategory: 'post'),
+        for (var post in widget.posts)
+          PostWidget(post: post, context: widget.contexto, colorCategory: 'post', deleteCallback: () => setState((){}),),
       ],
     );
   }

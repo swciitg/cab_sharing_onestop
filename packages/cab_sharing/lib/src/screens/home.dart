@@ -87,6 +87,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                           colorCategory: 'mypost',
                           post: post,
                           userData: widget.userData,
+                          deleteCallback: () => setState((){}),
                         )
                     ],
                   );

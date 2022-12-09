@@ -99,19 +99,24 @@ class APIService {
     print(jsonDecode(res.body));
     return jsonDecode(res.body);
   }
-
-  static Future<Map<String, dynamic>> deletePost(
-      Map<String, String> data) async {
-    print('delete post called');
-    var res = await http.delete(
-        Uri.parse("$_api?travelPostId=${data['postId']}"),
-        body: jsonEncode({'email': data['email']}),
-        headers: {
-          'Content-Type': 'application/json',
-          'security-key': data['security-key']!
-        });
-    print(jsonDecode(res.body));
-    return jsonDecode(res.body);
+  
+  static Future<bool> deletePost(Map<String, String> data) async {
+    try {
+      var res = await http.delete(
+          Uri.parse("$_api?travelPostId=${data['postId']}"),
+          body: jsonEncode({'email': data['email']}),
+          headers: {
+            'Content-Type': 'application/json',
+            'security-key': data['security-key']!
+          });
+      var jsonResponse = jsonDecode(res.body);
+      if (jsonResponse['success'] == true) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   static Future<Map<String, dynamic>> deleteAllPost(
