@@ -1,6 +1,8 @@
 // import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
 // import 'package:cab_sharing/src/models/reply_model.dart';
 // import 'package:cab_sharing/src/widgets/post_detail/reply_widget.dart';
+import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
+import 'package:cab_sharing/src/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/post_detail/custom_button.dart';
 import '../decorations/campus_ola_five_style.dart';
@@ -134,7 +136,7 @@ class PostDetailPage extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.04,
+                vertical: MediaQuery.of(context).size.height * 0.02,
                 horizontal: MediaQuery.of(context).size.width * 0.06,
               ),
               child: Row(
@@ -160,70 +162,42 @@ class PostDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            // ReplyWidget(
-            //     reply: Reply(
-            //         replyid: 'xyz',
-            //         email: post.email,
-            //         description: 'hellob',
-            //         time: '10:30'
-            //     ),
-            //     context: context,
-            //     post: post
-            // ),
-            // ReplyWidget(
-            //     reply: Reply(
-            //         replyid: 'xyz',
-            //         email: "b",
-            //         description: 'hellob',
-            //         time: '10:30'
-            //     ),
-            //     context: context,
-            //     post: post
-            // ),
-            // Positioned(
-            //   bottom: 0,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       Container(
-            //         width: MediaQuery.of(context).size.width*0.75,
-            //         height: MediaQuery.of(context).size.width*0.15,
-            //         margin: const EdgeInsets.all(4),
-            //         padding: const EdgeInsets.only(
-            //           left: 10,
-            //           right: 8,
-            //           top: 8,
-            //           bottom: 8,
-            //         ),
-            //         decoration: BoxDecoration(
-            //             color: Color.fromRGBO(35, 41, 52, 1),
-            //             borderRadius: BorderRadius.all(
-            //                 Radius.circular(16)
-            //             )
-            //         ),
-            //         child: TextFormField(
-            //           style: chatTextStyle,
-            //         ),
-            //       ),
-            //       Container(
-            //         width: MediaQuery.of(context).size.width*0.15,
-            //         height: MediaQuery.of(context).size.width*0.15,
-            //         decoration: BoxDecoration(
-            //             color: Color.fromRGBO(35, 41, 52, 1),
-            //             borderRadius: BorderRadius.all(
-            //                 Radius.circular(MediaQuery.of(context).size.width*0.15),
-            //             )
-            //         ),
-            //         child: IconButton(
-            //           onPressed: () {  },
-            //           icon: Icon(Icons.send_outlined),
-            //           color: Colors.white,
-            //           iconSize: MediaQuery.of(context).size.width*0.075,
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // )
+            ChatScreen(post: post,),
+            Container(
+              margin: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    child: TextField(
+                      style: chatTextStyle,
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    height: MediaQuery.of(context).size.width * 0.14,
+                    decoration: receivedBoxDecoration,
+                    padding: const EdgeInsets.all(8),
+                  ),
+                  Container(
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      onPressed: () {  },
+                      icon: Icon( Icons.send_outlined,
+                      size: MediaQuery.of(context).size.width * 0.07,
+                        color: Colors.white,
+                      ),
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.14,
+                    height: MediaQuery.of(context).size.width * 0.14,
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(35, 41, 52, 1),
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(MediaQuery.of(context).size.width * 0.07)
+                        )
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
