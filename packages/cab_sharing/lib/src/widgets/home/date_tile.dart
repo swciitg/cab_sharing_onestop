@@ -6,8 +6,7 @@ import '../../models/post_model.dart';
 class DateTile extends StatelessWidget {
   final String date;
   final List<PostModel> posts;
-  final BuildContext contexto;
-  const DateTile({Key? key, required this.posts, required this.date, required this.contexto}) : super(key: key);
+  const DateTile({Key? key, required this.posts, required this.date}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class DateTile extends StatelessWidget {
             style: kDateTextStyle,
           ),
         ),
-        for(var post in posts) PostWidget(post: post, context: contexto, colorCategory: 'post'),
+        for(var post in posts) PostWidget(post: post, colorCategory: 'post'),
       ],
     );
   }

@@ -7,9 +7,8 @@ import '../../screens/post_detail_page.dart';
 class PostWidget extends StatefulWidget {
   final String colorCategory;
   final PostModel post;
-  final BuildContext context;
   Map<String,dynamic>? userData;
-  PostWidget({Key? key, required this.post, required this.context, required this.colorCategory, this.userData}) : super(key: key);
+  PostWidget({Key? key, required this.post, required this.colorCategory, this.userData}) : super(key: key);
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -21,7 +20,7 @@ class _PostWidgetState extends State<PostWidget> {
     return GestureDetector(
       onTap: (){
         Navigator.push(
-          widget.context,
+          context,
           MaterialPageRoute(builder: (context) {
             return PostDetailPage(
                 post: widget.post);
