@@ -1,4 +1,5 @@
 import 'package:cab_sharing/cab_sharing.dart';
+import 'package:cab_sharing/src/screens/search_screen.dart';
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/date_field.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/post_input_fields.dart';
@@ -29,10 +30,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
   int month = 0;
   int year = 0;
   String? marginValue;
-  String? fromValue;
-  String? toValue;
+  String fromValue = 'Campus';
+  String toValue = 'Airport';
 
-  toFromControl(String? to, String? from) {
+  toFromControl(String to, String from) {
     setState(() {
       toValue = to;
       fromValue = from;
@@ -162,6 +163,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     Map<String, dynamic> data = {
                       'to': toValue,
                       'from': fromValue,
+                      'name': widget.userData['name'],
+                      'email': widget.userData['email'],
                       'security-key': widget.userData['security-key'],
                       'travelDateTime': timeHelper({
                         'date': date,
@@ -174,8 +177,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     try {
                       if (widget.category == 'post') {
                         Map<String, dynamic> moreData = {
-                          'name': widget.userData['name'],
-                          'email': widget.userData['email'],
                           'note': note.text,
                           'margin': marginHelper(marginValue),
                         };
@@ -185,22 +186,46 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         res = await APIService.postTripData(
                             {...data, ...moreData});
                       } else {
-                        res = await APIService.getSearchResults(data);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchScreen(
+                                userData: data,
+                              )),
+                        );
                       }
                     } catch (e) {
                       print(e);
                     }
-                    if (res['success']) {
-                      print('we won');
-                      if (!mounted) return;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CabSharingScreen(
+
+                    if(widget.category == 'post')
+                      {
+                        if (res['success']) {
+                          if (!mounted) return;
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                              content: Text(
+                                "Post Uploaded",
+                              )));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CabSharingScreen(
                                   userData: widget.userData,
                                 )),
-                      );
-                    }
+                          );
+                        }
+                        else
+                          {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                                content: Text(
+                                  "Check your connection and try again",
+                                )));
+                          }
+                      }
+
                   },
                   child: AlignButton(
                       text: (widget.category == "post")

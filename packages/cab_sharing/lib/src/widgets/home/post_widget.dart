@@ -26,6 +26,7 @@ class _PostWidgetState extends State<PostWidget> {
   bool allowDelete = true;
   @override
   Widget build(BuildContext context) {
+    bool myPost = (widget.colorCategory == "mypost");
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -43,7 +44,7 @@ class _PostWidgetState extends State<PostWidget> {
         child: Container(
           height: 96.0,
           width: double.infinity,
-          decoration: (widget.colorCategory == "mypost")
+          decoration: myPost
               ? kRowContainerDecorationMyPost
               : kRowContainerDecoration,
           child: Row(
@@ -57,15 +58,15 @@ class _PostWidgetState extends State<PostWidget> {
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
                         child: Text(
-                          widget.post.name,
-                          style: (widget.colorCategory == "mypost")
+                          myPost ? widget.post.getDate() :widget.post.name,
+                          style: myPost
                               ? kPostNameTextStyleMyPost
                               : kPostNameTextStyle,
                         ),
                       ),
                       Text(
                         widget.post.email,
-                        style: (widget.colorCategory == "mypost")
+                        style: myPost
                             ? kPostEmailTextStyleMyPost
                             : kPostEmailTextStyle,
                       ),
@@ -73,7 +74,7 @@ class _PostWidgetState extends State<PostWidget> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           widget.post.getMargin(),
-                          style: (widget.colorCategory == "mypost")
+                          style: myPost
                               ? kPostGetNoteTextStyleMyPost
                               : kPostGetNoteTextStyle,
                           overflow: TextOverflow.ellipsis,
@@ -91,7 +92,7 @@ class _PostWidgetState extends State<PostWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      (widget.colorCategory == "mypost")
+                      myPost
                           ? GestureDetector(
                               onTap: allowDelete
                                   ? () async {
@@ -134,7 +135,7 @@ class _PostWidgetState extends State<PostWidget> {
                         ),
                         child: Text(
                           widget.post.getTime(),
-                          style: (widget.colorCategory == "mypost")
+                          style: myPost
                               ? kPostTimeTextStyleMyPost
                               : kPostTimeTextStyle,
                         ),
@@ -149,14 +150,14 @@ class _PostWidgetState extends State<PostWidget> {
                                     ? Icons.directions_railway
                                     : Icons.school,
                             size: 20,
-                            color: (widget.colorCategory == "mypost")
+                            color: myPost
                                 ? Colors.black
                                 : Colors.white,
                           ),
                           Icon(
                             Icons.arrow_right_alt,
                             size: 20,
-                            color: (widget.colorCategory == "mypost")
+                            color: myPost
                                 ? Colors.black
                                 : Colors.white,
                           ),
@@ -167,7 +168,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     ? Icons.directions_railway
                                     : Icons.school,
                             size: 20,
-                            color: (widget.colorCategory == "mypost")
+                            color: myPost
                                 ? Colors.black
                                 : Colors.white,
                           ),
