@@ -15,9 +15,7 @@ import '../widgets/create_post_and_search/align_button.dart';
 
 class PostSearchPage extends StatefulWidget {
   final String category;
-  const PostSearchPage(
-      {Key? key, required this.category})
-      : super(key: key);
+  const PostSearchPage({Key? key, required this.category}) : super(key: key);
 
   @override
   State<PostSearchPage> createState() => _PostSearchPageState();
@@ -33,11 +31,12 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final FixedExtentScrollController year = FixedExtentScrollController();
   final FixedExtentScrollController hours = FixedExtentScrollController();
   final FixedExtentScrollController min = FixedExtentScrollController();
+  final  noteFieldKey = GlobalKey<FormState>();
   String? marginValue;
 
   @override
   Widget build(BuildContext context) {
-    Map<String,String> userData = context.read<CommonStore>().userData;
+    Map<String, String> userData = context.read<CommonStore>().userData;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
@@ -70,79 +69,20 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     ? TimeField(hour: hours, min: min)
                     : Container(),
                 ToFromField(to: to, from: from),
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 24.0, left: 20.0),
-                //   child: Text(
-                //     "Margin",
-                //     style: titleStyle,
-                //   ),
-                // ),
-                // Container(
-                //   margin: const EdgeInsets.only(
-                //     left: 15,
-                //     right: 15,
-                //     top: 8,
-                //   ),
-                //   decoration: commonBoxDecoration,
-                //   height: 70,
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                //   child: Builder(builder: (context) {
-                //     return DropdownButtonHideUnderline(
-                //       child: DropdownButton<String>(
-                //         dropdownColor: const Color.fromRGBO(39, 49, 65, 1),
-                //         isExpanded: true,
-                //         style: secondStyle,
-                //         icon: const Icon(
-                //           Icons.keyboard_arrow_down_rounded,
-                //           color: Colors.white,
-                //           size: 30,
-                //         ),
-                //         value: marginValue,
-                //         items: <String>[
-                //           (hoursValue > 9)
-                //               ? (minutesValue > 9)
-                //                   ? "${hoursValue.toString()} : ${minutesValue.toString()} as it is"
-                //                   : "${hoursValue.toString()} : 0${minutesValue.toString()} as it is"
-                //               : (minutesValue > 9)
-                //                   ? "0${hoursValue.toString()} : ${minutesValue.toString()} as it is"
-                //                   : "0${hoursValue.toString()} : 0${minutesValue.toString()} as it is",
-                //           (hoursValue > 9)
-                //               ? (minutesValue > 9)
-                //                   ? "${hoursValue.toString()} : ${minutesValue.toString()} or 1 hour early"
-                //                   : "${hoursValue.toString()} : 0${minutesValue.toString()} or 1 hour early"
-                //               : (minutesValue > 9)
-                //                   ? "0${hoursValue.toString()} : ${minutesValue.toString()} or 1 hour early"
-                //                   : "0${hoursValue.toString()} : 0${minutesValue.toString()} or 1 hour early",
-                //           (hoursValue > 9)
-                //               ? (minutesValue > 9)
-                //                   ? "${hoursValue.toString()} : ${minutesValue.toString()} or 2 hours early"
-                //                   : "${hoursValue.toString()} : 0${minutesValue.toString()} or 2 hours early"
-                //               : (minutesValue > 9)
-                //                   ? "0${hoursValue.toString()} : ${minutesValue.toString()} or 2 hours early"
-                //                   : "0${hoursValue.toString()} : 0${minutesValue.toString()} or 2 hours early",
-                //         ].map((String val) {
-                //           return DropdownMenuItem<String>(
-                //             value: val,
-                //             child: Text(val),
-                //           );
-                //         }).toList(),
-                //         onChanged: (String? val) {
-                //           marginValue = val!;
-                //           setState(() {});
-                //         },
-                //       ),
-                //     );
-                //   }),
-                // ),
                 (widget.category == 'post')
-                    ? PostFields(phoneController: phone, noteController: note)
+                    ? PostFields(
+                        phoneController: phone,
+                        noteController: note,
+                        formKey: noteFieldKey,
+                      )
                     : Container(),
                 const SizedBox(
                   height: 20,
                 ),
                 GestureDetector(
                   onTap: () async {
+                    noteFieldKey.currentState!.validate();
+                    return;
                     var res = {};
                     Map<String, dynamic> data = {
                       'to': to.text,
