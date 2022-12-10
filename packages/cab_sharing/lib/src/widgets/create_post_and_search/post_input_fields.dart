@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../decorations/post_and_search_style.dart';
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 
 class PostFields extends StatefulWidget {
   final TextEditingController phoneController;

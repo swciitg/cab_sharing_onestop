@@ -1,7 +1,7 @@
 import 'package:cab_sharing/src/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
-import '../../decorations/home_screen_style.dart';
-import '../../models/post_model.dart';
+import 'package:cab_sharing/src/decorations/home_screen_style.dart';
+import 'package:cab_sharing/src/models/post_model.dart';
 
 class DateTile extends StatefulWidget {
   final String date;

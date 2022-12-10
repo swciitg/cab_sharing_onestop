@@ -25,6 +25,7 @@ dev_dependencies:
   build_runner: ^2.3.2
   json_serializable: ^6.5.4
   dependency_validator: ^3.2.2
+  import_path_converter: ^1.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

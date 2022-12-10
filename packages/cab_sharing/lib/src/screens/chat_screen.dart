@@ -4,7 +4,7 @@ import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/widgets/post_detail/reply_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../models/post_model.dart';
+import 'package:cab_sharing/src/models/post_model.dart';
 
 class ChatScreen extends StatefulWidget {
   final PostModel post;

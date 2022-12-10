@@ -1,8 +1,8 @@
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/widgets/home/corner_case.dart';
 import 'package:flutter/material.dart';
-import '../models/post_model.dart';
-import '../widgets/home/date_tile.dart';
+import 'package:cab_sharing/src/models/post_model.dart';
+import 'package:cab_sharing/src/widgets/home/date_tile.dart';
 
 class SearchScreen extends StatefulWidget {
   final Map<String, dynamic> userData;

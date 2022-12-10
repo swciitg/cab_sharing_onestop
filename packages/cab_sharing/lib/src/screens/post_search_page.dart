@@ -9,9 +9,9 @@ import 'package:cab_sharing/src/widgets/create_post_and_search/time_field.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/to_from_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../decorations/post_and_search_style.dart';
-import '../functions/helpers.dart';
-import '../widgets/create_post_and_search/align_button.dart';
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
+import 'package:cab_sharing/src/functions/helpers.dart';
+import 'package:cab_sharing/src/widgets/create_post_and_search/align_button.dart';
 
 class PostSearchPage extends StatefulWidget {
   final String category;

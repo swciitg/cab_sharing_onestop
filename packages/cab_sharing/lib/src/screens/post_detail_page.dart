@@ -6,8 +6,8 @@ import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cab_sharing/src/models/post_model.dart';
-import '../widgets/post_detail/custom_button.dart';
-import '../decorations/campus_ola_five_style.dart';
+import 'package:cab_sharing/src/widgets/post_detail/custom_button.dart';
+import 'package:cab_sharing/src/decorations/campus_ola_five_style.dart';
 
 class PostDetailPage extends StatefulWidget {
   final PostModel post;

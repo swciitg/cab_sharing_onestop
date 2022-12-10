@@ -4,10 +4,10 @@ import 'package:cab_sharing/src/widgets/home/date_tile.dart';
 import 'package:cab_sharing/src/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/post_model.dart';
-import '../screens/post_search_page.dart';
-import '../decorations/home_screen_style.dart';
-import '../widgets/home/corner_case.dart';
+import 'package:cab_sharing/src/models/post_model.dart';
+import 'package:cab_sharing/src/screens/post_search_page.dart';
+import 'package:cab_sharing/src/decorations/home_screen_style.dart';
+import 'package:cab_sharing/src/widgets/home/corner_case.dart';
 
 class CabSharingScreen extends StatefulWidget {
   final Map<String, String> userData;

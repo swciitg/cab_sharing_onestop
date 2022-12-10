@@ -1,6 +1,6 @@
 import 'package:cab_sharing/src/widgets/create_post_and_search/scrollable.dart';
 import 'package:flutter/material.dart';
-import '../../decorations/post_and_search_style.dart';
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 
 class TimeField extends StatefulWidget {
   final FixedExtentScrollController hour;
