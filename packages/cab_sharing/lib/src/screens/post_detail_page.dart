@@ -17,6 +17,7 @@ class PostDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("chat id is ${post.chatId}");
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
       appBar: AppBar(

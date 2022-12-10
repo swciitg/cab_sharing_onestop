@@ -21,7 +21,6 @@ class _ChatScreenState extends State<ChatScreen> {
     return FutureBuilder<List<ReplyModel>>(
       future: APIService.getPostReplies(widget.post.chatId),
       builder: (context, snapshot) {
-        print("CHAT SNAP = $snapshot");
         if (snapshot.hasData) {
           List<ReplyModel> replies = snapshot.data!;
           return Expanded(

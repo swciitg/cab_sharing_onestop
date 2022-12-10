@@ -139,7 +139,7 @@ class APIService {
       var jsonResponse = jsonDecode(response.body);
       List<dynamic> listReplies = jsonResponse['replies'];
       var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
-      print("replies = $replies");
+      print("$jsonResponse");
       return replies;
     } catch (e) {
       print(e);

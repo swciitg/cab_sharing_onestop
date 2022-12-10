@@ -18,10 +18,14 @@ class ReplyWidget extends StatefulWidget {
 }
 
 class _ReplyWidgetState extends State<ReplyWidget> {
+  
+  bool get isOthersReply {
+    return widget.reply.name != widget.post.name;
+  }
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: widget.reply.name == widget.post.email
+      mainAxisAlignment: isOthersReply
           ? MainAxisAlignment.start
           : MainAxisAlignment.end,
       children: [
@@ -34,15 +38,15 @@ class _ReplyWidgetState extends State<ReplyWidget> {
             top: 8,
             bottom: 8,
           ),
-          decoration: widget.reply.name == widget.post.email
+          decoration: isOthersReply
               ? receivedBoxDecoration
               : sentBoxDecoration,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.reply.name == widget.post.email
+              isOthersReply
                   ? Text(
-                      widget.post.name,
+                      widget.reply.name,
                       style: nameStyle,
                     )
                   : Text(
