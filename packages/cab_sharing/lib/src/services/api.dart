@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cab_sharing/src/models/post_model.dart';
+import 'package:cab_sharing/src/models/reply_model.dart';
 import 'package:http/http.dart' as http;
 
 class APIService {
@@ -126,5 +127,23 @@ class APIService {
       'security-key': data['security-key']!
     });
     return jsonDecode(res.body);
+  }
+
+  static Future<List<ReplyModel>> getPostReplies(String chatId) async {
+    final queryParameters = {
+      'chatId': chatId,
+    };
+    final uri = Uri.https(_host, '$_path/chat', queryParameters);
+    try {
+      http.Response response = await http.get(uri);
+      var jsonResponse = jsonDecode(response.body);
+      List<dynamic> listReplies = jsonResponse['replies'];
+      var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
+      print("replies = $replies");
+      return replies;
+    } catch (e) {
+      print(e);
+      throw Exception("An error occurred in fetching replies");
+    }
   }
 }

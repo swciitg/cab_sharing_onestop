@@ -4,7 +4,7 @@ import '../../models/post_model.dart';
 import '../../models/reply_model.dart';
 
 class ReplyWidget extends StatefulWidget {
-  final Reply reply;
+  final ReplyModel reply;
   final PostModel post;
   const ReplyWidget({
     Key? key,
@@ -21,7 +21,7 @@ class _ReplyWidgetState extends State<ReplyWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: widget.reply.email == widget.post.email
+      mainAxisAlignment: widget.reply.name == widget.post.email
           ? MainAxisAlignment.start
           : MainAxisAlignment.end,
       children: [
@@ -34,13 +34,13 @@ class _ReplyWidgetState extends State<ReplyWidget> {
             top: 8,
             bottom: 8,
           ),
-          decoration: widget.reply.email == widget.post.email
+          decoration: widget.reply.name == widget.post.email
               ? receivedBoxDecoration
               : sentBoxDecoration,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.reply.email == widget.post.email
+              widget.reply.name == widget.post.email
                   ? Text(
                       widget.post.name,
                       style: nameStyle,
@@ -50,7 +50,7 @@ class _ReplyWidgetState extends State<ReplyWidget> {
                       style: nameStyle,
                     ),
               Text(
-                widget.reply.description,
+                widget.reply.message,
                 style: chatTextStyle,
               ),
               Row(
