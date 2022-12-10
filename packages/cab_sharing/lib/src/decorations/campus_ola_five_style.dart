@@ -35,7 +35,7 @@ final kContainerDecoration = BoxDecoration(
 );
 
 final kContainerTextStyle = GoogleFonts.montserrat(
-  fontSize: 10.0,
+  fontSize: 12.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
   color: Colors.white,

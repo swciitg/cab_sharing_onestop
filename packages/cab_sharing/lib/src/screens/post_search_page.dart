@@ -1,20 +1,22 @@
 import 'package:cab_sharing/cab_sharing.dart';
+import 'package:cab_sharing/src/functions/snackbar.dart';
 import 'package:cab_sharing/src/screens/search_screen.dart';
 import 'package:cab_sharing/src/services/api.dart';
+import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/date_field.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/post_input_fields.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/time_field.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/to_from_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../decorations/post_and_search_style.dart';
 import '../functions/helpers.dart';
 import '../widgets/create_post_and_search/align_button.dart';
 
 class PostSearchPage extends StatefulWidget {
   final String category;
-  final Map<String, String> userData;
   const PostSearchPage(
-      {Key? key, required this.category, required this.userData})
+      {Key? key, required this.category})
       : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String,String> userData = context.read<CommonStore>().userData;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
@@ -58,7 +61,11 @@ class _PostSearchPageState extends State<PostSearchPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DateField(year: year, date: date, month: month,),
+                DateField(
+                  year: year,
+                  date: date,
+                  month: month,
+                ),
                 (widget.category == "post")
                     ? TimeField(hour: hours, min: min)
                     : Container(),
@@ -140,9 +147,9 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     Map<String, dynamic> data = {
                       'to': to.text,
                       'from': from.text,
-                      'name': widget.userData['name'],
-                      'email': widget.userData['email'],
-                      'security-key': widget.userData['security-key'],
+                      'name': userData['name'],
+                      'email': userData['email'],
+                      'security-key': userData['security-key'],
                       'travelDateTime': timeHelper({
                         'date': date.selectedItem,
                         'month': month.selectedItem,
@@ -167,42 +174,34 @@ class _PostSearchPageState extends State<PostSearchPage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => SearchScreen(
-                                userData: data,
-                              )),
+                                    userData: data,
+                                  )),
                         );
                       }
                     } catch (e) {
                       print(e);
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(getSnackbar("An error occurred."));
                     }
 
-                    if(widget.category == 'post')
-                      {
-                        if (res['success']) {
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                              content: Text(
-                                "Post Uploaded",
-                              )));
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CabSharingScreen(
-                                  userData: widget.userData,
-                                )),
-                          );
-                        }
-                        else
-                          {
-                            if (!mounted) return;
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                                content: Text(
-                                  "Check your connection and try again",
-                                )));
-                          }
+                    if (widget.category == 'post') {
+                      if (res['success']) {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(getSnackbar("Post Uploaded"));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CabSharingScreen(
+                                    userData: userData,
+                                  )),
+                        );
+                      } else {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(getSnackbar(
+                            "An error occurred. Check your connection and try again"));
                       }
-
+                    }
                   },
                   child: AlignButton(
                       text: (widget.category == "post")

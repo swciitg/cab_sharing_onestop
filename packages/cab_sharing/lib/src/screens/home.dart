@@ -22,131 +22,138 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
   Widget build(BuildContext context) {
     return Provider(
       create: (_) => CommonStore(userData: widget.userData),
-      child: Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.popUntil(context, ModalRoute.withName("/home2"));
-            },
-            child: const Icon(
-              Icons.arrow_back_sharp,
-              color: Colors.white,
+      builder: (context, _) {
+        var commonStore = context.read<CommonStore>();
+        return Scaffold(
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.popUntil(context, ModalRoute.withName("/home2"));
+              },
+              child: const Icon(
+                Icons.arrow_back_sharp,
+                color: Colors.white,
+              ),
             ),
-          ),
-          title: Text(
-            "Campus Ola",
-            style: kAppBarTextStyle,
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PostSearchPage(
+            title: Text(
+              "Campus Ola",
+              style: kAppBarTextStyle,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Provider.value(
+                              value: commonStore,
+                              child: PostSearchPage(
                                 category: "search",
-                                userData: widget.userData,
-                              )),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  )),
-            )
-          ],
-          backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
-        ),
-        backgroundColor: const Color(0xFF1B1B1D),
-        body: SingleChildScrollView(
-          physics: const ScrollPhysics(),
-          child: Column(
-            children: [
-              FutureBuilder(
-                  future: APIService.getMyPosts(widget.userData),
+                              ),
+                            )),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    )),
+              )
+            ],
+            backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
+          ),
+          backgroundColor: const Color(0xFF1B1B1D),
+          body: SingleChildScrollView(
+            physics: const ScrollPhysics(),
+            child: Column(
+              children: [
+                FutureBuilder(
+                    future: APIService.getMyPosts(widget.userData),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<PostModel>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }
+                      if (snapshot.data == null || snapshot.data!.isEmpty) {
+                        return Container();
+                      }
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 18.0, left: 15.0, bottom: 10.0),
+                            child: Text(
+                              "My Post",
+                              style: kTodayTextStyle,
+                            ),
+                          ),
+                          for (var post in snapshot.data!)
+                            PostWidget(
+                              colorCategory: 'mypost',
+                              post: post,
+                              userData: widget.userData,
+                              deleteCallback: () => setState((){}),
+                            )
+                        ],
+                      );
+                    }),
+                FutureBuilder(
+                  future: APIService.getAllPosts(widget.userData),
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<PostModel>> snapshot) {
+                      AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     }
-                    if (snapshot.data == null || snapshot.data!.isEmpty) {
-                      return Container();
+                    if (snapshot.data == null) {
+                      return const CornerCase(message: 'Some error occured, please try again');
                     }
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 18.0, left: 15.0, bottom: 10.0),
-                        child: Text(
-                          "My Post",
-                          style: kTodayTextStyle,
-                        ),
-                      ),
-                      for (var post in snapshot.data!)
-                        PostWidget(
-                          colorCategory: 'mypost',
-                          post: post,
-                          userData: widget.userData,
-                          deleteCallback: () => setState((){}),
-                        )
-                    ],
-                  );
-                }),
-            FutureBuilder(
-              future: APIService.getAllPosts(widget.userData),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.data == null) {
-                  return const CornerCase(message: 'Some error occured, please try again');
-                }
+                    if (snapshot.data!.isEmpty) {
+                      return const CornerCase(message: 'No Posts Available');
+                    }
+                    print("snapshot data = ${snapshot.data}");
 
-                if (snapshot.data!.isEmpty) {
-                  return const CornerCase(message: 'No Posts Available');
-                }
-                print("snapshot data = ${snapshot.data}");
-
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        String date = snapshot.data![index].keys.toList().first;
-                        return DateTile(
-                          posts: snapshot.data![index][date]!,
-                          date: date,
-                        );
-                      });
-                },
-              ),
-            ],
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          String date = snapshot.data![index].keys.toList().first;
+                          return DateTile(
+                            posts: snapshot.data![index][date]!,
+                            date: date,
+                          );
+                        });
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PostSearchPage(
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Provider.value(
+                      value: commonStore,
+                      child: PostSearchPage(
                         category: "post",
-                        userData: widget.userData,
-                      )),
-            );
-          },
-          label: const Text(
-            "+",
-            style: TextStyle(
-                color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),
+                      ),
+                    )),
+              );
+            },
+            label: const Text(
+              "+",
+              style: TextStyle(
+                  color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),
+            ),
+            backgroundColor: const Color(0xFF76ACFF),
           ),
-          backgroundColor: const Color(0xFF76ACFF),
-        ),
-      ),
+        );
+      },
     );
   }
 }
