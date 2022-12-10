@@ -40,3 +40,10 @@ final kContainerTextStyle = GoogleFonts.montserrat(
   letterSpacing: 0.5,
   color: Colors.white,
 );
+
+final kCornerStyle = GoogleFonts.montserrat(
+fontSize: 15.0,
+fontWeight: FontWeight.w500,
+letterSpacing: 0.5,
+color: Colors.white,
+);

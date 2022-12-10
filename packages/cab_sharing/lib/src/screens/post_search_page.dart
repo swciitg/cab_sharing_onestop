@@ -24,37 +24,14 @@ class PostSearchPage extends StatefulWidget {
 class _PostSearchPageState extends State<PostSearchPage> {
   final TextEditingController phone = TextEditingController();
   final TextEditingController note = TextEditingController();
-  int hoursValue = 0;
-  int minutesValue = 00;
-  int date = 0;
-  int month = 0;
-  int year = 0;
+  final TextEditingController to = TextEditingController(text: "Airport");
+  final TextEditingController from = TextEditingController(text: "Campus");
+  final FixedExtentScrollController date = FixedExtentScrollController();
+  final FixedExtentScrollController month = FixedExtentScrollController();
+  final FixedExtentScrollController year = FixedExtentScrollController();
+  final FixedExtentScrollController hours = FixedExtentScrollController();
+  final FixedExtentScrollController min = FixedExtentScrollController();
   String? marginValue;
-  String fromValue = 'Campus';
-  String toValue = 'Airport';
-
-  toFromControl(String to, String from) {
-    setState(() {
-      toValue = to;
-      fromValue = from;
-    });
-  }
-
-  dateControl(int dateValue, int monthValue, int yearValue) {
-    setState(() {
-      date = dateValue;
-      month = monthValue;
-      year = yearValue;
-    });
-  }
-
-  timeControl(int hour, int min) {
-    setState(() {
-      hoursValue = hour;
-      minutesValue = min;
-      marginValue = null;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,76 +58,76 @@ class _PostSearchPageState extends State<PostSearchPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                DateField(dateController: dateControl),
+                DateField(year: year, date: date, month: month,),
                 (widget.category == "post")
-                    ? TimeField(timeController: timeControl)
+                    ? TimeField(hour: hours, min: min)
                     : Container(),
-                ToFromField(toFromController: toFromControl),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0, left: 20.0),
-                  child: Text(
-                    "Margin",
-                    style: titleStyle,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    left: 15,
-                    right: 15,
-                    top: 8,
-                  ),
-                  decoration: commonBoxDecoration,
-                  height: 70,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Builder(builder: (context) {
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        dropdownColor: const Color.fromRGBO(39, 49, 65, 1),
-                        isExpanded: true,
-                        style: secondStyle,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        value: marginValue,
-                        items: <String>[
-                          (hoursValue > 9)
-                              ? (minutesValue > 9)
-                                  ? "${hoursValue.toString()} : ${minutesValue.toString()} as it is"
-                                  : "${hoursValue.toString()} : 0${minutesValue.toString()} as it is"
-                              : (minutesValue > 9)
-                                  ? "0${hoursValue.toString()} : ${minutesValue.toString()} as it is"
-                                  : "0${hoursValue.toString()} : 0${minutesValue.toString()} as it is",
-                          (hoursValue > 9)
-                              ? (minutesValue > 9)
-                                  ? "${hoursValue.toString()} : ${minutesValue.toString()} or 1 hour early"
-                                  : "${hoursValue.toString()} : 0${minutesValue.toString()} or 1 hour early"
-                              : (minutesValue > 9)
-                                  ? "0${hoursValue.toString()} : ${minutesValue.toString()} or 1 hour early"
-                                  : "0${hoursValue.toString()} : 0${minutesValue.toString()} or 1 hour early",
-                          (hoursValue > 9)
-                              ? (minutesValue > 9)
-                                  ? "${hoursValue.toString()} : ${minutesValue.toString()} or 2 hours early"
-                                  : "${hoursValue.toString()} : 0${minutesValue.toString()} or 2 hours early"
-                              : (minutesValue > 9)
-                                  ? "0${hoursValue.toString()} : ${minutesValue.toString()} or 2 hours early"
-                                  : "0${hoursValue.toString()} : 0${minutesValue.toString()} or 2 hours early",
-                        ].map((String val) {
-                          return DropdownMenuItem<String>(
-                            value: val,
-                            child: Text(val),
-                          );
-                        }).toList(),
-                        onChanged: (String? val) {
-                          marginValue = val!;
-                          setState(() {});
-                        },
-                      ),
-                    );
-                  }),
-                ),
+                ToFromField(to: to, from: from),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 24.0, left: 20.0),
+                //   child: Text(
+                //     "Margin",
+                //     style: titleStyle,
+                //   ),
+                // ),
+                // Container(
+                //   margin: const EdgeInsets.only(
+                //     left: 15,
+                //     right: 15,
+                //     top: 8,
+                //   ),
+                //   decoration: commonBoxDecoration,
+                //   height: 70,
+                //   padding:
+                //       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                //   child: Builder(builder: (context) {
+                //     return DropdownButtonHideUnderline(
+                //       child: DropdownButton<String>(
+                //         dropdownColor: const Color.fromRGBO(39, 49, 65, 1),
+                //         isExpanded: true,
+                //         style: secondStyle,
+                //         icon: const Icon(
+                //           Icons.keyboard_arrow_down_rounded,
+                //           color: Colors.white,
+                //           size: 30,
+                //         ),
+                //         value: marginValue,
+                //         items: <String>[
+                //           (hoursValue > 9)
+                //               ? (minutesValue > 9)
+                //                   ? "${hoursValue.toString()} : ${minutesValue.toString()} as it is"
+                //                   : "${hoursValue.toString()} : 0${minutesValue.toString()} as it is"
+                //               : (minutesValue > 9)
+                //                   ? "0${hoursValue.toString()} : ${minutesValue.toString()} as it is"
+                //                   : "0${hoursValue.toString()} : 0${minutesValue.toString()} as it is",
+                //           (hoursValue > 9)
+                //               ? (minutesValue > 9)
+                //                   ? "${hoursValue.toString()} : ${minutesValue.toString()} or 1 hour early"
+                //                   : "${hoursValue.toString()} : 0${minutesValue.toString()} or 1 hour early"
+                //               : (minutesValue > 9)
+                //                   ? "0${hoursValue.toString()} : ${minutesValue.toString()} or 1 hour early"
+                //                   : "0${hoursValue.toString()} : 0${minutesValue.toString()} or 1 hour early",
+                //           (hoursValue > 9)
+                //               ? (minutesValue > 9)
+                //                   ? "${hoursValue.toString()} : ${minutesValue.toString()} or 2 hours early"
+                //                   : "${hoursValue.toString()} : 0${minutesValue.toString()} or 2 hours early"
+                //               : (minutesValue > 9)
+                //                   ? "0${hoursValue.toString()} : ${minutesValue.toString()} or 2 hours early"
+                //                   : "0${hoursValue.toString()} : 0${minutesValue.toString()} or 2 hours early",
+                //         ].map((String val) {
+                //           return DropdownMenuItem<String>(
+                //             value: val,
+                //             child: Text(val),
+                //           );
+                //         }).toList(),
+                //         onChanged: (String? val) {
+                //           marginValue = val!;
+                //           setState(() {});
+                //         },
+                //       ),
+                //     );
+                //   }),
+                // ),
                 (widget.category == 'post')
                     ? PostFields(phoneController: phone, noteController: note)
                     : Container(),
@@ -161,17 +138,17 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   onTap: () async {
                     var res = {};
                     Map<String, dynamic> data = {
-                      'to': toValue,
-                      'from': fromValue,
+                      'to': to.text,
+                      'from': from.text,
                       'name': widget.userData['name'],
                       'email': widget.userData['email'],
                       'security-key': widget.userData['security-key'],
                       'travelDateTime': timeHelper({
-                        'date': date,
-                        'month': month,
-                        'year': year,
-                        'hour': hoursValue,
-                        'min': minutesValue,
+                        'date': date.selectedItem,
+                        'month': month.selectedItem,
+                        'year': year.selectedItem,
+                        'hour': hours.selectedItem,
+                        'min': min.selectedItem,
                       })
                     };
                     try {

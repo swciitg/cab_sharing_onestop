@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 import '../screens/post_search_page.dart';
 import '../decorations/home_screen_style.dart';
+import '../widgets/home/corner_case.dart';
 
 class CabSharingScreen extends StatefulWidget {
   final Map<String, String> userData;
@@ -74,49 +75,42 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                       return Container();
                     }
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 18.0, left: 15.0, bottom: 10.0),
-                          child: Text(
-                            "My Post",
-                            style: kTodayTextStyle,
-                          ),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 18.0, left: 15.0, bottom: 10.0),
+                        child: Text(
+                          "My Post",
+                          style: kTodayTextStyle,
                         ),
-                        for (var post in snapshot.data!)
-                          PostWidget(
-                            colorCategory: 'mypost',
-                            post: post,
-                            userData: widget.userData,
-                            deleteCallback: () => setState((){}),
-                          )
-                      ],
-                    );
-                  }),
-              FutureBuilder(
-                future: APIService.getAllPosts(widget.userData),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (snapshot.data == null) {
-                    return const Center(
-                      child: Text(
-                        'No data found',
                       ),
-                    );
-                  }
+                      for (var post in snapshot.data!)
+                        PostWidget(
+                          colorCategory: 'mypost',
+                          post: post,
+                          userData: widget.userData,
+                          deleteCallback: () => setState((){}),
+                        )
+                    ],
+                  );
+                }),
+            FutureBuilder(
+              future: APIService.getAllPosts(widget.userData),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.data == null) {
+                  return const CornerCase(message: 'Some error occured, please try again');
+                }
 
-                  if (snapshot.data!.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No data found',
-                      ),
-                    );
-                  }
+                if (snapshot.data!.isEmpty) {
+                  return const CornerCase(message: 'No Posts Available');
+                }
+                print("snapshot data = ${snapshot.data}");
 
                   return ListView.builder(
                       shrinkWrap: true,

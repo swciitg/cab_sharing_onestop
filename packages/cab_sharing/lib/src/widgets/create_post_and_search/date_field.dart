@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import '../../decorations/post_and_search_style.dart';
 
 class DateField extends StatefulWidget {
-  var dateController;
-  DateField({Key? key, required this.dateController}) : super(key: key);
+  final FixedExtentScrollController date;
+  final FixedExtentScrollController month;
+  final FixedExtentScrollController year;
+
+  const DateField({Key? key, required this.date, required this.month, required this.year}) : super(key: key);
 
   @override
   State<DateField> createState() => _DateFieldState();
 }
 
 class _DateFieldState extends State<DateField> {
-  final FixedExtentScrollController _controller = FixedExtentScrollController();
-  int date = 0;
-  int month = 0;
-  int year = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +44,10 @@ class _DateFieldState extends State<DateField> {
                 width: 35,
                 child: ListWheelScrollView.useDelegate(
                     itemExtent: 40,
-                    controller: _controller,
+                    controller: widget.date,
                     perspective: 0.005,
                     diameterRatio: 1.2,
                     physics: const FixedExtentScrollPhysics(),
-                    onSelectedItemChanged: (index) => {
-                          setState(() {
-                            date = index;
-                            widget.dateController(date, month, year);
-                          })
-                        },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: 31,
                         builder: (context, index) {
@@ -72,16 +65,10 @@ class _DateFieldState extends State<DateField> {
                 width: 35,
                 child: ListWheelScrollView.useDelegate(
                     itemExtent: 40,
-                    controller: _controller,
+                    controller: widget.month,
                     perspective: 0.005,
                     diameterRatio: 1.2,
                     physics: const FixedExtentScrollPhysics(),
-                    onSelectedItemChanged: (index) => {
-                          setState(() {
-                            month = index;
-                            widget.dateController(date, month, year);
-                          })
-                        },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: 12,
                         builder: (context, index) {
@@ -99,16 +86,10 @@ class _DateFieldState extends State<DateField> {
                 width: 45,
                 child: ListWheelScrollView.useDelegate(
                     itemExtent: 40,
-                    controller: _controller,
+                    controller: widget.year,
                     perspective: 0.005,
                     diameterRatio: 1.2,
                     physics: const FixedExtentScrollPhysics(),
-                    onSelectedItemChanged: (index) => {
-                          setState(() {
-                            year = index;
-                            widget.dateController(date, month, year);
-                          })
-                        },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: 10,
                         builder: (context, index) {
