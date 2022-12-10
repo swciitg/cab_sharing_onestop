@@ -35,3 +35,9 @@ final errorStyle = GoogleFonts.montserrat(
   fontSize: 10,
   fontWeight: FontWeight.w400,
 );
+
+final dateTimeWheelStyle = GoogleFonts.montserrat(
+fontSize: 18,
+color: Colors.white,
+fontWeight: FontWeight.bold,
+);

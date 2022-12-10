@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
 
 class ScrollField extends StatelessWidget {
@@ -39,11 +40,7 @@ class ScrollField extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: dateTimeWheelStyle,
         ),
       ),
     );

@@ -1,15 +1,11 @@
-// import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
-// import 'package:cab_sharing/src/models/reply_model.dart';
-// import 'package:cab_sharing/src/widgets/post_detail/reply_widget.dart';
 import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
 import 'package:cab_sharing/src/functions/snackbar.dart';
 import 'package:cab_sharing/src/screens/chat_screen.dart';
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
-import '../models/post_model.dart';
+import 'package:cab_sharing/src/models/post_model.dart';
 import '../widgets/post_detail/custom_button.dart';
 import '../decorations/campus_ola_five_style.dart';
 
