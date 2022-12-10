@@ -64,7 +64,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 builder: (BuildContext context,
                     AsyncSnapshot<List<PostModel>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   if (snapshot.data == null || snapshot.data!.isEmpty) {
                     return Container();
@@ -83,7 +83,6 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                       ),
                       for (var post in snapshot.data!)
                         PostWidget(
-                          context: context,
                           colorCategory: 'mypost',
                           post: post,
                           userData: widget.userData,
@@ -97,7 +96,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
                 if (snapshot.data == null) {
                   return const Center(
@@ -125,7 +124,6 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                       return DateTile(
                         posts: snapshot.data![index][date]!,
                         date: date,
-                        contexto: context,
                       );
                     });
               },
