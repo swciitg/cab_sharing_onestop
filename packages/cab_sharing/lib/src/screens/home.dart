@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/post_model.dart';
 import '../screens/post_search_page.dart';
 import '../decorations/home_screen_style.dart';
+import '../widgets/home/corner_case.dart';
 
 class CabSharingScreen extends StatefulWidget {
   final Map<String, String> userData;
@@ -99,19 +100,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   return const CircularProgressIndicator();
                 }
                 if (snapshot.data == null) {
-                  return const Center(
-                    child: Text(
-                      'No data found',
-                    ),
-                  );
+                  return const CornerCase(message: 'Some error occured, please try again');
                 }
 
                 if (snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No data found',
-                    ),
-                  );
+                  return const CornerCase(message: 'No Posts Available');
                 }
                 print("snapshot data = ${snapshot.data}");
 
