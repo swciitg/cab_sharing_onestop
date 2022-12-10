@@ -30,10 +30,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
   int month = 0;
   int year = 0;
   String? marginValue;
-  String? fromValue;
-  String? toValue;
+  String fromValue = 'Campus';
+  String toValue = 'Airport';
 
-  toFromControl(String? to, String? from) {
+  toFromControl(String to, String from) {
     setState(() {
       toValue = to;
       fromValue = from;

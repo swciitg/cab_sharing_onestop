@@ -12,8 +12,8 @@ class ToFromField extends StatefulWidget {
 }
 
 class _ToFromFieldState extends State<ToFromField> {
-  String? fromValue;
-  String? toValue;
+  String fromValue = "Campus";
+  String toValue = "Airport";
 
   @override
   Widget build(BuildContext context) {
