@@ -9,7 +9,6 @@ import 'package:cab_sharing/src/widgets/create_post_and_search/time_field.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/to_from_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 import 'package:cab_sharing/src/functions/helpers.dart';
 import 'package:cab_sharing/src/widgets/create_post_and_search/align_button.dart';
 
@@ -31,7 +30,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final FixedExtentScrollController year = FixedExtentScrollController();
   final FixedExtentScrollController hours = FixedExtentScrollController();
   final FixedExtentScrollController min = FixedExtentScrollController();
-  final  noteFieldKey = GlobalKey<FormState>();
+  final noteFieldKey = GlobalKey<FormState>();
   String? marginValue;
 
   @override
@@ -81,8 +80,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    noteFieldKey.currentState!.validate();
-                    return;
                     var res = {};
                     Map<String, dynamic> data = {
                       'to': to.text,
@@ -100,6 +97,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     };
                     try {
                       if (widget.category == 'post') {
+                        bool noteFilled = noteFieldKey.currentState!.validate();
                         Map<String, dynamic> moreData = {
                           'note': note.text,
                           'margin': marginHelper(marginValue),
@@ -107,8 +105,26 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         if (phone.text.isNotEmpty) {
                           moreData['phonenumber'] = phone.text;
                         }
-                        res = await APIService.postTripData(
-                            {...data, ...moreData});
+                        if (noteFilled) {
+                          res = await APIService.postTripData(
+                              {...data, ...moreData});
+                          if (res['success']) {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(getSnackbar("Post Uploaded"));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CabSharingScreen(
+                                        userData: userData,
+                                      )),
+                            );
+                          } else {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(getSnackbar(
+                                "An error occurred. Check your connection and try again"));
+                          }
+                        }
                       } else {
                         Navigator.push(
                           context,
@@ -119,28 +135,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         );
                       }
                     } catch (e) {
-                      print(e);
                       ScaffoldMessenger.of(context)
                           .showSnackBar(getSnackbar("An error occurred."));
-                    }
-
-                    if (widget.category == 'post') {
-                      if (res['success']) {
-                        if (!mounted) return;
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(getSnackbar("Post Uploaded"));
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CabSharingScreen(
-                                    userData: userData,
-                                  )),
-                        );
-                      } else {
-                        if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(getSnackbar(
-                            "An error occurred. Check your connection and try again"));
-                      }
                     }
                   },
                   child: AlignButton(
