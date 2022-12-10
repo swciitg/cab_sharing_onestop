@@ -17,69 +17,37 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    List<ReplyModel> replies = [
-      ReplyModel(
-          replyid: 'abc',
-          name: widget.post.email,
-          message: 'loreum ipsum dolor set amit',
-          time: '10:30'),
-      ReplyModel(
-          replyid: 'abc',
-          name: widget.post.email,
-          message: 'loreum ipsum dolor set amit',
-          time: '10:30'),
-      ReplyModel(
-          replyid: 'xyz',
-          name: 'xyz@gmail.com',
-          message: 'loreum ipsum dolor set amit',
-          time: '10:30'),
-      ReplyModel(
-          replyid: 'abc',
-          name: widget.post.email,
-          message: 'loreum ipsum dolor set amit',
-          time: '10:30'),
-      ReplyModel(
-          replyid: 'xyz',
-          name: 'xyz@gmail.com',
-          message: 'loreum ipsum dolor set amit',
-          time: '10:30'),
-    ];
 
-    // return FutureBuilder<List<ReplyModel>>(
-    //   future: APIService.getPostReplies(widget.post.chatId),
-    //   builder: (context, snapshot) {
-    //     print("CHAT SNAP = $snapshot");
-    //     if (snapshot.hasData) {
-    //       List<ReplyModel> replies = snapshot.data!;
-    //       return Expanded(child: ListView.builder(
-    //         itemCount: replies.length,
-    //         itemBuilder: (context, index) {
-    //           final item = replies[index];
-    //           return ReplyWidget(
-    //               reply: item, context: context, post: widget.post);
-    //         },
-    //       ));
-    //     } else if (snapshot.hasError) {
-    //       return Expanded(
-    //         child: Center(
-    //           child: Text(
-    //             snapshot.error.toString().replaceAll("Exception:", ""),
-    //             style: kPostGetNoteTextStyle,
-    //           ),
-    //         ),
-    //       );
-    //     }
-    //     return Expanded(child: Center(child: CircularProgressIndicator(),));
-    //   },
-    // );
-    // reply in replies
-    return Expanded(
-        child: ListView.builder(
+    return FutureBuilder<List<ReplyModel>>(
+      future: APIService.getPostReplies(widget.post.chatId),
+      builder: (context, snapshot) {
+        print("CHAT SNAP = $snapshot");
+        if (snapshot.hasData) {
+          List<ReplyModel> replies = snapshot.data!;
+          return Expanded(
+              child: ListView.builder(
             itemCount: replies.length,
-            itemBuilder: (BuildContext context, index) {
+            itemBuilder: (context, index) {
               final item = replies[index];
               return ReplyWidget(
                   reply: item, context: context, post: widget.post);
-            }));
+            },
+          ));
+        } else if (snapshot.hasError) {
+          return Expanded(
+            child: Center(
+              child: Text(
+                snapshot.error.toString().replaceAll("Exception:", ""),
+                style: kPostGetNoteTextStyle,
+              ),
+            ),
+          );
+        }
+        return const Expanded(
+            child: Center(
+          child: CircularProgressIndicator(),
+        ));
+      },
+    );
   }
 }

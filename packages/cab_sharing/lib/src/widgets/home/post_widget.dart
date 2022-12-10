@@ -8,13 +8,11 @@ import '../../screens/post_detail_page.dart';
 class PostWidget extends StatefulWidget {
   final String colorCategory;
   final PostModel post;
-  final BuildContext context;
   final Function deleteCallback;
   Map<String, dynamic>? userData;
   PostWidget(
       {Key? key,
       required this.post,
-      required this.context,
       required this.colorCategory,
       required this.deleteCallback,
       this.userData})
@@ -31,7 +29,7 @@ class _PostWidgetState extends State<PostWidget> {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          widget.context,
+          context,
           MaterialPageRoute(builder: (context) {
             return PostDetailPage(post: widget.post);
           }),

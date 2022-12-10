@@ -6,13 +6,11 @@ import '../../models/post_model.dart';
 class DateTile extends StatefulWidget {
   final String date;
   final List<PostModel> posts;
-  final BuildContext contexto;
-  const DateTile(
-      {Key? key,
-      required this.posts,
-      required this.date,
-      required this.contexto})
-      : super(key: key);
+  const DateTile({
+    Key? key,
+    required this.posts,
+    required this.date,
+  }) : super(key: key);
 
   @override
   State<DateTile> createState() => _DateTileState();
@@ -32,7 +30,11 @@ class _DateTileState extends State<DateTile> {
           ),
         ),
         for (var post in widget.posts)
-          PostWidget(post: post, context: widget.contexto, colorCategory: 'post', deleteCallback: () => setState((){}),),
+          PostWidget(
+            post: post,
+            colorCategory: 'post',
+            deleteCallback: () => setState(() {}),
+          ),
       ],
     );
   }
