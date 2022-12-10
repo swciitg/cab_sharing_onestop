@@ -3,18 +3,15 @@ import 'package:flutter/material.dart';
 import '../../decorations/post_and_search_style.dart';
 
 class ToFromField extends StatefulWidget {
-  var toFromController;
-
-  ToFromField({Key? key, required this.toFromController}) : super(key: key);
+  final TextEditingController to;
+  final TextEditingController from;
+  const ToFromField({Key? key, required this.to, required this.from,}) : super(key: key);
 
   @override
   State<ToFromField> createState() => _ToFromFieldState();
 }
 
 class _ToFromFieldState extends State<ToFromField> {
-  String? fromValue;
-  String? toValue;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +45,7 @@ class _ToFromFieldState extends State<ToFromField> {
                   color: Colors.white,
                   size: 30,
                 ),
-                value: fromValue,
+                value: widget.from.text,
                 items: <String>["Campus", "Airport", "Railway Station"]
                     .map((String val) {
                   return DropdownMenuItem<String>(
@@ -57,8 +54,10 @@ class _ToFromFieldState extends State<ToFromField> {
                   );
                 }).toList(),
                 onChanged: (String? val) {
-                  fromValue = val!;
-                  setState(() {});
+                  setState(() {
+
+                  });
+                  widget.from.text = val!;
                 },
               ),
             );
@@ -91,7 +90,7 @@ class _ToFromFieldState extends State<ToFromField> {
                   color: Colors.white,
                   size: 30,
                 ),
-                value: toValue,
+                value: widget.to.text,
                 items: <String>["Campus", "Airport", "Railway Station"]
                     .map((String val) {
                   return DropdownMenuItem<String>(
@@ -100,10 +99,10 @@ class _ToFromFieldState extends State<ToFromField> {
                   );
                 }).toList(),
                 onChanged: (String? val) {
-                  toValue = val!;
                   setState(() {
-                    widget.toFromController(toValue, fromValue);
+
                   });
+                  widget.to.text = val!;
                 },
               ),
             );

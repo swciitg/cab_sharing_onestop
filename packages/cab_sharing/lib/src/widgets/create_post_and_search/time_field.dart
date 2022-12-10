@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import '../../decorations/post_and_search_style.dart';
 
 class TimeField extends StatefulWidget {
-  var timeController;
-  TimeField({Key? key, required this.timeController}) : super(key: key);
+  final FixedExtentScrollController hour;
+  final FixedExtentScrollController min;
+  const TimeField({Key? key, required this.hour, required this.min}) : super(key: key);
 
   @override
   State<TimeField> createState() => _TimeFieldState();
 }
 
 class _TimeFieldState extends State<TimeField> {
-  final FixedExtentScrollController _controller = FixedExtentScrollController();
-  int minutesValue = 0;
-  int hoursValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class _TimeFieldState extends State<TimeField> {
                 width: 70,
                 child: ListWheelScrollView.useDelegate(
                   itemExtent: 40,
-                  controller: _controller,
+                  controller: widget.hour,
                   perspective: 0.005,
                   diameterRatio: 1.2,
                   physics: const FixedExtentScrollPhysics(),
@@ -56,12 +54,6 @@ class _TimeFieldState extends State<TimeField> {
                           category: 'hour',
                         );
                       }),
-                  onSelectedItemChanged: (index) => {
-                    setState(() {
-                      hoursValue = index;
-                      widget.timeController(hoursValue, minutesValue);
-                    })
-                  },
                 ),
               ),
               const Text(
@@ -75,7 +67,7 @@ class _TimeFieldState extends State<TimeField> {
                 width: 70,
                 child: ListWheelScrollView.useDelegate(
                   itemExtent: 40,
-                  controller: _controller,
+                  controller: widget.min,
                   perspective: 0.005,
                   diameterRatio: 1.2,
                   physics: const FixedExtentScrollPhysics(),
@@ -87,12 +79,6 @@ class _TimeFieldState extends State<TimeField> {
                           category: 'minutes',
                         );
                       }),
-                  onSelectedItemChanged: (index) => {
-                    setState(() {
-                      minutesValue = index;
-                      widget.timeController(hoursValue, minutesValue);
-                    })
-                  },
                 ),
               ),
             ],
