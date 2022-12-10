@@ -79,9 +79,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           Text(
-                            widget.post.note,
+                            widget.post.travelString,
                             style: kiPostGetNoteTextStyle,
                           ),
+
                         ],
                       ),
                       //Right Column
@@ -89,6 +90,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          Text(
+                            widget.post.getDate(),
+                            style: kiPostGetNoteTextStyle,
+                          ),
                           //Time
                           Text(
                             widget.post.getTime(),
@@ -132,10 +137,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                   ),
                   //Info Box
                   Container(
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.topLeft,
                     padding: const EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.15,
+                    height: MediaQuery.of(context).size.height * 0.1,
                     decoration: kContainerDecoration,
                     child: Text(
                       'Note:- ${widget.post.note}',

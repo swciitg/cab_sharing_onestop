@@ -80,7 +80,7 @@ class _PostWidgetState extends State<PostWidget> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          widget.post.getMargin(),
+                          widget.post.note,
                           style: myPost
                               ? kPostGetNoteTextStyleMyPost
                               : kPostGetNoteTextStyle,
