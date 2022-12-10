@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/home_screen_style.dart';
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/widgets/home/corner_case.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
           elevation: 0,
+          title: Text('Search Results', style: kAppBarTextStyle,),
           leading: IconButton(
             onPressed: Navigator.of(context).pop,
             icon: const Icon(

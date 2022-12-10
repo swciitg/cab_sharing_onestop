@@ -36,6 +36,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   @override
   Widget build(BuildContext context) {
     Map<String, String> userData = context.read<CommonStore>().userData;
+    var commonStore = context.read<CommonStore>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
@@ -91,8 +92,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         'date': date.selectedItem,
                         'month': month.selectedItem,
                         'year': year.selectedItem,
-                        'hour': hours.selectedItem,
-                        'min': min.selectedItem,
+                        'hour': hours.hasClients ? hours.selectedItem : 0,
+                        'min': min.hasClients ? min.selectedItem : 0,
                       })
                     };
                     try {
@@ -129,9 +130,12 @@ class _PostSearchPageState extends State<PostSearchPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SearchScreen(
-                                    userData: data,
-                                  )),
+                              builder: (context) => Provider.value(
+                                value: commonStore,
+                                child: SearchScreen(
+                                      userData: data,
+                                    ),
+                              )),
                         );
                       }
                     } catch (e) {
