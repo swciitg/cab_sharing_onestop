@@ -7,6 +7,7 @@ import 'package:cab_sharing/src/screens/chat_screen.dart';
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 import '../widgets/post_detail/custom_button.dart';
@@ -29,7 +30,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("chat id is ${widget.post.chatId}");
+    print("PHONE = ${widget.post.phonenumber}");
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
       appBar: AppBar(
@@ -82,7 +83,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             widget.post.travelString,
                             style: kiPostGetNoteTextStyle,
                           ),
-
                         ],
                       ),
                       //Right Column
@@ -142,9 +142,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: MediaQuery.of(context).size.height * 0.1,
                     decoration: kContainerDecoration,
-                    child: Text(
-                      'Note:- ${widget.post.note}',
-                      style: kContainerTextStyle,
+                    child: SingleChildScrollView(
+                      child: Text(
+                        'Note:- ${widget.post.note}',
+                        style: kContainerTextStyle,
+                      ),
                     ),
                   ),
                 ],
@@ -159,22 +161,24 @@ class _PostDetailPageState extends State<PostDetailPage> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Expanded(
-                    child: CustomButton(
-                      text: 'Call',
-                      icon: Icons.call_outlined,
-                      value: '8888888888',
+                children: [
+                  if (widget.post.phonenumber != null)
+                    Expanded(
+                      child: CustomButton(
+                        text: 'Call',
+                        icon: Icons.call_outlined,
+                        value: widget.post.phonenumber!,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  if (widget.post.phonenumber != null)
+                    const SizedBox(
+                      width: 20,
+                    ),
                   Expanded(
                     child: CustomButton(
                       text: 'Mail',
                       icon: Icons.mail_outlined,
-                      value: 'abcd@gmail.com',
+                      value: widget.post.email,
                     ),
                   ),
                 ],
@@ -207,27 +211,30 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             MediaQuery.of(context).size.width * 0.07))),
                     child: IconButton(
                       alignment: Alignment.center,
-                      onPressed: allowPostReply ? () async {
-                        print("Typed ${chatMessageController.text}");
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        var commonStore = context.read<CommonStore>();
-                        setState(() {
-                          allowPostReply = false;
-                        });
-                        var replySuccess = await APIService.postReply(
-                            commonStore.userName,
-                            chatMessageController.text,
-                            widget.post.chatId,
-                            commonStore.securityKey);
-                        if (replySuccess) {
-                          chatMessageController.clear();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(getSnackbar("An error occurred."));
-                        }
-                        setState(() {
-                          allowPostReply = true;
-                        });
-                      } : null,
+                      onPressed: allowPostReply
+                          ? () async {
+                              print("Typed ${chatMessageController.text}");
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              var commonStore = context.read<CommonStore>();
+                              setState(() {
+                                allowPostReply = false;
+                              });
+                              var replySuccess = await APIService.postReply(
+                                  commonStore.userName,
+                                  chatMessageController.text,
+                                  widget.post.chatId,
+                                  commonStore.securityKey);
+                              if (replySuccess) {
+                                chatMessageController.clear();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    getSnackbar("An error occurred."));
+                              }
+                              setState(() {
+                                allowPostReply = true;
+                              });
+                            }
+                          : null,
                       icon: Icon(
                         Icons.send_outlined,
                         size: MediaQuery.of(context).size.width * 0.07,
