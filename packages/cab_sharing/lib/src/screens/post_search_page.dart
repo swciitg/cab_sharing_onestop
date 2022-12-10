@@ -201,8 +201,12 @@ class _PostSearchPageState extends State<PostSearchPage> {
                     if(widget.category == 'post')
                       {
                         if (res['success']) {
-                          print('we won');
                           if (!mounted) return;
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                              content: Text(
+                                "Post Uploaded",
+                              )));
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -211,6 +215,15 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                 )),
                           );
                         }
+                        else
+                          {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                                content: Text(
+                                  "Check your connection and try again",
+                                )));
+                          }
                       }
 
                   },

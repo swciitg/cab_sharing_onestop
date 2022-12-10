@@ -120,14 +120,14 @@ class APIService {
     }
   }
 
-  static Future<Map<String, dynamic>> deleteAllPost(
-      Map<String, dynamic> data) async {
-    var res = await http.delete(Uri.parse('$_api/all'), headers: {
-      'Content-Type': 'application/json',
-      'security-key': data['security-key']!
-    });
-    return jsonDecode(res.body);
-  }
+  // static Future<Map<String, dynamic>> deleteAllPost(
+  //     Map<String, dynamic> data) async {
+  //   var res = await http.delete(Uri.parse('$_api/all'), headers: {
+  //     'Content-Type': 'application/json',
+  //     'security-key': data['security-key']!
+  //   });
+  //   return jsonDecode(res.body);
+  // }
 
   static Future<List<ReplyModel>> getPostReplies(String chatId) async {
     final queryParameters = {
