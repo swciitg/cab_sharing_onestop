@@ -1,7 +1,9 @@
 import 'package:cab_sharing/src/services/api.dart';
+import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:cab_sharing/src/widgets/home/date_tile.dart';
 import 'package:cab_sharing/src/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 import '../screens/post_search_page.dart';
 import '../decorations/home_screen_style.dart';
@@ -17,137 +19,139 @@ class CabSharingScreen extends StatefulWidget {
 class _CabSharingScreenState extends State<CabSharingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.popUntil(context, ModalRoute.withName("/home2"));
-          },
-          child: const Icon(
-            Icons.arrow_back_sharp,
-            color: Colors.white,
+    return Provider(
+      create: (_) => CommonStore(userData: widget.userData),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.popUntil(context, ModalRoute.withName("/home2"));
+            },
+            child: const Icon(
+              Icons.arrow_back_sharp,
+              color: Colors.white,
+            ),
           ),
+          title: Text(
+            "Campus Ola",
+            style: kAppBarTextStyle,
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PostSearchPage(
+                                category: "search",
+                                userData: widget.userData,
+                              )),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  )),
+            )
+          ],
+          backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
         ),
-        title: Text(
-          "Campus Ola",
-          style: kAppBarTextStyle,
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PostSearchPage(
-                              category: "search",
-                              userData: widget.userData,
-                            )),
-                  );
-                },
-                child: const Icon(
-                  Icons.search,
-                  color: Colors.white,
-                )),
-          )
-        ],
-        backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
-      ),
-      backgroundColor: const Color(0xFF1B1B1D),
-      body: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Column(
-          children: [
-            FutureBuilder(
-                future: APIService.getMyPosts(widget.userData),
+        backgroundColor: const Color(0xFF1B1B1D),
+        body: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+            children: [
+              FutureBuilder(
+                  future: APIService.getMyPosts(widget.userData),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<PostModel>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.data == null || snapshot.data!.isEmpty) {
+                      return Container();
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 18.0, left: 15.0, bottom: 10.0),
+                          child: Text(
+                            "My Post",
+                            style: kTodayTextStyle,
+                          ),
+                        ),
+                        for (var post in snapshot.data!)
+                          PostWidget(
+                            colorCategory: 'mypost',
+                            post: post,
+                            userData: widget.userData,
+                            deleteCallback: () => setState((){}),
+                          )
+                      ],
+                    );
+                  }),
+              FutureBuilder(
+                future: APIService.getAllPosts(widget.userData),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<PostModel>> snapshot) {
+                    AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   }
-                  if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    return Container();
+                  if (snapshot.data == null) {
+                    return const Center(
+                      child: Text(
+                        'No data found',
+                      ),
+                    );
                   }
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 18.0, left: 15.0, bottom: 10.0),
-                        child: Text(
-                          "My Post",
-                          style: kTodayTextStyle,
-                        ),
+                  if (snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No data found',
                       ),
-                      for (var post in snapshot.data!)
-                        PostWidget(
-                          colorCategory: 'mypost',
-                          post: post,
-                          userData: widget.userData,
-                          deleteCallback: () => setState((){}),
-                        )
-                    ],
-                  );
-                }),
-            FutureBuilder(
-              future: APIService.getAllPosts(widget.userData),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.data == null) {
-                  return const Center(
-                    child: Text(
-                      'No data found',
-                    ),
-                  );
-                }
+                    );
+                  }
 
-                if (snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No data found',
-                    ),
-                  );
-                }
-                print("snapshot data = ${snapshot.data}");
-
-                return ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      String date = snapshot.data![index].keys.toList().first;
-                      return DateTile(
-                        posts: snapshot.data![index][date]!,
-                        date: date,
-                      );
-                    });
-              },
-            ),
-          ],
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        String date = snapshot.data![index].keys.toList().first;
+                        return DateTile(
+                          posts: snapshot.data![index][date]!,
+                          date: date,
+                        );
+                      });
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PostSearchPage(
-                      category: "post",
-                      userData: widget.userData,
-                    )),
-          );
-        },
-        label: const Text(
-          "+",
-          style: TextStyle(
-              color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PostSearchPage(
+                        category: "post",
+                        userData: widget.userData,
+                      )),
+            );
+          },
+          label: const Text(
+            "+",
+            style: TextStyle(
+                color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),
+          ),
+          backgroundColor: const Color(0xFF76ACFF),
         ),
-        backgroundColor: const Color(0xFF76ACFF),
       ),
     );
   }

@@ -2,22 +2,34 @@
 // import 'package:cab_sharing/src/models/reply_model.dart';
 // import 'package:cab_sharing/src/widgets/post_detail/reply_widget.dart';
 import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
+import 'package:cab_sharing/src/functions/snackbar.dart';
 import 'package:cab_sharing/src/screens/chat_screen.dart';
+import 'package:cab_sharing/src/services/api.dart';
+import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/post_model.dart';
 import '../widgets/post_detail/custom_button.dart';
 import '../decorations/campus_ola_five_style.dart';
 
-class PostDetailPage extends StatelessWidget {
+class PostDetailPage extends StatefulWidget {
   final PostModel post;
-  const PostDetailPage({
+  PostDetailPage({
     Key? key,
     required this.post,
   }) : super(key: key);
 
   @override
+  State<PostDetailPage> createState() => _PostDetailPageState();
+}
+
+class _PostDetailPageState extends State<PostDetailPage> {
+  final TextEditingController chatMessageController = TextEditingController();
+  bool allowPostReply = true;
+
+  @override
   Widget build(BuildContext context) {
-    print("chat id is ${post.chatId}");
+    print("chat id is ${widget.post.chatId}");
     return Scaffold(
       backgroundColor: const Color(0xff1B1B1D),
       appBar: AppBar(
@@ -54,12 +66,12 @@ class PostDetailPage extends StatelessWidget {
                         children: [
                           //Name
                           Text(
-                            post.name,
+                            widget.post.name,
                             style: kiPostNameTextStyle,
                           ),
                           //Email
                           Text(
-                            post.email,
+                            widget.post.email,
                             style: kiPostEmailTextStyle,
                           ),
                           //Departure Time
@@ -67,7 +79,7 @@ class PostDetailPage extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
                           Text(
-                            post.note,
+                            widget.post.note,
                             style: kiPostGetNoteTextStyle,
                           ),
                         ],
@@ -79,7 +91,7 @@ class PostDetailPage extends StatelessWidget {
                         children: [
                           //Time
                           Text(
-                            post.getTime(),
+                            widget.post.getTime(),
                             style: kiPostTimeTextStyle,
                           ),
                           //Travel Mode Icon
@@ -87,23 +99,23 @@ class PostDetailPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Icon(
-                                post.from == 'Airport'
+                                widget.post.from == 'Airport'
                                     ? Icons.airplanemode_active_outlined
-                                    : post.from == 'Railway Station'
+                                    : widget.post.from == 'Railway Station'
                                         ? Icons.directions_railway
                                         : Icons.school,
                                 size: 20,
                                 color: Colors.white,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.arrow_right_alt,
                                 size: 20,
                                 color: Colors.white,
                               ),
                               Icon(
-                                post.to == 'Airport'
+                                widget.post.to == 'Airport'
                                     ? Icons.airplanemode_active_outlined
-                                    : post.to == 'Railway Station'
+                                    : widget.post.to == 'Railway Station'
                                         ? Icons.directions_railway
                                         : Icons.school,
                                 size: 20,
@@ -126,7 +138,7 @@ class PostDetailPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.15,
                     decoration: kContainerDecoration,
                     child: Text(
-                      'Note:- ${post.note}',
+                      'Note:- ${widget.post.note}',
                       style: kContainerTextStyle,
                     ),
                   ),
@@ -164,7 +176,7 @@ class PostDetailPage extends StatelessWidget {
               ),
             ),
             ChatScreen(
-              post: post,
+              post: widget.post,
             ),
             Container(
               margin: const EdgeInsets.all(8),
@@ -172,30 +184,51 @@ class PostDetailPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    child: TextField(
-                      style: chatTextStyle,
-                    ),
                     width: MediaQuery.of(context).size.width * 0.75,
                     height: MediaQuery.of(context).size.width * 0.14,
                     decoration: receivedBoxDecoration,
                     padding: const EdgeInsets.all(8),
+                    child: TextField(
+                      style: chatTextStyle,
+                      controller: chatMessageController,
+                    ),
                   ),
                   Container(
-                    child: IconButton(
-                      alignment: Alignment.center,
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.send_outlined,
-                        size: MediaQuery.of(context).size.width * 0.07,
-                        color: Colors.white,
-                      ),
-                    ),
                     width: MediaQuery.of(context).size.width * 0.14,
                     height: MediaQuery.of(context).size.width * 0.14,
                     decoration: BoxDecoration(
                         color: const Color.fromRGBO(35, 41, 52, 1),
                         borderRadius: BorderRadius.all(Radius.circular(
                             MediaQuery.of(context).size.width * 0.07))),
+                    child: IconButton(
+                      alignment: Alignment.center,
+                      onPressed: allowPostReply ? () async {
+                        print("Typed ${chatMessageController.text}");
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        var commonStore = context.read<CommonStore>();
+                        setState(() {
+                          allowPostReply = false;
+                        });
+                        var replySuccess = await APIService.postReply(
+                            commonStore.userName,
+                            chatMessageController.text,
+                            widget.post.chatId,
+                            commonStore.securityKey);
+                        if (replySuccess) {
+                          chatMessageController.clear();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(getSnackbar("An error occurred."));
+                        }
+                        setState(() {
+                          allowPostReply = true;
+                        });
+                      } : null,
+                      icon: Icon(
+                        Icons.send_outlined,
+                        size: MediaQuery.of(context).size.width * 0.07,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),

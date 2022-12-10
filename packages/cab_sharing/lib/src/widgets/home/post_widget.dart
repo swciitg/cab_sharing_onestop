@@ -1,6 +1,8 @@
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/functions/snackbar.dart';
+import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../decorations/post_widget_style.dart';
 import '../../models/post_model.dart';
 import '../../screens/post_detail_page.dart';
@@ -27,12 +29,18 @@ class _PostWidgetState extends State<PostWidget> {
   @override
   Widget build(BuildContext context) {
     bool myPost = (widget.colorCategory == "mypost");
+    var commonStore = context.read<CommonStore>();
+    print("YO COMMON=${commonStore.userData}");
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            return PostDetailPage(post: widget.post);
+            // print("Route mein ${context.read<CommonStore>()}");
+            return Provider.value(
+              value: commonStore,
+              child: PostDetailPage(post: widget.post),
+            );
           }),
         );
       },
@@ -44,9 +52,8 @@ class _PostWidgetState extends State<PostWidget> {
         child: Container(
           height: 96.0,
           width: double.infinity,
-          decoration: myPost
-              ? kRowContainerDecorationMyPost
-              : kRowContainerDecoration,
+          decoration:
+              myPost ? kRowContainerDecorationMyPost : kRowContainerDecoration,
           child: Row(
             children: [
               Expanded(
@@ -58,7 +65,7 @@ class _PostWidgetState extends State<PostWidget> {
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
                         child: Text(
-                          myPost ? widget.post.getDate() :widget.post.name,
+                          myPost ? widget.post.getDate() : widget.post.name,
                           style: myPost
                               ? kPostNameTextStyleMyPost
                               : kPostNameTextStyle,
@@ -150,16 +157,12 @@ class _PostWidgetState extends State<PostWidget> {
                                     ? Icons.directions_railway
                                     : Icons.school,
                             size: 20,
-                            color: myPost
-                                ? Colors.black
-                                : Colors.white,
+                            color: myPost ? Colors.black : Colors.white,
                           ),
                           Icon(
                             Icons.arrow_right_alt,
                             size: 20,
-                            color: myPost
-                                ? Colors.black
-                                : Colors.white,
+                            color: myPost ? Colors.black : Colors.white,
                           ),
                           Icon(
                             widget.post.to == 'Airport'
@@ -168,9 +171,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     ? Icons.directions_railway
                                     : Icons.school,
                             size: 20,
-                            color: myPost
-                                ? Colors.black
-                                : Colors.white,
+                            color: myPost ? Colors.black : Colors.white,
                           ),
                         ],
                       ),

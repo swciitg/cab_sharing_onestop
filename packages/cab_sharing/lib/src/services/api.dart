@@ -146,4 +146,27 @@ class APIService {
       throw Exception("An error occurred in fetching replies");
     }
   }
+
+  static Future<bool> postReply(String name, String message, String chatId, String securityKey) async {
+    final queryParameters = {
+      'chatId': chatId,
+    };
+    final uri = Uri.https(_host, '$_path/chat', queryParameters);
+    try {
+      var res = await http.post(
+          uri,
+          body: jsonEncode({'name':name, 'message':message}),
+          headers: {
+            'Content-Type': 'application/json',
+            'security-key': securityKey
+          });
+      var jsonResponse = jsonDecode(res.body);
+      if (jsonResponse['success'] == true) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 }
