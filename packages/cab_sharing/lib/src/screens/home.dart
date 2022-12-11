@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/screens/loading_screen.dart';
 import 'package:cab_sharing/src/services/api.dart';
 import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:cab_sharing/src/widgets/home/date_tile.dart';
@@ -73,7 +74,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     builder: (BuildContext context,
                         AsyncSnapshot<List<PostModel>> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
+                        return const LoadingScreen();
                       }
                       if (snapshot.data == null || snapshot.data!.isEmpty) {
                         return Container();
@@ -105,7 +106,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const LoadingScreen();
                     }
                     if (snapshot.data == null) {
                       return const CornerCase(message: 'Some error occured, please try again');
