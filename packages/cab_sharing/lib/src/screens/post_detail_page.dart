@@ -196,8 +196,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                               alignment: Alignment.center,
                               onPressed: allowPostReply
                                   ? () async {
-                                      print(
-                                          "Typed ${chatMessageController.text}");
                                       FocusScope.of(context)
                                           .requestFocus(FocusNode());
                                       var commonStore =

@@ -85,7 +85,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   GestureDetector(
                     onTap: allowPostSearch
                         ? () async {
-                            print('pressed');
                             setState(() {
                               allowPostSearch = false;
                             });

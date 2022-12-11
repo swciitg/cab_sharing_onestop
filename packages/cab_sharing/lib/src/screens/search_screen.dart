@@ -1,10 +1,11 @@
-import '../widgets/ui/post_shimer.dart';
 import 'package:flutter/material.dart';
+
 import '../decorations/home_screen_style.dart';
 import '../models/post_model.dart';
 import '../services/api.dart';
-import '../widgets/home/corner_case.dart';
+import '../widgets/ui/corner_case.dart';
 import '../widgets/home/date_tile.dart';
+import '../widgets/ui/post_shimer.dart';
 
 class SearchScreen extends StatefulWidget {
   final Map<String, dynamic> userData;

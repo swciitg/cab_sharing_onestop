@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:shimmer/shimmer.dart';
 
 import '../../decorations/chat_screen_style.dart';

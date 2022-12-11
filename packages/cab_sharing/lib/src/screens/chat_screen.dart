@@ -19,7 +19,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final scrollController = ScrollController();
-  bool showDown = true;
+  bool showDown = false;
   Timer? timer;
 
   @override
@@ -40,7 +40,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     showDownArrow();
-    print("building");
     return FutureBuilder<List<ReplyModel>>(
       future: APIService.getPostReplies(widget.post.chatId),
       builder: (context, snapshot) {

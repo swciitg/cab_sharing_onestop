@@ -6,7 +6,7 @@ import '../decorations/home_screen_style.dart';
 import '../models/post_model.dart';
 import '../services/api.dart';
 import '../services/user_store.dart';
-import '../widgets/home/corner_case.dart';
+import '../widgets/ui/corner_case.dart';
 import '../widgets/home/date_tile.dart';
 import '../widgets/home/post_widget.dart';
 import '../widgets/ui/post_shimer.dart';
@@ -52,7 +52,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                         MaterialPageRoute(
                             builder: (context) => Provider.value(
                                   value: commonStore,
-                                  child: PostSearchPage(
+                                  child: const PostSearchPage(
                                     category: "search",
                                   ),
                                 )),
@@ -144,7 +144,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 MaterialPageRoute(
                     builder: (context) => Provider.value(
                           value: commonStore,
-                          child: PostSearchPage(
+                          child: const PostSearchPage(
                             category: "post",
                           ),
                         )),

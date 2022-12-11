@@ -1,4 +1,3 @@
-import '../ui/travel_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import '../../models/post_model.dart';
 import '../../screens/post_detail_page.dart';
 import '../../services/api.dart';
 import '../../services/user_store.dart';
+import '../ui/travel_icons.dart';
 
 class PostWidget extends StatefulWidget {
   final String colorCategory;
@@ -38,7 +38,6 @@ class _PostWidgetState extends State<PostWidget> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            // print("Route mein ${context.read<CommonStore>()}");
             return Provider.value(
               value: commonStore,
               child: PostDetailPage(post: widget.post),
@@ -115,7 +114,6 @@ class _PostWidgetState extends State<PostWidget> {
                                       });
                                       bool deleteSuccess =
                                           await APIService.deletePost(data);
-                                      print("deleteSuccess = $deleteSuccess");
                                       if (deleteSuccess) {
                                         widget.deleteCallback();
                                       } else {

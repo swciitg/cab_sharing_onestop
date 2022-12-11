@@ -131,7 +131,6 @@ class APIService {
   // }
 
   static Future<List<ReplyModel>> getPostReplies(String chatId) async {
-    print("api call");
     final queryParameters = {
       'chatId': chatId,
     };

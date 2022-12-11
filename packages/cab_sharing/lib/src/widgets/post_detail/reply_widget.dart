@@ -1,10 +1,11 @@
-import '../../services/user_store.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../decorations/chat_screen_style.dart';
 import '../../models/post_model.dart';
 import '../../models/reply_model.dart';
+import '../../services/user_store.dart';
 
 class ReplyWidget extends StatefulWidget {
   final ReplyModel reply;
