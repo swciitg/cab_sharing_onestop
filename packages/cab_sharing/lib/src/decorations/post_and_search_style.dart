@@ -27,7 +27,7 @@ final counterStyle = GoogleFonts.montserrat(
   color: const Color(0xFFBDC7DC),
 );
 
-final hintStyle = TextStyle(
+const hintStyle = TextStyle(
   color: Color.fromRGBO(79, 91, 108, 1.0),
 );
 

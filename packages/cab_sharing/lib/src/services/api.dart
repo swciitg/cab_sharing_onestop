@@ -142,7 +142,6 @@ class APIService {
       var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
       return replies;
     } catch (e) {
-      print(e);
       throw Exception("An error occurred in fetching replies");
     }
   }

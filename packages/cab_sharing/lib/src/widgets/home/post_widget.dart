@@ -14,14 +14,12 @@ class PostWidget extends StatefulWidget {
   final String colorCategory;
   final PostModel post;
   final Function deleteCallback;
-  Map<String, dynamic>? userData;
-  PostWidget(
-      {Key? key,
-      required this.post,
-      required this.colorCategory,
-      required this.deleteCallback,
-      this.userData})
-      : super(key: key);
+  const PostWidget({
+    Key? key,
+    required this.post,
+    required this.colorCategory,
+    required this.deleteCallback,
+  }) : super(key: key);
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -106,9 +104,9 @@ class _PostWidgetState extends State<PostWidget> {
                                   ? () async {
                                       Map<String, String> data = {};
                                       data['postId'] = widget.post.id;
-                                      data['email'] = widget.userData!['email'];
+                                      data['email'] = commonStore.userEmail;
                                       data['security-key'] =
-                                          widget.userData!['security-key'];
+                                          commonStore.securityKey;
                                       setState(() {
                                         allowDelete = false;
                                       });
