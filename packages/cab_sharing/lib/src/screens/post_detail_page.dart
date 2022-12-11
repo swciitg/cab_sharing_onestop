@@ -29,217 +29,220 @@ class _PostDetailPageState extends State<PostDetailPage> {
   @override
   Widget build(BuildContext context) {
     print("PHONE = ${widget.post.phonenumber}");
-    return Scaffold(
-      backgroundColor: const Color(0xff1B1B1D),
-      appBar: AppBar(
+    return GestureDetector(
+      onTap: ()=>FocusScope.of(context).requestFocus(FocusNode()),
+      child: Scaffold(
         backgroundColor: const Color(0xff1B1B1D),
-        elevation: 0,
-        leading: IconButton(
-          onPressed: Navigator.of(context).pop,
-          icon: const Icon(
-            Icons.arrow_back_ios_outlined,
-            color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color(0xff1B1B1D),
+          elevation: 0,
+          leading: IconButton(
+            onPressed: Navigator.of(context).pop,
+            icon: const Icon(
+              Icons.arrow_back_ios_outlined,
+              color: Colors.white,
+            ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            //Upper Column
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.04,
-                horizontal: MediaQuery.of(context).size.width * 0.06,
-              ),
-              color: const Color(0xff273141),
-              child: Column(
-                children: [
-                  //Info Row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //Left Column
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //Name
-                          Text(
-                            widget.post.name,
-                            style: kiPostNameTextStyle,
-                          ),
-                          //Email
-                          Text(
-                            widget.post.email,
-                            style: kiPostEmailTextStyle,
-                          ),
-                          //Departure Time
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                        ],
-                      ),
-                      //Right Column
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            widget.post.getDate(),
-                            style: kiPostGetNoteTextStyle,
-                          ),
-                          //Time
-                          Text(
-                            widget.post.getTime(),
-                            style: kiPostTimeTextStyle,
-                          ),
-                          //Travel Mode Icon
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(
-                                widget.post.from == 'Airport'
-                                    ? Icons.airplanemode_active_outlined
-                                    : widget.post.from == 'Railway Station'
-                                        ? Icons.directions_railway
-                                        : Icons.school,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              const Icon(
-                                Icons.arrow_right_alt,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                              Icon(
-                                widget.post.to == 'Airport'
-                                    ? Icons.airplanemode_active_outlined
-                                    : widget.post.to == 'Railway Station'
-                                        ? Icons.directions_railway
-                                        : Icons.school,
-                                size: 20,
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  //Info Box
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    decoration: kContainerDecoration,
-                    child: SingleChildScrollView(
-                      child: Text(
-                        'Note:- ${widget.post.note}',
-                        style: kContainerTextStyle,
+        body: SafeArea(
+          child: Column(
+            children: [
+              //Upper Column
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.04,
+                  horizontal: MediaQuery.of(context).size.width * 0.06,
+                ),
+                color: const Color(0xff273141),
+                child: Column(
+                  children: [
+                    //Info Row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //Left Column
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Name
+                            Text(
+                              widget.post.name,
+                              style: kiPostNameTextStyle,
+                            ),
+                            //Email
+                            Text(
+                              widget.post.email,
+                              style: kiPostEmailTextStyle,
+                            ),
+                            //Departure Time
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.02,
+                            ),
+                          ],
+                        ),
+                        //Right Column
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              widget.post.getDate(),
+                              style: kiPostGetNoteTextStyle,
+                            ),
+                            //Time
+                            Text(
+                              widget.post.getTime(),
+                              style: kiPostTimeTextStyle,
+                            ),
+                            //Travel Mode Icon
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  widget.post.from == 'Airport'
+                                      ? Icons.airplanemode_active_outlined
+                                      : widget.post.from == 'Railway Station'
+                                          ? Icons.directions_railway
+                                          : Icons.school,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                                const Icon(
+                                  Icons.arrow_right_alt,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                                Icon(
+                                  widget.post.to == 'Airport'
+                                      ? Icons.airplanemode_active_outlined
+                                      : widget.post.to == 'Railway Station'
+                                          ? Icons.directions_railway
+                                          : Icons.school,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    //Info Box
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      decoration: kContainerDecoration,
+                      child: SingleChildScrollView(
+                        child: Text(
+                          'Note:- ${widget.post.note}',
+                          style: kContainerTextStyle,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            //Buttons Column
-            Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.height * 0.02,
-                horizontal: MediaQuery.of(context).size.width * 0.06,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (widget.post.phonenumber != null)
+              //Buttons Column
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height * 0.02,
+                  horizontal: MediaQuery.of(context).size.width * 0.06,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.post.phonenumber != null)
+                      Expanded(
+                        child: CustomButton(
+                          text: 'Call',
+                          icon: Icons.call_outlined,
+                          value: widget.post.phonenumber!,
+                        ),
+                      ),
+                    if (widget.post.phonenumber != null)
+                      const SizedBox(
+                        width: 20,
+                      ),
                     Expanded(
                       child: CustomButton(
-                        text: 'Call',
-                        icon: Icons.call_outlined,
-                        value: widget.post.phonenumber!,
+                        text: 'Mail',
+                        icon: Icons.mail_outlined,
+                        value: widget.post.email,
                       ),
                     ),
-                  if (widget.post.phonenumber != null)
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  Expanded(
-                    child: CustomButton(
-                      text: 'Mail',
-                      icon: Icons.mail_outlined,
-                      value: widget.post.email,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            ChatScreen(
-              post: widget.post,
-            ),
-            Container(
-              margin: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.75,
-                    height: MediaQuery.of(context).size.width * 0.14,
-                    decoration: receivedBoxDecoration,
-                    padding: const EdgeInsets.all(8),
-                    child: TextField(
-                      style: chatTextStyle,
-                      controller: chatMessageController,
+              ChatScreen(
+                post: widget.post,
+              ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      height: MediaQuery.of(context).size.width * 0.14,
+                      decoration: receivedBoxDecoration,
+                      padding: const EdgeInsets.all(8),
+                      child: TextField(
+                        style: chatTextStyle,
+                        controller: chatMessageController,
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.14,
-                    height: MediaQuery.of(context).size.width * 0.14,
-                    decoration: BoxDecoration(
-                        color: const Color.fromRGBO(35, 41, 52, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(
-                            MediaQuery.of(context).size.width * 0.07))),
-                    child: IconButton(
-                      alignment: Alignment.center,
-                      onPressed: allowPostReply
-                          ? () async {
-                              print("Typed ${chatMessageController.text}");
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              var commonStore = context.read<CommonStore>();
-                              setState(() {
-                                allowPostReply = false;
-                              });
-                              var replySuccess = await APIService.postReply(
-                                  commonStore.userName,
-                                  chatMessageController.text,
-                                  widget.post.chatId,
-                                  commonStore.securityKey);
-                              if (replySuccess) {
-                                chatMessageController.clear();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    getSnackBar("An error occurred."));
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.14,
+                      height: MediaQuery.of(context).size.width * 0.14,
+                      decoration: BoxDecoration(
+                          color: const Color.fromRGBO(35, 41, 52, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                              MediaQuery.of(context).size.width * 0.07))),
+                      child: IconButton(
+                        alignment: Alignment.center,
+                        onPressed: allowPostReply
+                            ? () async {
+                                print("Typed ${chatMessageController.text}");
+                                FocusScope.of(context).requestFocus(FocusNode());
+                                var commonStore = context.read<CommonStore>();
+                                setState(() {
+                                  allowPostReply = false;
+                                });
+                                var replySuccess = await APIService.postReply(
+                                    commonStore.userName,
+                                    chatMessageController.text,
+                                    widget.post.chatId,
+                                    commonStore.securityKey);
+                                if (replySuccess) {
+                                  chatMessageController.clear();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      getSnackBar("An error occurred."));
+                                }
+                                setState(() {
+                                  allowPostReply = true;
+                                });
                               }
-                              setState(() {
-                                allowPostReply = true;
-                              });
-                            }
-                          : null,
-                      icon: Icon(
-                        Icons.send_outlined,
-                        size: MediaQuery.of(context).size.width * 0.07,
-                        color: Colors.white,
+                            : null,
+                        icon: Icon(
+                          Icons.send_outlined,
+                          size: MediaQuery.of(context).size.width * 0.07,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
