@@ -32,6 +32,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
     return GestureDetector(
       onTap: ()=>FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xff1B1B1D),
         appBar: AppBar(
           backgroundColor: const Color(0xff1B1B1D),
