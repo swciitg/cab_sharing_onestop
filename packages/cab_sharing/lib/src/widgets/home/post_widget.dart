@@ -149,7 +149,11 @@ class _PostWidgetState extends State<PostWidget> {
                               : kPostTimeTextStyle,
                         ),
                       ),
-                      TravelIcons(from: widget.post.from, to: widget.post.to,color: myPost ? Colors.black : Colors.white,),
+                      TravelIcons(
+                        from: widget.post.from,
+                        to: widget.post.to,
+                        color: myPost ? Colors.black : Colors.white,
+                      ),
                     ],
                   ),
                 ),

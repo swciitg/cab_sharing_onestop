@@ -22,7 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
           elevation: 0,
-          title: Text('Search Results', style: kAppBarTextStyle,),
+          title: Text(
+            'Search Results',
+            style: kAppBarTextStyle,
+          ),
           leading: IconButton(
             onPressed: Navigator.of(context).pop,
             icon: const Icon(

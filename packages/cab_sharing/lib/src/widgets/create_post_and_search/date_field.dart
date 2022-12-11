@@ -8,14 +8,15 @@ class DateField extends StatefulWidget {
   final FixedExtentScrollController month;
   final FixedExtentScrollController year;
 
-  const DateField({Key? key, required this.date, required this.month, required this.year}) : super(key: key);
+  const DateField(
+      {Key? key, required this.date, required this.month, required this.year})
+      : super(key: key);
 
   @override
   State<DateField> createState() => _DateFieldState();
 }
 
 class _DateFieldState extends State<DateField> {
-
   @override
   Widget build(BuildContext context) {
     return Column(

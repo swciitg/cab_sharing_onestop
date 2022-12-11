@@ -85,19 +85,18 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   GestureDetector(
                     onTap: allowPostSearch
                         ? () async {
-                      print('pressed');
+                            print('pressed');
                             setState(() {
                               allowPostSearch = false;
                             });
-                            if(to.text == from.text)
-                              {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    getSnackBar("To and From can't be same"));
-                                setState(() {
-                                  allowPostSearch = true;
-                                });
-                                return;
-                              }
+                            if (to.text == from.text) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  getSnackBar("To and From can't be same"));
+                              setState(() {
+                                allowPostSearch = true;
+                              });
+                              return;
+                            }
                             var res = {};
                             Map<String, dynamic> data = {
                               'to': to.text,

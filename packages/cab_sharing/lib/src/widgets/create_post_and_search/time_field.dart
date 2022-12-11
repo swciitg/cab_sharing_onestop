@@ -6,14 +6,14 @@ import 'scrollable.dart';
 class TimeField extends StatefulWidget {
   final FixedExtentScrollController hour;
   final FixedExtentScrollController min;
-  const TimeField({Key? key, required this.hour, required this.min}) : super(key: key);
+  const TimeField({Key? key, required this.hour, required this.min})
+      : super(key: key);
 
   @override
   State<TimeField> createState() => _TimeFieldState();
 }
 
 class _TimeFieldState extends State<TimeField> {
-
   @override
   Widget build(BuildContext context) {
     return Column(

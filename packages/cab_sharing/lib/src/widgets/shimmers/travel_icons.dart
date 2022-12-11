@@ -4,12 +4,12 @@ class TravelIcons extends StatelessWidget {
   final String from;
   final String to;
   final Color color;
-  const TravelIcons({
-    Key? key,
-    required this.from,
-    required this.to,
-    this.color = Colors.white
-  }) : super(key: key);
+  const TravelIcons(
+      {Key? key,
+      required this.from,
+      required this.to,
+      this.color = Colors.white})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,8 @@ class TravelIcons extends StatelessWidget {
           from == 'Airport'
               ? Icons.airplanemode_active_outlined
               : from == 'Railway Station'
-              ? Icons.directions_railway
-              : Icons.school,
+                  ? Icons.directions_railway
+                  : Icons.school,
           size: 20,
           color: color,
         ),
@@ -34,8 +34,8 @@ class TravelIcons extends StatelessWidget {
           to == 'Airport'
               ? Icons.airplanemode_active_outlined
               : to == 'Railway Station'
-              ? Icons.directions_railway
-              : Icons.school,
+                  ? Icons.directions_railway
+                  : Icons.school,
           size: 20,
           color: color,
         ),

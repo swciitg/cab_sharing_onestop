@@ -5,7 +5,11 @@ import '../../decorations/post_and_search_style.dart';
 class ToFromField extends StatefulWidget {
   final TextEditingController to;
   final TextEditingController from;
-  const ToFromField({Key? key, required this.to, required this.from,}) : super(key: key);
+  const ToFromField({
+    Key? key,
+    required this.to,
+    required this.from,
+  }) : super(key: key);
 
   @override
   State<ToFromField> createState() => _ToFromFieldState();
@@ -54,9 +58,7 @@ class _ToFromFieldState extends State<ToFromField> {
                   );
                 }).toList(),
                 onChanged: (String? val) {
-                  setState(() {
-
-                  });
+                  setState(() {});
                   widget.from.text = val!;
                 },
               ),
@@ -99,9 +101,7 @@ class _ToFromFieldState extends State<ToFromField> {
                   );
                 }).toList(),
                 onChanged: (String? val) {
-                  setState(() {
-
-                  });
+                  setState(() {});
                   widget.to.text = val!;
                 },
               ),

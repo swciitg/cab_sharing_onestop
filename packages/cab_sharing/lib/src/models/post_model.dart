@@ -51,9 +51,7 @@ class PostModel {
 
   String get travelString => "From $from to $to".replaceAll("Station ", "");
 
-
-  String getDate()
-  {
+  String getDate() {
     List<String> myMonths = [
       'Jan',
       'Feb',
@@ -69,26 +67,20 @@ class PostModel {
       'Dec'
     ];
     String time = travelDateTime.substring(0, 10);
-    String year = ", ${time.substring(0,4)}";
-    String month = myMonths[int.parse(time.substring(5,7))-1];
+    String year = ", ${time.substring(0, 4)}";
+    String month = myMonths[int.parse(time.substring(5, 7)) - 1];
     int date = int.parse(time.substring(8));
-    if(date%10 == 1)
-      {
-        return "$month ${date}st$year";
-      }
-    else if(date%10 == 2)
-      {
-        return "$month ${date}nd$year";
-      }
-    else if(date%10 == 3)
-      {
-        return "$month ${date}rd$year";
-      }
-    else
-      {
-        return "$month ${date}th$year";
-      }
+    if (date % 10 == 1) {
+      return "$month ${date}st$year";
+    } else if (date % 10 == 2) {
+      return "$month ${date}nd$year";
+    } else if (date % 10 == 3) {
+      return "$month ${date}rd$year";
+    } else {
+      return "$month ${date}th$year";
+    }
   }
+
   String getTime() {
     String answer;
     String time = travelDateTime.substring(11, 16);

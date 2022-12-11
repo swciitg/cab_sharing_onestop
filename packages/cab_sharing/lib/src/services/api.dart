@@ -101,7 +101,7 @@ class APIService {
         });
     return jsonDecode(res.body);
   }
-  
+
   static Future<bool> deletePost(Map<String, String> data) async {
     try {
       var res = await http.delete(
@@ -148,15 +148,15 @@ class APIService {
     }
   }
 
-  static Future<bool> postReply(String name, String message, String chatId, String securityKey) async {
+  static Future<bool> postReply(
+      String name, String message, String chatId, String securityKey) async {
     final queryParameters = {
       'chatId': chatId,
     };
     final uri = Uri.https(_host, '$_path/chat', queryParameters);
     try {
-      var res = await http.post(
-          uri,
-          body: jsonEncode({'name':name, 'message':message}),
+      var res = await http.post(uri,
+          body: jsonEncode({'name': name, 'message': message}),
           headers: {
             'Content-Type': 'application/json',
             'security-key': securityKey

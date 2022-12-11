@@ -4,7 +4,7 @@ part 'reply_model.g.dart';
 
 @JsonSerializable()
 class ReplyModel {
-  @JsonKey(name:'_id')
+  @JsonKey(name: '_id')
   String replyid;
   String name;
   String message;

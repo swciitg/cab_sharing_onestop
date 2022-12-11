@@ -51,11 +51,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Provider.value(
-                              value: commonStore,
-                              child: PostSearchPage(
-                                category: "search",
-                              ),
-                            )),
+                                  value: commonStore,
+                                  child: PostSearchPage(
+                                    category: "search",
+                                  ),
+                                )),
                       );
                     },
                     child: const Icon(
@@ -98,7 +98,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                               colorCategory: 'mypost',
                               post: post,
                               userData: widget.userData,
-                              deleteCallback: () => setState((){}),
+                              deleteCallback: () => setState(() {}),
                             )
                         ],
                       );
@@ -106,12 +106,14 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 FutureBuilder(
                   future: APIService.getAllPosts(widget.userData),
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot) {
+                      AsyncSnapshot<List<Map<String, List<PostModel>>>>
+                          snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const LoadingScreen();
                     }
                     if (snapshot.data == null) {
-                      return const CornerCase(message: 'Some error occured, please try again');
+                      return const CornerCase(
+                          message: 'Some error occured, please try again');
                     }
 
                     if (snapshot.data!.isEmpty) {
@@ -123,7 +125,8 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          String date = snapshot.data![index].keys.toList().first;
+                          String date =
+                              snapshot.data![index].keys.toList().first;
                           return DateTile(
                             posts: snapshot.data![index][date]!,
                             date: date,
@@ -140,17 +143,19 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Provider.value(
-                      value: commonStore,
-                      child: PostSearchPage(
-                        category: "post",
-                      ),
-                    )),
+                          value: commonStore,
+                          child: PostSearchPage(
+                            category: "post",
+                          ),
+                        )),
               );
             },
             label: const Text(
               "+",
               style: TextStyle(
-                  color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),
+                  color: Colors.black,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w300),
             ),
             backgroundColor: const Color(0xFF76ACFF),
           ),

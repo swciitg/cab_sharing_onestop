@@ -26,10 +26,7 @@ class CornerCase extends StatelessWidget {
               color: Color.fromRGBO(39, 49, 65, 1),
             ),
             child: Center(
-              child: Text(
-                message,
-                style: kCornerStyle
-              ),
+              child: Text(message, style: kCornerStyle),
             ),
           ),
         ],

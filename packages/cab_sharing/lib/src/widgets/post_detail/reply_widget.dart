@@ -21,16 +21,15 @@ class ReplyWidget extends StatefulWidget {
 }
 
 class _ReplyWidgetState extends State<ReplyWidget> {
-  
   bool get isOthersReply {
     return widget.reply.name != context.read<CommonStore>().userName;
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: isOthersReply
-          ? MainAxisAlignment.start
-          : MainAxisAlignment.end,
+      mainAxisAlignment:
+          isOthersReply ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Container(
           width: MediaQuery.of(context).size.width * 0.6,
@@ -41,9 +40,7 @@ class _ReplyWidgetState extends State<ReplyWidget> {
             top: 8,
             bottom: 8,
           ),
-          decoration: isOthersReply
-              ? receivedBoxDecoration
-              : sentBoxDecoration,
+          decoration: isOthersReply ? receivedBoxDecoration : sentBoxDecoration,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
