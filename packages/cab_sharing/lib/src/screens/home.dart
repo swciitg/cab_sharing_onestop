@@ -136,17 +136,17 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton.extended(
+          floatingActionButton: (widget.userData['email'] != CommonStore.kGuestEmail) ? FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => Provider.value(
-                          value: commonStore,
-                          child: const PostSearchPage(
-                            category: "post",
-                          ),
-                        )),
+                      value: commonStore,
+                      child: const PostSearchPage(
+                        category: "post",
+                      ),
+                    )),
               );
             },
             label: const Text(
@@ -157,7 +157,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   fontWeight: FontWeight.w300),
             ),
             backgroundColor: const Color(0xFF76ACFF),
-          ),
+          ): Container(),
         );
       },
     );
