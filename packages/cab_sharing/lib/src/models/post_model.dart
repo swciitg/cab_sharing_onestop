@@ -48,7 +48,7 @@ class PostModel {
     return "Need to leave at exact time";
   }
 
-  String get travelString => "From $from to $to";
+  String get travelString => "From $from to $to".replaceAll("Station ", "");
 
 
   String getDate()
