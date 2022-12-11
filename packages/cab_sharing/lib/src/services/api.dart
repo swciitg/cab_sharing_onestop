@@ -1,7 +1,9 @@
 import 'dart:convert';
-import 'package:cab_sharing/src/models/post_model.dart';
-import 'package:cab_sharing/src/models/reply_model.dart';
+
 import 'package:http/http.dart' as http;
+
+import '../models/post_model.dart';
+import '../models/reply_model.dart';
 
 class APIService {
   static const String _api =

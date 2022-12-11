@@ -27,6 +27,10 @@ dev_dependencies:
   json_serializable: ^6.5.4
   dependency_validator: ^3.2.2
   import_path_converter: ^1.0.1
+  import_sorter: ^4.6.0
+
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

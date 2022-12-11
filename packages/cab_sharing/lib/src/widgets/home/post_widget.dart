@@ -1,11 +1,13 @@
-import 'package:cab_sharing/src/services/api.dart';
-import 'package:cab_sharing/src/functions/snackbar.dart';
-import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:cab_sharing/src/decorations/post_widget_style.dart';
-import 'package:cab_sharing/src/models/post_model.dart';
-import 'package:cab_sharing/src/screens/post_detail_page.dart';
+
+import '../../decorations/post_widget_style.dart';
+import '../../functions/snackbar.dart';
+import '../../models/post_model.dart';
+import '../../screens/post_detail_page.dart';
+import '../../services/api.dart';
+import '../../services/user_store.dart';
 
 class PostWidget extends StatefulWidget {
   final String colorCategory;

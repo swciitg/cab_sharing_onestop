@@ -1,14 +1,16 @@
-import 'package:cab_sharing/src/screens/loading_screen.dart';
-import 'package:cab_sharing/src/services/api.dart';
-import 'package:cab_sharing/src/services/user_store.dart';
-import 'package:cab_sharing/src/widgets/home/date_tile.dart';
-import 'package:cab_sharing/src/widgets/home/post_widget.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:cab_sharing/src/models/post_model.dart';
-import 'package:cab_sharing/src/screens/post_search_page.dart';
-import 'package:cab_sharing/src/decorations/home_screen_style.dart';
-import 'package:cab_sharing/src/widgets/home/corner_case.dart';
+
+import '../decorations/home_screen_style.dart';
+import '../models/post_model.dart';
+import '../services/api.dart';
+import '../services/user_store.dart';
+import '../widgets/home/corner_case.dart';
+import '../widgets/home/date_tile.dart';
+import '../widgets/home/post_widget.dart';
+import 'loading_screen.dart';
+import 'post_search_page.dart';
 
 class CabSharingScreen extends StatefulWidget {
   final Map<String, String> userData;

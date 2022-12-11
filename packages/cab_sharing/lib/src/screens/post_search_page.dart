@@ -1,16 +1,18 @@
-import 'package:cab_sharing/cab_sharing.dart';
-import 'package:cab_sharing/src/functions/snackbar.dart';
-import 'package:cab_sharing/src/screens/search_screen.dart';
-import 'package:cab_sharing/src/services/api.dart';
-import 'package:cab_sharing/src/services/user_store.dart';
-import 'package:cab_sharing/src/widgets/create_post_and_search/date_field.dart';
-import 'package:cab_sharing/src/widgets/create_post_and_search/post_input_fields.dart';
-import 'package:cab_sharing/src/widgets/create_post_and_search/time_field.dart';
-import 'package:cab_sharing/src/widgets/create_post_and_search/to_from_fields.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:cab_sharing/src/functions/helpers.dart';
-import 'package:cab_sharing/src/widgets/create_post_and_search/align_button.dart';
+
+import '../../cab_sharing.dart';
+import '../functions/helpers.dart';
+import '../functions/snackbar.dart';
+import '../services/api.dart';
+import '../services/user_store.dart';
+import '../widgets/create_post_and_search/align_button.dart';
+import '../widgets/create_post_and_search/date_field.dart';
+import '../widgets/create_post_and_search/post_input_fields.dart';
+import '../widgets/create_post_and_search/time_field.dart';
+import '../widgets/create_post_and_search/to_from_fields.dart';
+import 'search_screen.dart';
 
 class PostSearchPage extends StatefulWidget {
   final String category;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
+import '../../decorations/post_and_search_style.dart';
 
 class ToFromField extends StatefulWidget {
   final TextEditingController to;

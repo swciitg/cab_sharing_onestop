@@ -1,13 +1,15 @@
-import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
-import 'package:cab_sharing/src/functions/snackbar.dart';
-import 'package:cab_sharing/src/screens/chat_screen.dart';
-import 'package:cab_sharing/src/services/api.dart';
-import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
-import 'package:cab_sharing/src/models/post_model.dart';
-import 'package:cab_sharing/src/widgets/post_detail/custom_button.dart';
-import 'package:cab_sharing/src/decorations/campus_ola_five_style.dart';
+
+import '../decorations/campus_ola_five_style.dart';
+import '../decorations/chat_screen_style.dart';
+import '../functions/snackbar.dart';
+import '../models/post_model.dart';
+import '../services/api.dart';
+import '../services/user_store.dart';
+import '../widgets/post_detail/custom_button.dart';
+import 'chat_screen.dart';
 
 class PostDetailPage extends StatefulWidget {
   final PostModel post;

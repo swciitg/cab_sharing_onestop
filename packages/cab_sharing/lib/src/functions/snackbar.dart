@@ -1,5 +1,6 @@
-import 'package:cab_sharing/src/decorations/post_widget_style.dart';
 import 'package:flutter/material.dart';
+
+import '../decorations/post_widget_style.dart';
 
 SnackBar getSnackBar(String message) {
   return SnackBar(

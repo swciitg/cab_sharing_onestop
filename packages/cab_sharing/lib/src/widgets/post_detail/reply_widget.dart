@@ -1,7 +1,8 @@
-import 'package:cab_sharing/src/decorations/chat_screen_style.dart';
 import 'package:flutter/material.dart';
-import 'package:cab_sharing/src/models/post_model.dart';
-import 'package:cab_sharing/src/models/reply_model.dart';
+
+import '../../decorations/chat_screen_style.dart';
+import '../../models/post_model.dart';
+import '../../models/reply_model.dart';
 
 class ReplyWidget extends StatefulWidget {
   final ReplyModel reply;

@@ -1,6 +1,7 @@
-import 'package:cab_sharing/src/widgets/create_post_and_search/scrollable.dart';
 import 'package:flutter/material.dart';
-import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
+
+import '../../decorations/post_and_search_style.dart';
+import 'scrollable.dart';
 
 class DateField extends StatefulWidget {
   final FixedExtentScrollController date;

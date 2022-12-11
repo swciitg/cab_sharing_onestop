@@ -1,5 +1,6 @@
-import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
+
+import '../../decorations/post_and_search_style.dart';
 
 class ScrollField extends StatelessWidget {
   final String category;

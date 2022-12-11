@@ -1,10 +1,10 @@
-import 'package:cab_sharing/src/decorations/post_widget_style.dart';
-import 'package:cab_sharing/src/models/reply_model.dart';
-import 'package:cab_sharing/src/services/api.dart';
-import 'package:cab_sharing/src/widgets/post_detail/reply_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cab_sharing/src/models/post_model.dart';
+import '../decorations/post_widget_style.dart';
+import '../models/post_model.dart';
+import '../models/reply_model.dart';
+import '../services/api.dart';
+import '../widgets/post_detail/reply_widget.dart';
 
 class ChatScreen extends StatefulWidget {
   final PostModel post;
