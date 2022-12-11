@@ -39,9 +39,11 @@ class ScrollField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Center(
-        child: Text(
-          text,
-          style: dateTimeWheelStyle,
+        child: FittedBox(
+          child: Text(
+            text,
+            style: dateTimeWheelStyle,
+          ),
         ),
       ),
     );
