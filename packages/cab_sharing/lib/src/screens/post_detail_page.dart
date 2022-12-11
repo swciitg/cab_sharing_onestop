@@ -9,6 +9,7 @@ import '../models/post_model.dart';
 import '../services/api.dart';
 import '../services/user_store.dart';
 import '../widgets/post_detail/custom_button.dart';
+import '../widgets/shimmers/travel_icons.dart';
 import 'chat_screen.dart';
 
 class PostDetailPage extends StatefulWidget {
@@ -103,34 +104,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                         style: kiPostTimeTextStyle,
                                       ),
                                       //Travel Mode Icon
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Icon(
-                                            widget.post.from == 'Airport'
-                                                ? Icons.airplanemode_active_outlined
-                                                : widget.post.from == 'Railway Station'
-                                                ? Icons.directions_railway
-                                                : Icons.school,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                          const Icon(
-                                            Icons.arrow_right_alt,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                          Icon(
-                                            widget.post.to == 'Airport'
-                                                ? Icons.airplanemode_active_outlined
-                                                : widget.post.to == 'Railway Station'
-                                                ? Icons.directions_railway
-                                                : Icons.school,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ],
-                                      ),
+                                      TravelIcons(from: widget.post.from, to: widget.post.to,),
                                     ],
                                   ),
                                 ],
@@ -259,3 +233,4 @@ class _PostDetailPageState extends State<PostDetailPage> {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/widgets/shimmers/travel_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -148,34 +149,7 @@ class _PostWidgetState extends State<PostWidget> {
                               : kPostTimeTextStyle,
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Icon(
-                            widget.post.from == 'Airport'
-                                ? Icons.airplanemode_active_outlined
-                                : widget.post.from == 'Railway Station'
-                                    ? Icons.directions_railway
-                                    : Icons.school,
-                            size: 20,
-                            color: myPost ? Colors.black : Colors.white,
-                          ),
-                          Icon(
-                            Icons.arrow_right_alt,
-                            size: 20,
-                            color: myPost ? Colors.black : Colors.white,
-                          ),
-                          Icon(
-                            widget.post.to == 'Airport'
-                                ? Icons.airplanemode_active_outlined
-                                : widget.post.to == 'Railway Station'
-                                    ? Icons.directions_railway
-                                    : Icons.school,
-                            size: 20,
-                            color: myPost ? Colors.black : Colors.white,
-                          ),
-                        ],
-                      ),
+                      TravelIcons(from: widget.post.from, to: widget.post.to,color: myPost ? Colors.black : Colors.white,),
                     ],
                   ),
                 ),
