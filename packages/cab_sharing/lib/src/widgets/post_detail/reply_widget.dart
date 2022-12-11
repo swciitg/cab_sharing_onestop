@@ -1,4 +1,6 @@
+import 'package:cab_sharing/src/services/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../decorations/chat_screen_style.dart';
 import '../../models/post_model.dart';
@@ -21,7 +23,7 @@ class ReplyWidget extends StatefulWidget {
 class _ReplyWidgetState extends State<ReplyWidget> {
   
   bool get isOthersReply {
-    return widget.reply.name != widget.post.name;
+    return widget.reply.name != context.read<CommonStore>().userName;
   }
   @override
   Widget build(BuildContext context) {
