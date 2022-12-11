@@ -31,8 +31,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final FixedExtentScrollController hours = FixedExtentScrollController();
   final FixedExtentScrollController min = FixedExtentScrollController();
   final noteFieldKey = GlobalKey<FormState>();
-  String? marginValue;
-
+  bool allowPostSearch = true;
   @override
   Widget build(BuildContext context) {
     Map<String, String> userData = context.read<CommonStore>().userData;
@@ -56,99 +55,131 @@ class _PostSearchPageState extends State<PostSearchPage> {
           child: ConstrainedBox(
             constraints:
                 BoxConstraints(minHeight: viewportConstraints.maxHeight),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DateField(
-                  year: year,
-                  date: date,
-                  month: month,
-                ),
-                (widget.category == "post")
-                    ? TimeField(hour: hours, min: min)
-                    : Container(),
-                ToFromField(to: to, from: from),
-                (widget.category == 'post')
-                    ? PostFields(
-                        phoneController: phone,
-                        noteController: note,
-                        formKey: noteFieldKey,
-                      )
-                    : Container(),
-                const SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var res = {};
-                    Map<String, dynamic> data = {
-                      'to': to.text,
-                      'from': from.text,
-                      'name': userData['name'],
-                      'email': userData['email'],
-                      'security-key': userData['security-key'],
-                      'travelDateTime': timeHelper({
-                        'date': date.selectedItem,
-                        'month': month.selectedItem,
-                        'year': year.selectedItem,
-                        'hour': hours.hasClients ? hours.selectedItem : 0,
-                        'min': min.hasClients ? min.selectedItem : 0,
-                      })
-                    };
-                    try {
-                      if (widget.category == 'post') {
-                        bool noteFilled = noteFieldKey.currentState!.validate();
-                        Map<String, dynamic> moreData = {
-                          'note': note.text,
-                          'margin': marginHelper(marginValue),
-                        };
-                        if (phone.text.isNotEmpty) {
-                          moreData['phonenumber'] = phone.text;
-                        }
-                        if (noteFilled) {
-                          res = await APIService.postTripData(
-                              {...data, ...moreData});
-                          if (res['success']) {
-                            if (!mounted) return;
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(getSnackbar("Post Uploaded"));
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CabSharingScreen(
-                                        userData: userData,
-                                      )),
-                            );
-                          } else {
-                            if (!mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(getSnackbar(
-                                "An error occurred. Check your connection and try again"));
+            child: IntrinsicHeight(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DateField(
+                    year: year,
+                    date: date,
+                    month: month,
+                  ),
+                  (widget.category == "post")
+                      ? TimeField(hour: hours, min: min)
+                      : Container(),
+                  ToFromField(to: to, from: from),
+                  (widget.category == 'post')
+                      ? PostFields(
+                          phoneController: phone,
+                          noteController: note,
+                          formKey: noteFieldKey,
+                        )
+                      : Container(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: allowPostSearch
+                        ? () async {
+                      print('pressed');
+                            setState(() {
+                              allowPostSearch = false;
+                            });
+                            if(to.text == from.text)
+                              {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    getSnackBar("To and From can't be same"));
+                                setState(() {
+                                  allowPostSearch = true;
+                                });
+                                return;
+                              }
+                            var res = {};
+                            Map<String, dynamic> data = {
+                              'to': to.text,
+                              'from': from.text,
+                              'name': userData['name'],
+                              'email': userData['email'],
+                              'security-key': userData['security-key'],
+                              'travelDateTime': timeHelper({
+                                'date': date.selectedItem,
+                                'month': month.selectedItem,
+                                'year': year.selectedItem,
+                                'hour':
+                                    hours.hasClients ? hours.selectedItem : 0,
+                                'min': min.hasClients ? min.selectedItem : 0,
+                              })
+                            };
+                            try {
+                              if (widget.category == 'post') {
+                                bool noteFilled =
+                                    noteFieldKey.currentState!.validate();
+                                Map<String, dynamic> moreData = {
+                                  'note': note.text,
+                                  'margin': 0,
+                                };
+                                if (phone.text.isNotEmpty) {
+                                  moreData['phonenumber'] = phone.text;
+                                }
+                                if (noteFilled) {
+                                  res = await APIService.postTripData(
+                                      {...data, ...moreData});
+                                  if (res['success']) {
+                                    if (!mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        getSnackBar("Post Uploaded"));
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CabSharingScreen(
+                                                userData: userData,
+                                              )),
+                                    );
+                                  } else {
+                                    if (!mounted) return;
+                                    setState(() {
+                                      allowPostSearch = true;
+                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        getSnackBar(
+                                            "An error occurred. Check your connection and try again"));
+                                  }
+                                } else {
+                                  setState(() {
+                                    allowPostSearch = true;
+                                  });
+                                }
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Provider.value(
+                                            value: commonStore,
+                                            child: SearchScreen(
+                                              userData: data,
+                                            ),
+                                          )),
+                                );
+                              }
+                            } catch (e) {
+                              setState(() {
+                                allowPostSearch = true;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  getSnackBar("An error occurred."));
+                            }
                           }
-                        }
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Provider.value(
-                                value: commonStore,
-                                child: SearchScreen(
-                                      userData: data,
-                                    ),
-                              )),
-                        );
-                      }
-                    } catch (e) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(getSnackbar("An error occurred."));
-                    }
-                  },
-                  child: AlignButton(
-                      text: (widget.category == "post")
-                          ? "Create Post"
-                          : "Search"),
-                )
-              ],
+                        : () {},
+                    child: AlignButton(
+                        text: (widget.category == "post")
+                            ? "Create Post"
+                            : "Search"),
+                  )
+                ],
+              ),
             ),
           ),
         );

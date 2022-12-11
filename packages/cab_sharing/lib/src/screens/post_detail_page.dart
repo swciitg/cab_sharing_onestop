@@ -11,7 +11,7 @@ import 'package:cab_sharing/src/decorations/campus_ola_five_style.dart';
 
 class PostDetailPage extends StatefulWidget {
   final PostModel post;
-  PostDetailPage({
+  const PostDetailPage({
     Key? key,
     required this.post,
   }) : super(key: key);
@@ -224,7 +224,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 chatMessageController.clear();
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    getSnackbar("An error occurred."));
+                                    getSnackBar("An error occurred."));
                               }
                               setState(() {
                                 allowPostReply = true;

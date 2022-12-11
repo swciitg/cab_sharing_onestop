@@ -121,7 +121,7 @@ class _PostWidgetState extends State<PostWidget> {
                                           return;
                                         }
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(getSnackbar(
+                                            .showSnackBar(getSnackBar(
                                                 "An error occurred. Your post could not be deleted at this moment."));
                                         setState(() {
                                           allowDelete = true;

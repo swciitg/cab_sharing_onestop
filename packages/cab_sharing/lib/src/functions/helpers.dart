@@ -21,17 +21,5 @@ String timeHelper(Map<String, int> data) {
     answer += "0";
   }
   answer += "$min:";
-  print("${answer}00.000000");
   return "${answer}00.000000";
-}
-
-int marginHelper(String? marginValue) {
-  if (marginValue == null) {
-    return 0;
-  } else if (marginValue[11] == '1') {
-    return 1;
-  } else if (marginValue[11] == '2') {
-    return 2;
-  }
-  return 0;
 }
