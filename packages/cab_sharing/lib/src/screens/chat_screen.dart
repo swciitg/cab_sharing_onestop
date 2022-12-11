@@ -7,7 +7,7 @@ import '../models/post_model.dart';
 import '../models/reply_model.dart';
 import '../services/api.dart';
 import '../widgets/post_detail/reply_widget.dart';
-import '../widgets/shimmers/chat_shimmer.dart';
+import '../widgets/ui/chat_shimmer.dart';
 
 class ChatScreen extends StatefulWidget {
   final PostModel post;

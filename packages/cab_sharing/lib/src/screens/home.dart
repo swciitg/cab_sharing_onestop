@@ -9,7 +9,7 @@ import '../services/user_store.dart';
 import '../widgets/home/corner_case.dart';
 import '../widgets/home/date_tile.dart';
 import '../widgets/home/post_widget.dart';
-import '../widgets/shimmers/post_shimer.dart';
+import '../widgets/ui/post_shimer.dart';
 import 'post_search_page.dart';
 
 class CabSharingScreen extends StatefulWidget {

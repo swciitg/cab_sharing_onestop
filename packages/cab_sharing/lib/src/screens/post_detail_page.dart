@@ -9,7 +9,7 @@ import '../models/post_model.dart';
 import '../services/api.dart';
 import '../services/user_store.dart';
 import '../widgets/post_detail/custom_button.dart';
-import '../widgets/shimmers/travel_icons.dart';
+import '../widgets/ui/travel_icons.dart';
 import 'chat_screen.dart';
 
 class PostDetailPage extends StatefulWidget {

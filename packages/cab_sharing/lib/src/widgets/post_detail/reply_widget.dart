@@ -1,4 +1,4 @@
-import 'package:cab_sharing/src/services/user_store.dart';
+import '../../services/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

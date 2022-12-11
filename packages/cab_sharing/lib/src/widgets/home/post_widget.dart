@@ -1,4 +1,4 @@
-import 'package:cab_sharing/src/widgets/shimmers/travel_icons.dart';
+import '../ui/travel_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
