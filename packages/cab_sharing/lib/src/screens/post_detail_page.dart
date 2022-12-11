@@ -77,10 +77,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,
                           ),
-                          Text(
-                            widget.post.travelString,
-                            style: kiPostGetNoteTextStyle,
-                          ),
                         ],
                       ),
                       //Right Column

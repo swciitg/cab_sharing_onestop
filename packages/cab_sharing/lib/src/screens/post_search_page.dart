@@ -165,6 +165,9 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                             ),
                                           )),
                                 );
+                                setState(() {
+                                  allowPostSearch = true;
+                                });
                               }
                             } catch (e) {
                               setState(() {
