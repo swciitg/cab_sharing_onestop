@@ -1,5 +1,5 @@
+import 'package:cab_sharing/src/screens/loading_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../decorations/home_screen_style.dart';
 import '../models/post_model.dart';
 import '../services/api.dart';
@@ -37,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
             builder: (BuildContext context,
                 AsyncSnapshot<Map<String, List<PostModel>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const LoadingScreen();
               } else if (snapshot.data == null) {
                 return const CornerCase(
                     message: 'Some error occurred, please try again');
