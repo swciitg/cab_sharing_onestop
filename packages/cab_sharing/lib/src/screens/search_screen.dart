@@ -1,4 +1,4 @@
-import 'package:cab_sharing/src/screens/loading_screen.dart';
+import 'package:cab_sharing/src/widgets/shimmers/post_shimer.dart';
 import 'package:flutter/material.dart';
 import '../decorations/home_screen_style.dart';
 import '../models/post_model.dart';

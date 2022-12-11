@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:shimmer/shimmer.dart';
 
-import '../decorations/home_screen_style.dart';
+import '../../decorations/home_screen_style.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
