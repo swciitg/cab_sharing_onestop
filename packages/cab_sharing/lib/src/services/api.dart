@@ -99,7 +99,6 @@ class APIService {
           'Content-Type': 'application/json',
           'security-key': data['security-key']!
         });
-    print(jsonDecode(res.body));
     return jsonDecode(res.body);
   }
   
@@ -132,6 +131,7 @@ class APIService {
   // }
 
   static Future<List<ReplyModel>> getPostReplies(String chatId) async {
+    print("api call");
     final queryParameters = {
       'chatId': chatId,
     };
@@ -141,7 +141,6 @@ class APIService {
       var jsonResponse = jsonDecode(response.body);
       List<dynamic> listReplies = jsonResponse['replies'];
       var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
-      print("$jsonResponse");
       return replies;
     } catch (e) {
       print(e);

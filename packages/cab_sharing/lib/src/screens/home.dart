@@ -117,7 +117,6 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     if (snapshot.data!.isEmpty) {
                       return const CornerCase(message: 'No Posts Available');
                     }
-                    print("snapshot data = ${snapshot.data}");
 
                     return ListView.builder(
                         shrinkWrap: true,

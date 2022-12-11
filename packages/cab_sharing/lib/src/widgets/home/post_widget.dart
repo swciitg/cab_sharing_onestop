@@ -32,7 +32,6 @@ class _PostWidgetState extends State<PostWidget> {
   Widget build(BuildContext context) {
     bool myPost = (widget.colorCategory == "mypost");
     var commonStore = context.read<CommonStore>();
-    print("YO COMMON=${commonStore.userData}");
     return GestureDetector(
       onTap: () {
         Navigator.push(
