@@ -1,25 +1,16 @@
-String timeHelper(Map<String, int> data) {
-  String answer = "";
-  answer += "${data['year']! + 2022}-";
-  int month = data['month']! + 1;
-  if (month < 10) {
-    answer += "0";
+String getDayOfMonthSuffix(int dayNum) {
+  if(!(dayNum >= 1 && dayNum <= 31)) {
+    throw Exception('Invalid day of month');
   }
-  answer += "$month-";
-  int date = data['date']! + 1;
-  if (date < 10) {
-    answer += "0";
+
+  if(dayNum >= 11 && dayNum <= 13) {
+    return '${dayNum}th';
   }
-  answer += "${date}T";
-  int hour = data['hour']!;
-  if (hour < 10) {
-    answer += "0";
+
+  switch(dayNum % 10) {
+    case 1: return '${dayNum}st';
+    case 2: return '${dayNum}nd';
+    case 3: return '${dayNum}rd';
+    default: return '${dayNum}th';
   }
-  answer += "$hour:";
-  int min = data['min']!;
-  if (min < 10) {
-    answer += "0";
-  }
-  answer += "$min:";
-  return "${answer}00.000000";
 }

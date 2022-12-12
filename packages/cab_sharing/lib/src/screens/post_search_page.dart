@@ -28,9 +28,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final TextEditingController note = TextEditingController();
   final TextEditingController to = TextEditingController(text: "Airport");
   final TextEditingController from = TextEditingController(text: "Campus");
-  // final FixedExtentScrollController date = FixedExtentScrollController();
-  // final FixedExtentScrollController month = FixedExtentScrollController();
-  // final FixedExtentScrollController year = FixedExtentScrollController();
   int get date => dateController.selectedDate?.day ?? 1;
   int get month => dateController.selectedDate?.month ?? 1;
   int get year => dateController.selectedDate?.year ?? 2022;
@@ -44,6 +41,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final FixedExtentScrollController min = FixedExtentScrollController();
   final DateRangePickerController dateController = DateRangePickerController();
   final noteFieldKey = GlobalKey<FormState>();
+  final toFromKey = GlobalKey<FormState>();
   bool allowPostSearch = true;
   @override
   void initState() {
@@ -82,16 +80,11 @@ class _PostSearchPageState extends State<PostSearchPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // DateField(
-                  //   year: year,
-                  //   date: date,
-                  //   month: month,
-                  // ),
                   DateCalendar(dateController: dateController),
                   (widget.category == "post")
                       ? TimeField(hour: hours, min: min)
                       : Container(),
-                  ToFromField(to: to, from: from),
+                  ToFromField(to: to, from: from, formKey: toFromKey),
                   (widget.category == 'post')
                       ? PostFields(
                           phoneController: phone,
@@ -108,9 +101,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                             setState(() {
                               allowPostSearch = false;
                             });
-                            if (to.text == from.text) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  getSnackBar("To and From can't be same"));
+                            if (!toFromKey.currentState!.validate()) {
                               setState(() {
                                 allowPostSearch = true;
                               });
@@ -123,14 +114,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
                               'name': userData['name'],
                               'email': userData['email'],
                               'security-key': userData['security-key'],
-                              // 'travelDateTime': timeHelper({
-                              //   'date': date.selectedItem,
-                              //   'month': month.selectedItem,
-                              //   'year': year.selectedItem,
-                              //   'hour':
-                              //       hours.hasClients ? hours.selectedItem : 0,
-                              //   'min': min.hasClients ? min.selectedItem : 0,
-                              // })
                               'travelDateTime': selectedDateTime.toIso8601String()
                             };
                             try {
