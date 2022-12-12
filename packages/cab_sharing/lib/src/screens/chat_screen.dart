@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../decorations/colors.dart';
 import '../decorations/post_widget_style.dart';
 import '../models/post_model.dart';
 import '../models/reply_model.dart';
@@ -62,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FloatingActionButton(
-                      backgroundColor: const Color(0xff76ACFF),
+                      backgroundColor: kFloatingButtonColor,
                       onPressed: () {
                         scrollController.animateTo(
                             scrollController.position.maxScrollExtent,

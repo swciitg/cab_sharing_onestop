@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
+import 'colors.dart';
+
 final kiPostNameTextStyle = GoogleFonts.montserrat(
   fontSize: 20.0,
   fontWeight: FontWeight.w600,
@@ -13,7 +15,7 @@ final kiPostEmailTextStyle = GoogleFonts.montserrat(
   fontSize: 14.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
-  color: const Color(0xff76ACFF),
+  color: kFloatingButtonColor,
 );
 
 final kiPostGetNoteTextStyle = GoogleFonts.montserrat(
@@ -31,7 +33,7 @@ final kiPostTimeTextStyle = GoogleFonts.montserrat(
 );
 
 final kContainerDecoration = BoxDecoration(
-  color: const Color(0xff1B1B1D),
+  color: kBackground,
   borderRadius: BorderRadius.circular(20),
 );
 

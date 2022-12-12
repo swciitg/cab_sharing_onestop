@@ -22,7 +22,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
-//         backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
+//         backgroundColor: kBackground,
 //         resizeToAvoidBottomInset: false,
 //         body: Form(
 //           key: _formKey,

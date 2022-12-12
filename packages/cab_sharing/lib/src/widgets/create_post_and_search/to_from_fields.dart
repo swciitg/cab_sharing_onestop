@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../decorations/colors.dart';
 import '../../decorations/post_and_search_style.dart';
 
 class ToFromField extends StatefulWidget {
@@ -41,7 +42,7 @@ class _ToFromFieldState extends State<ToFromField> {
           child: Builder(builder: (context) {
             return DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                dropdownColor: const Color.fromRGBO(39, 49, 65, 1),
+                dropdownColor: kCommonBoxBackground,
                 isExpanded: true,
                 style: secondStyle,
                 icon: const Icon(
@@ -84,7 +85,7 @@ class _ToFromFieldState extends State<ToFromField> {
           child: Builder(builder: (context) {
             return DropdownButtonHideUnderline(
               child: DropdownButton<String>(
-                dropdownColor: const Color.fromRGBO(39, 49, 65, 1),
+                dropdownColor: kCommonBoxBackground,
                 isExpanded: true,
                 style: secondStyle,
                 icon: const Icon(

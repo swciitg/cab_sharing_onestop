@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../decorations/chat_screen_style.dart';
+import '../../decorations/colors.dart';
 
 class ChatLoading extends StatelessWidget {
   const ChatLoading({
@@ -13,8 +14,8 @@ class ChatLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Shimmer.fromColors(
-        baseColor: const Color.fromRGBO(47, 48, 51, 1),
-        highlightColor: const Color.fromRGBO(68, 71, 79, 1),
+        baseColor: kShimmerBase,
+        highlightColor: kShimmerHighlight,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),

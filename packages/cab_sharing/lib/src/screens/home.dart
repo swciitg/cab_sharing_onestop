@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -64,9 +65,9 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     )),
               )
             ],
-            backgroundColor: const Color.fromRGBO(39, 49, 65, 0.64),
+            backgroundColor: kCommonBoxBackground.withOpacity(0.64),
           ),
-          backgroundColor: const Color(0xFF1B1B1D),
+          backgroundColor: kBackground,
           body: SingleChildScrollView(
             physics: const ScrollPhysics(),
             child: Column(
@@ -156,7 +157,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   fontSize: 40,
                   fontWeight: FontWeight.w300),
             ),
-            backgroundColor: const Color(0xFF76ACFF),
+            backgroundColor: kFloatingButtonColor,
           ): Container(),
         );
       },

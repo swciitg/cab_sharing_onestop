@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../cab_sharing.dart';
+import '../decorations/colors.dart';
 import '../functions/helpers.dart';
 import '../functions/snackbar.dart';
 import '../services/api.dart';
@@ -40,7 +41,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
     var commonStore = context.read<CommonStore>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
+        backgroundColor: kBackground,
         elevation: 0,
         leading: IconButton(
           onPressed: Navigator.of(context).pop,
@@ -50,7 +51,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
           ),
         ),
       ),
-      backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
+      backgroundColor: kBackground,
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
         return SingleChildScrollView(

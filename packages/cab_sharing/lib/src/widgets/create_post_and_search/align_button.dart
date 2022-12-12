@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ class AlignButton extends StatelessWidget {
         height: 55,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            color: Color.fromRGBO(118, 172, 255, 1),
+            color: kFloatingButtonColor,
             borderRadius: BorderRadius.all(Radius.circular(16))),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 17),
         child: Text(

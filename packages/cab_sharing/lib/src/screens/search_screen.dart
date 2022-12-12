@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../decorations/colors.dart';
 import '../decorations/home_screen_style.dart';
 import '../models/post_model.dart';
 import '../services/api.dart';
@@ -21,7 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
+          backgroundColor: kBackground,
           elevation: 0,
           title: Text(
             'Search Results',
@@ -35,7 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
-        backgroundColor: const Color.fromRGBO(27, 27, 29, 1),
+        backgroundColor: kBackground,
         body: FutureBuilder(
             future: APIService.getSearchResults(widget.userData),
             builder: (BuildContext context,

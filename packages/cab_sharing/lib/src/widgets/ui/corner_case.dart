@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../decorations/campus_ola_five_style.dart';
+import '../../decorations/colors.dart';
 
 class CornerCase extends StatelessWidget {
   final String message;
@@ -21,7 +22,7 @@ class CornerCase extends StatelessWidget {
               borderRadius: BorderRadius.all(
                 Radius.circular(21.0),
               ),
-              color: Color.fromRGBO(39, 49, 65, 1),
+              color: kCommonBoxBackground,
             ),
             child: Center(
               child: Text(message, style: kCornerStyle),

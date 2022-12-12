@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:shimmer/shimmer.dart';
 
+import '../../decorations/colors.dart';
 import '../../decorations/home_screen_style.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -18,8 +19,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Shimmer.fromColors(
-        baseColor: const Color.fromRGBO(47, 48, 51, 1),
-        highlightColor: const Color.fromRGBO(68, 71, 79, 1),
+        baseColor: kShimmerBase,
+        highlightColor: kShimmerHighlight,
         child: ListView.builder(
           itemCount: 10,
           itemBuilder: (context, index) {
@@ -36,7 +37,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                         borderRadius: BorderRadius.all(
                           Radius.circular(21),
                         ),
-                        color: Color.fromRGBO(149, 165, 166, 1),
+                        color: kShimmerBase,
                       ),
                       child: Text(
                         " ",
@@ -55,7 +56,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(21),
                       ),
-                      color: Color.fromRGBO(149, 165, 166, 1),
+                      color: kShimmerBase,
                     ),
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
 
@@ -34,9 +35,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
-        backgroundColor: const Color(0xff1B1B1D),
+        backgroundColor: kBackground,
         appBar: AppBar(
-          backgroundColor: const Color(0xff1B1B1D),
+          backgroundColor: kBackground,
           elevation: 0,
           leading: IconButton(
             onPressed: Navigator.of(context).pop,
@@ -65,7 +66,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       vertical: MediaQuery.of(context).size.height * 0.04,
                       horizontal: MediaQuery.of(context).size.width * 0.06,
                     ),
-                    color: const Color(0xff273141),
+                    color: kCommonBoxBackground,
                     child: Column(
                       children: [
                         //Info Row
@@ -177,11 +178,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
           }),
         ),
         bottomSheet: Container(
-          color: const Color(0xff1B1B1D),
+          color: kBackground,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Container(
-              color: const Color(0xff1B1B1D),
+              color: kBackground,
               child: Builder(builder: (context) {
                 var commonStore = context.read<CommonStore>();
                 bool isGuest = CommonStore.kGuestEmail == commonStore.userEmail;
@@ -205,7 +206,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     Container(
                       height: textFieldHeight,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(35, 41, 52, 1),
+                          color: kReceiveBoxColor,
                           borderRadius: BorderRadius.all(
                               Radius.circular(textFieldHeight))),
                       child: IconButton(

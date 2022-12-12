@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../decorations/colors.dart';
 import '../../services/launcher.dart';
 
 class CustomButton extends StatelessWidget {
@@ -36,7 +37,7 @@ class CustomButton extends StatelessWidget {
         alignment: Alignment.center,
         height: 52,
         decoration: BoxDecoration(
-          color: const Color(0xff76ACFF),
+          color: kFloatingButtonColor,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(

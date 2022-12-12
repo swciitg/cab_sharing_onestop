@@ -1,13 +1,14 @@
+import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 const sentBoxDecoration = BoxDecoration(
-    color: Color.fromRGBO(74, 86, 104, 1),
+    color: kSentBoxColor,
     borderRadius: BorderRadius.all(Radius.circular(10)));
 
 const receivedBoxDecoration = BoxDecoration(
-    color: Color.fromRGBO(35, 41, 52, 1),
+    color: kReceiveBoxColor,
     borderRadius: BorderRadius.all(Radius.circular(10)));
 
 final nameStyle = GoogleFonts.montserrat(
