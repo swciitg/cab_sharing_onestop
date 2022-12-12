@@ -49,9 +49,14 @@ class _PostDetailPageState extends State<PostDetailPage> {
         ),
         body: SafeArea(
           child: LayoutBuilder(builder: (context, boxConstraints) {
+            final viewInsets = EdgeInsets.fromWindowPadding(
+                WidgetsBinding.instance.window.viewInsets,
+                WidgetsBinding.instance.window.devicePixelRatio);
             var visibleHeight = boxConstraints.maxHeight;
+            var bottomHeight = viewInsets.bottom;
+            var totalHeight = visibleHeight + bottomHeight;
             return SizedBox(
-              height: visibleHeight - textFieldHeight - 2 * textFieldPadding,
+              height: totalHeight - textFieldHeight - 2 * textFieldPadding,
               child: Column(
                 children: [
                   //Upper Column
@@ -241,7 +246,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
             ),
           ),
         ),
-        extendBody: true,
+        // extendBody: true,
       ),
     );
   }
