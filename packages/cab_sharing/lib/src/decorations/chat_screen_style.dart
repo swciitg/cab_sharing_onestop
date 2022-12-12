@@ -18,7 +18,7 @@ final nameStyle = GoogleFonts.montserrat(
 );
 
 final chatTextStyle = GoogleFonts.montserrat(
-  fontSize: 12.0,
+  fontSize: 14.0,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.5,
   color: Colors.white,

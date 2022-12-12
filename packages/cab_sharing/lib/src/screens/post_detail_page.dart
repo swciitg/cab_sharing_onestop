@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -26,7 +27,8 @@ class PostDetailPage extends StatefulWidget {
 class _PostDetailPageState extends State<PostDetailPage> {
   final TextEditingController chatMessageController = TextEditingController();
   bool allowPostReply = true;
-
+  final double textFieldHeight = 50.0;
+  final double textFieldPadding = 8.0;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -51,201 +53,200 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 WidgetsBinding.instance.window.devicePixelRatio);
             var visibleHeight = boxConstraints.maxHeight;
             var bottomHeight = viewInsets.bottom;
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints:
-                    BoxConstraints(maxHeight: visibleHeight + bottomHeight),
-                child: Column(
-                  children: [
-                    //Upper Column
-                    Container(
-                      // width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.04,
-                        horizontal: MediaQuery.of(context).size.width * 0.06,
-                      ),
-                      color: const Color(0xff273141),
-                      child: Column(
-                        children: [
-                          //Info Row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              //Left Column
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //Name
-                                  Text(
-                                    widget.post.name,
-                                    style: kiPostNameTextStyle,
-                                  ),
-                                  //Email
-                                  Text(
-                                    widget.post.email,
-                                    style: kiPostEmailTextStyle,
-                                  ),
-                                  //Departure Time
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.02,
-                                  ),
-                                ],
-                              ),
-                              //Right Column
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    widget.post.getDate(),
-                                    style: kiPostGetNoteTextStyle,
-                                  ),
-                                  //Time
-                                  Text(
-                                    widget.post.getTime(),
-                                    style: kiPostTimeTextStyle,
-                                  ),
-                                  //Travel Mode Icon
-                                  TravelIcons(
-                                    from: widget.post.from,
-                                    to: widget.post.to,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                          //Info Box
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.all(10),
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.height * 0.1,
-                            decoration: kContainerDecoration,
-                            child: SingleChildScrollView(
-                              child: Text(
-                                'Note:- ${widget.post.note}',
-                                style: kContainerTextStyle,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+            print("visibleHeight = $visibleHeight");
+            print("bottom = $bottomHeight");
+            return SizedBox(
+              height: visibleHeight - textFieldHeight - 2 * textFieldPadding,
+              child: Column(
+                children: [
+                  //Upper Column
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.04,
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
                     ),
-                    //Buttons Column
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.02,
-                        horizontal: MediaQuery.of(context).size.width * 0.06,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (widget.post.phonenumber != null)
-                            Expanded(
-                              child: CustomButton(
-                                text: 'Call',
-                                icon: Icons.call_outlined,
-                                value: widget.post.phonenumber!,
-                              ),
+                    color: const Color(0xff273141),
+                    child: Column(
+                      children: [
+                        //Info Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            //Left Column
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Name
+                                Text(
+                                  widget.post.name,
+                                  style: kiPostNameTextStyle,
+                                ),
+                                //Email
+                                Text(
+                                  widget.post.email,
+                                  style: kiPostEmailTextStyle,
+                                ),
+                                //Departure Time
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                ),
+                              ],
                             ),
-                          if (widget.post.phonenumber != null)
-                            const SizedBox(
-                              width: 20,
+                            //Right Column
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  widget.post.getDate(),
+                                  style: kiPostGetNoteTextStyle,
+                                ),
+                                //Time
+                                Text(
+                                  widget.post.getTime(),
+                                  style: kiPostTimeTextStyle,
+                                ),
+                                //Travel Mode Icon
+                                TravelIcons(
+                                  from: widget.post.from,
+                                  to: widget.post.to,
+                                ),
+                              ],
                             ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        //Info Box
+                        Container(
+                          alignment: Alignment.topLeft,
+                          padding: const EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          decoration: kContainerDecoration,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              'Note:- ${widget.post.note}',
+                              style: kContainerTextStyle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Buttons Column
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.02,
+                      horizontal: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.post.phonenumber != null)
                           Expanded(
                             child: CustomButton(
-                              text: 'Mail',
-                              icon: Icons.mail_outlined,
-                              value: widget.post.email,
+                              text: 'Call',
+                              icon: Icons.call_outlined,
+                              value: widget.post.phonenumber!,
                             ),
                           ),
-                        ],
-                      ),
+                        if (widget.post.phonenumber != null)
+                          const SizedBox(
+                            width: 20,
+                          ),
+                        Expanded(
+                          child: CustomButton(
+                            text: 'Mail',
+                            icon: Icons.mail_outlined,
+                            value: widget.post.email,
+                          ),
+                        ),
+                      ],
                     ),
-                    ChatScreen(
-                      post: widget.post,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(8),
-                      child: Builder(
-                        builder: (context) {
-                          var commonStore = context.read<CommonStore>();
-                          var isGuest = CommonStore.kGuestEmail == commonStore.userEmail;
-                          if (isGuest) {
-                            return Container();
-                          }
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.75,
-                                height: MediaQuery.of(context).size.width * 0.14,
-                                decoration: receivedBoxDecoration,
-                                padding: const EdgeInsets.all(8),
-                                child: TextField(
-                                  style: chatTextStyle,
-                                  controller: chatMessageController,
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.14,
-                                height: MediaQuery.of(context).size.width * 0.14,
-                                decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(35, 41, 52, 1),
-                                    borderRadius: BorderRadius.all(Radius.circular(
-                                        MediaQuery.of(context).size.width * 0.07))),
-                                child: IconButton(
-                                  alignment: Alignment.center,
-                                  onPressed: allowPostReply
-                                      ? () async {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    var commonStore =
-                                    context.read<CommonStore>();
-                                    setState(() {
-                                      allowPostReply = false;
-                                    });
-                                    var replySuccess =
-                                    await APIService.postReply(
-                                        commonStore.userName,
-                                        chatMessageController.text,
-                                        widget.post.chatId,
-                                        commonStore.securityKey);
-                                    if (replySuccess) {
-                                      chatMessageController.clear();
-                                    } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(getSnackBar(
-                                          "An error occurred."));
-                                    }
-                                    setState(() {
-                                      allowPostReply = true;
-                                    });
-                                  }
-                                      : null,
-                                  icon: Icon(
-                                    Icons.send_outlined,
-                                    size: MediaQuery.of(context).size.width * 0.07,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  ChatScreen(
+                    post: widget.post,
+                  ),
+                ],
               ),
             );
           }),
         ),
+        bottomSheet: Container(
+          color: const Color(0xff1B1B1D),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Container(
+              color: const Color(0xff1B1B1D),
+              child: Builder(builder: (context) {
+                var commonStore = context.read<CommonStore>();
+                bool isGuest = CommonStore.kGuestEmail == commonStore.userEmail;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      height: textFieldHeight,
+                      decoration: receivedBoxDecoration,
+                      padding: EdgeInsets.all(textFieldPadding),
+                      child: TextField(
+                        enabled: !isGuest,
+                        decoration: InputDecoration(
+                            hintText: isGuest ? "Login to reply to posts" : "",
+                            hintStyle: hintStyle),
+                        style: chatTextStyle,
+                        controller: chatMessageController,
+                      ),
+                    ),
+                    Container(
+                      height: textFieldHeight,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(35, 41, 52, 1),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(textFieldHeight))),
+                      child: IconButton(
+                        alignment: Alignment.center,
+                        onPressed: (allowPostReply && !isGuest)
+                            ? () async {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                var commonStore = context.read<CommonStore>();
+                                setState(() {
+                                  allowPostReply = false;
+                                });
+                                var replySuccess = await APIService.postReply(
+                                    commonStore.userName,
+                                    chatMessageController.text,
+                                    widget.post.chatId,
+                                    commonStore.securityKey);
+                                if (replySuccess) {
+                                  chatMessageController.clear();
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      getSnackBar("An error occurred."));
+                                }
+                                setState(() {
+                                  allowPostReply = true;
+                                });
+                              }
+                            : null,
+                        icon: const Icon(
+                          Icons.send_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ),
+          ),
+        ),
+        extendBody: true,
       ),
     );
   }
