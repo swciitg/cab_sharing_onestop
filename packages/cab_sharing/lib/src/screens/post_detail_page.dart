@@ -73,25 +73,29 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //Left Column
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //Name
-                                Text(
-                                  widget.post.name,
-                                  style: kiPostNameTextStyle,
-                                ),
-                                //Email
-                                Text(
-                                  widget.post.email,
-                                  style: kiPostEmailTextStyle,
-                                ),
-                                //Departure Time
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.02,
-                                ),
-                              ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //Name
+                                  Text(
+                                    widget.post.name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: kiPostNameTextStyle,
+                                  ),
+                                  //Email
+                                  Text(
+                                    widget.post.email,
+                                    style: kiPostEmailTextStyle,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  //Departure Time
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.02,
+                                  ),
+                                ],
+                              ),
                             ),
                             //Right Column
                             Column(
