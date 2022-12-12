@@ -1,6 +1,9 @@
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
+import 'package:cab_sharing/src/widgets/create_post_and_search/date_display.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../cab_sharing.dart';
 import '../decorations/colors.dart';
@@ -9,6 +12,7 @@ import '../functions/snackbar.dart';
 import '../services/api.dart';
 import '../services/user_store.dart';
 import '../widgets/create_post_and_search/align_button.dart';
+import '../widgets/create_post_and_search/date_calendar.dart';
 import '../widgets/create_post_and_search/date_field.dart';
 import '../widgets/create_post_and_search/post_input_fields.dart';
 import '../widgets/create_post_and_search/time_field.dart';
@@ -28,13 +32,31 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final TextEditingController note = TextEditingController();
   final TextEditingController to = TextEditingController(text: "Airport");
   final TextEditingController from = TextEditingController(text: "Campus");
-  final FixedExtentScrollController date = FixedExtentScrollController();
-  final FixedExtentScrollController month = FixedExtentScrollController();
-  final FixedExtentScrollController year = FixedExtentScrollController();
+  // final FixedExtentScrollController date = FixedExtentScrollController();
+  // final FixedExtentScrollController month = FixedExtentScrollController();
+  // final FixedExtentScrollController year = FixedExtentScrollController();
+  int get date => dateController.selectedDate?.day ?? 1;
+  int get month => dateController.selectedDate?.month ?? 1;
+  int get year => dateController.selectedDate?.year ?? 2022;
+  DateTime get selectedDateTime => DateTime(
+      year,
+      month,
+      date,
+      hours.hasClients ? hours.selectedItem : 0,
+      min.hasClients ? min.selectedItem : 0);
   final FixedExtentScrollController hours = FixedExtentScrollController();
   final FixedExtentScrollController min = FixedExtentScrollController();
+  final DateRangePickerController dateController = DateRangePickerController();
   final noteFieldKey = GlobalKey<FormState>();
   bool allowPostSearch = true;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      dateController.selectedDate = DateTime.now();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Map<String, String> userData = context.read<CommonStore>().userData;
@@ -64,11 +86,12 @@ class _PostSearchPageState extends State<PostSearchPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DateField(
-                    year: year,
-                    date: date,
-                    month: month,
-                  ),
+                  // DateField(
+                  //   year: year,
+                  //   date: date,
+                  //   month: month,
+                  // ),
+                  DateCalendar(dateController: dateController),
                   (widget.category == "post")
                       ? TimeField(hour: hours, min: min)
                       : Container(),
@@ -104,14 +127,15 @@ class _PostSearchPageState extends State<PostSearchPage> {
                               'name': userData['name'],
                               'email': userData['email'],
                               'security-key': userData['security-key'],
-                              'travelDateTime': timeHelper({
-                                'date': date.selectedItem,
-                                'month': month.selectedItem,
-                                'year': year.selectedItem,
-                                'hour':
-                                    hours.hasClients ? hours.selectedItem : 0,
-                                'min': min.hasClients ? min.selectedItem : 0,
-                              })
+                              // 'travelDateTime': timeHelper({
+                              //   'date': date.selectedItem,
+                              //   'month': month.selectedItem,
+                              //   'year': year.selectedItem,
+                              //   'hour':
+                              //       hours.hasClients ? hours.selectedItem : 0,
+                              //   'min': min.hasClients ? min.selectedItem : 0,
+                              // })
+                              'travelDateTime': selectedDateTime.toIso8601String()
                             };
                             try {
                               if (widget.category == 'post') {
