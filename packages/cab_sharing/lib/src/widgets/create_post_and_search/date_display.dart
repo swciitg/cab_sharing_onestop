@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../decorations/post_and_search_style.dart';
-import 'scrollable.dart';
 
 class DateDisplay extends StatefulWidget {
   final DateRangePickerController dateController;

@@ -126,7 +126,7 @@ class IconRow extends StatelessWidget {
     return Row(
       children: [
         iconMap[value]!,
-        SizedBox(width: 10,),
+        const SizedBox(width: 10,),
         Text(value),
       ],
     );

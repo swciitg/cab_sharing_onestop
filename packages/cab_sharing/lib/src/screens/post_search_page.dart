@@ -1,5 +1,3 @@
-import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
-import 'package:cab_sharing/src/widgets/create_post_and_search/date_display.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -7,13 +5,11 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../cab_sharing.dart';
 import '../decorations/colors.dart';
-import '../functions/helpers.dart';
 import '../functions/snackbar.dart';
 import '../services/api.dart';
 import '../services/user_store.dart';
 import '../widgets/create_post_and_search/align_button.dart';
 import '../widgets/create_post_and_search/date_calendar.dart';
-import '../widgets/create_post_and_search/date_field.dart';
 import '../widgets/create_post_and_search/post_input_fields.dart';
 import '../widgets/create_post_and_search/time_field.dart';
 import '../widgets/create_post_and_search/to_from_fields.dart';
@@ -52,7 +48,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       dateController.selectedDate = DateTime.now();
     });
   }

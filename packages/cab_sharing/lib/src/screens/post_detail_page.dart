@@ -49,13 +49,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
         ),
         body: SafeArea(
           child: LayoutBuilder(builder: (context, boxConstraints) {
-            final viewInsets = EdgeInsets.fromWindowPadding(
-                WidgetsBinding.instance.window.viewInsets,
-                WidgetsBinding.instance.window.devicePixelRatio);
             var visibleHeight = boxConstraints.maxHeight;
-            var bottomHeight = viewInsets.bottom;
-            print("visibleHeight = $visibleHeight");
-            print("bottom = $bottomHeight");
             return SizedBox(
               height: visibleHeight - textFieldHeight - 2 * textFieldPadding,
               child: Column(
