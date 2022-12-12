@@ -1,3 +1,4 @@
+import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
 import 'package:flutter/material.dart';
 
 class TravelIcons extends StatelessWidget {
@@ -17,11 +18,7 @@ class TravelIcons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Icon(
-          from == 'Airport'
-              ? Icons.airplanemode_active_outlined
-              : from == 'Railway Station'
-                  ? Icons.directions_railway
-                  : Icons.school,
+          iconMap[from]!.icon,
           size: 20,
           color: color,
         ),
@@ -31,11 +28,7 @@ class TravelIcons extends StatelessWidget {
           color: color,
         ),
         Icon(
-          to == 'Airport'
-              ? Icons.airplanemode_active_outlined
-              : to == 'Railway Station'
-                  ? Icons.directions_railway
-                  : Icons.school,
+          iconMap[to]!.icon,
           size: 20,
           color: color,
         ),

@@ -55,7 +55,7 @@ class _ToFromFieldState extends State<ToFromField> {
                     .map((String val) {
                   return DropdownMenuItem<String>(
                     value: val,
-                    child: Text(val),
+                    child: IconRow(value:val),
                   );
                 }).toList(),
                 onChanged: (String? val) {
@@ -98,7 +98,7 @@ class _ToFromFieldState extends State<ToFromField> {
                     .map((String val) {
                   return DropdownMenuItem<String>(
                     value: val,
-                    child: Text(val),
+                    child: IconRow(value: val,)
                   );
                 }).toList(),
                 onChanged: (String? val) {
@@ -109,6 +109,25 @@ class _ToFromFieldState extends State<ToFromField> {
             );
           }),
         ),
+      ],
+    );
+  }
+}
+
+class IconRow extends StatelessWidget {
+  final String value;
+  const IconRow({
+    Key? key,
+    required this.value
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        iconMap[value]!,
+        SizedBox(width: 10,),
+        Text(value),
       ],
     );
   }

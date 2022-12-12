@@ -44,3 +44,18 @@ final dateTimeWheelStyle = GoogleFonts.montserrat(
   color: Colors.white,
   fontWeight: FontWeight.bold,
 );
+
+final iconMap = {
+  'Campus': const Icon(
+    Icons.school,
+    color: Colors.white,
+  ),
+  'Airport': const Icon(
+    Icons.airplanemode_active_outlined,
+    color: Colors.white,
+  ),
+  'Railway Station': const Icon(
+    Icons.directions_railway,
+    color: Colors.white,
+  )
+};
