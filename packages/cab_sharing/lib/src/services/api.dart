@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cab_sharing/src/functions/title_case.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/post_model.dart';
@@ -85,16 +86,18 @@ class APIService {
   static Future<Map<String, dynamic>> postTripData(
       Map<String, dynamic> data) async {
     var res = await http.post(Uri.parse(_api),
-        body: jsonEncode({
-          'to': data['to'],
-          'from': data['from'],
-          'margin': data['margin'],
-          'note': data['note'],
-          'phonenumber': data['phonenumber'],
-          'travelDateTime': data['travelDateTime'],
-          'email': data['email'],
-          'name': data['name']
-        }),
+        body: jsonEncode(
+          {
+            'to': data['to'],
+            'from': data['from'],
+            'margin': data['margin'],
+            'note': data['note'],
+            'phonenumber': data['phonenumber'],
+            'travelDateTime': data['travelDateTime'],
+            'email': data['email'],
+            'name': (data['name'] as String).toTitleCase(),
+          },
+        ),
         headers: {
           'Content-Type': 'application/json',
           'security-key': data['security-key']!
@@ -154,7 +157,12 @@ class APIService {
     final uri = Uri.https(_host, '$_path/chat', queryParameters);
     try {
       var res = await http.post(uri,
-          body: jsonEncode({'name': name, 'message': message}),
+          body: jsonEncode(
+            {
+              'name': name.toTitleCase(),
+              'message': message,
+            },
+          ),
           headers: {
             'Content-Type': 'application/json',
             'security-key': securityKey
