@@ -7,6 +7,7 @@ class ReplyModel {
   @JsonKey(name: '_id')
   String replyid;
   String name;
+  String email;
   String message;
   @JsonKey(defaultValue: "")
   String time;
@@ -16,6 +17,7 @@ class ReplyModel {
     required this.name,
     required this.message,
     required this.time,
+    required this.email,
   });
   factory ReplyModel.fromJson(Map<String, dynamic> json) =>
       _$ReplyModelFromJson(json);

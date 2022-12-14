@@ -150,7 +150,7 @@ class APIService {
   }
 
   static Future<bool> postReply(
-      String name, String message, String chatId, String securityKey) async {
+      String name, String email, String message, String chatId, String securityKey) async {
     final queryParameters = {
       'chatId': chatId,
     };
@@ -161,6 +161,7 @@ class APIService {
             {
               'name': name.toTitleCase(),
               'message': message,
+              'email':email,
             },
           ),
           headers: {

@@ -24,3 +24,10 @@ final chatTextStyle = GoogleFonts.montserrat(
   letterSpacing: 0.5,
   color: Colors.white,
 );
+
+final chatBoxEmailStyle = GoogleFonts.montserrat(
+  fontSize: 10.0,
+  fontWeight: FontWeight.w300,
+  letterSpacing: 0.5,
+  color: Colors.white,
+);

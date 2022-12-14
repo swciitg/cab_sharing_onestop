@@ -224,6 +224,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 });
                                 var replySuccess = await APIService.postReply(
                                     commonStore.userName,
+                                    commonStore.userEmail,
                                     chatMessageController.text,
                                     widget.post.chatId,
                                     commonStore.securityKey);

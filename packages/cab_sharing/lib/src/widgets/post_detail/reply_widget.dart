@@ -24,7 +24,7 @@ class ReplyWidget extends StatefulWidget {
 class _ReplyWidgetState extends State<ReplyWidget> {
   bool get isOthersReply {
     print("Reply = ${widget.reply.message} and sent by ${widget.reply.name}");
-    return widget.reply.name != context.read<CommonStore>().userName;
+    return widget.reply.email != context.read<CommonStore>().userEmail;
   }
 
   @override
@@ -60,9 +60,15 @@ class _ReplyWidgetState extends State<ReplyWidget> {
                 style: chatTextStyle,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(widget.reply.time, style: chatTextStyle),
+                  const Expanded(child: SizedBox()),
+                  Expanded(
+                      flex: 2,
+                      child: Text(
+                        widget.reply.email,
+                        style: chatBoxEmailStyle,
+                        textAlign: TextAlign.end,
+                      )),
                 ],
               )
             ],
