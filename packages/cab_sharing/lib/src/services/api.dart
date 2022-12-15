@@ -16,7 +16,7 @@ class APIService {
       Map<String, dynamic> data) async {
     http.Response response = await http.get(Uri.parse(_api), headers: {
       'Content-Type': 'application/json',
-      'security-key': data['security-key']!
+      'security-key': String.fromEnvironment('SECURITY-KEY')!,
     });
     if (response.statusCode == 200) {
       var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
@@ -45,7 +45,7 @@ class APIService {
     final uri = Uri.https(_host, _path, queryParameters);
     http.Response response = await http.get(uri, headers: {
       'Content-Type': 'application/json',
-      'security-key': data['security-key']!
+      'security-key': String.fromEnvironment('SECURITY-KEY')!,
     });
     if (response.statusCode == 200) {
       var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
@@ -69,7 +69,7 @@ class APIService {
     final uri = Uri.https(_host, '$_path/myads', queryParameters);
     http.Response response = await http.get(uri, headers: {
       'Content-Type': 'application/json',
-      'security-key': data['security-key']!
+      'security-key': String.fromEnvironment('SECURITY-KEY')!,
     });
     if (response.statusCode == 200) {
       var posts = jsonDecode(response.body)['details'] as List<dynamic>;
@@ -100,7 +100,7 @@ class APIService {
         ),
         headers: {
           'Content-Type': 'application/json',
-          'security-key': data['security-key']!
+          'security-key': String.fromEnvironment('SECURITY-KEY')!,
         });
     return jsonDecode(res.body);
   }
@@ -112,7 +112,7 @@ class APIService {
           body: jsonEncode({'email': data['email']}),
           headers: {
             'Content-Type': 'application/json',
-            'security-key': data['security-key']!
+            'security-key': String.fromEnvironment('SECURITY-KEY')!,
           });
       var jsonResponse = jsonDecode(res.body);
       if (jsonResponse['success'] == true) {
@@ -166,7 +166,7 @@ class APIService {
           ),
           headers: {
             'Content-Type': 'application/json',
-            'security-key': securityKey
+            'security-key': String.fromEnvironment('SECURITY-KEY')!,
           });
       var jsonResponse = jsonDecode(res.body);
       if (jsonResponse['success'] == true) {
