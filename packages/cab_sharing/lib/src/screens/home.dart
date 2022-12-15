@@ -40,7 +40,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               ),
             ),
             title: Text(
-              "Campus Ola",
+              "Cab Sharing",
               style: kAppBarTextStyle,
             ),
             actions: [
