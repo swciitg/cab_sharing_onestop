@@ -180,74 +180,76 @@ class _PostDetailPageState extends State<PostDetailPage> {
             );
           }),
         ),
-        bottomSheet: Container(
-          color: kBackground,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Container(
-              color: kBackground,
-              child: Builder(builder: (context) {
-                var commonStore = context.read<CommonStore>();
-                bool isGuest = CommonStore.kGuestEmail == commonStore.userEmail;
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      height: textFieldHeight,
-                      decoration: receivedBoxDecoration,
-                      padding: EdgeInsets.all(textFieldPadding),
-                      child: TextField(
-                        enabled: !isGuest,
-                        decoration: InputDecoration(
-                            hintText: isGuest ? "Login to reply to posts" : "",
-                            hintStyle: hintStyle),
-                        style: chatTextStyle,
-                        controller: chatMessageController,
-                      ),
-                    ),
-                    Container(
-                      height: textFieldHeight,
-                      decoration: BoxDecoration(
-                          color: kReceiveBoxColor,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(textFieldHeight))),
-                      child: IconButton(
-                        alignment: Alignment.center,
-                        onPressed: (allowPostReply && !isGuest)
-                            ? () async {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                var commonStore = context.read<CommonStore>();
-                                setState(() {
-                                  allowPostReply = false;
-                                });
-                                var replySuccess = await APIService.postReply(
-                                    commonStore.userName,
-                                    commonStore.userEmail,
-                                    chatMessageController.text,
-                                    widget.post.chatId,
-                                    commonStore.securityKey);
-                                if (replySuccess) {
-                                  chatMessageController.clear();
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      getSnackBar("An error occurred."));
-                                }
-                                setState(() {
-                                  allowPostReply = true;
-                                });
-                              }
-                            : null,
-                        icon: const Icon(
-                          Icons.send_outlined,
-                          color: Colors.white,
+        bottomSheet: SafeArea(
+          child: Container(
+            color: kBackground,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: textFieldPadding),
+              child: Container(
+                color: kBackground,
+                child: Builder(builder: (context) {
+                  var commonStore = context.read<CommonStore>();
+                  bool isGuest = CommonStore.kGuestEmail == commonStore.userEmail;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.75,
+                        height: textFieldHeight,
+                        decoration: receivedBoxDecoration,
+                        padding: EdgeInsets.all(textFieldPadding),
+                        child: TextField(
+                          enabled: !isGuest,
+                          decoration: InputDecoration(
+                              hintText: isGuest ? "Login to reply to posts" : "",
+                              hintStyle: hintStyle),
+                          style: chatTextStyle,
+                          controller: chatMessageController,
                         ),
                       ),
-                    ),
-                  ],
-                );
-              }),
+                      Container(
+                        height: textFieldHeight,
+                        decoration: BoxDecoration(
+                            color: kReceiveBoxColor,
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(textFieldHeight))),
+                        child: IconButton(
+                          alignment: Alignment.center,
+                          onPressed: (allowPostReply && !isGuest)
+                              ? () async {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  var commonStore = context.read<CommonStore>();
+                                  setState(() {
+                                    allowPostReply = false;
+                                  });
+                                  var replySuccess = await APIService.postReply(
+                                      commonStore.userName,
+                                      commonStore.userEmail,
+                                      chatMessageController.text,
+                                      widget.post.chatId,
+                                      commonStore.securityKey);
+                                  if (replySuccess) {
+                                    chatMessageController.clear();
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        getSnackBar("An error occurred."));
+                                  }
+                                  setState(() {
+                                    allowPostReply = true;
+                                  });
+                                }
+                              : null,
+                          icon: const Icon(
+                            Icons.send_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ),
             ),
           ),
         ),
