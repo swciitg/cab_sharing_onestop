@@ -91,8 +91,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                   ),
                                   //Departure Time
                                   SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.02,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.02,
                                   ),
                                 ],
                               ),
@@ -131,11 +131,11 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: kContainerDecoration,
                           child: SingleChildScrollView(
-                            child: Text(
-                              'Note:- ${widget.post.note}',
-                              style: kContainerTextStyle,
-                            ),
-                          ),
+                              child: RichText(
+                                  text: TextSpan(
+                            text: 'Note:- ${widget.post.note}',
+                            style: kContainerTextStyle,
+                          ))),
                         ),
                       ],
                     ),
@@ -189,7 +189,8 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 color: kBackground,
                 child: Builder(builder: (context) {
                   var commonStore = context.read<CommonStore>();
-                  bool isGuest = CommonStore.kGuestEmail == commonStore.userEmail;
+                  bool isGuest =
+                      CommonStore.kGuestEmail == commonStore.userEmail;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -203,8 +204,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
                           maxLines: 1,
                           decoration: InputDecoration(
                             isDense: true,
-                              hintText: isGuest ? "Login to reply to posts" : "Comment",
-                              hintStyle: hintStyle,
+                            hintText:
+                                isGuest ? "Login to reply to posts" : "Comment",
+                            hintStyle: hintStyle,
                             enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: kReceiveBoxColor),
                             ),
