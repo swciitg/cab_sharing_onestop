@@ -50,11 +50,13 @@ class _SearchScreenState extends State<SearchScreen> {
                 return const CornerCase(message: 'No Results Found :/');
               } else {
                 String date = snapshot.data!.keys.toList().first;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DateTile(posts: snapshot.data![date]!, date: date)
-                  ],
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DateTile(posts: snapshot.data![date]!, date: date)
+                    ],
+                  ),
                 );
               }
             }),
