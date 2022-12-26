@@ -201,8 +201,18 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         child: TextField(
                           enabled: !isGuest,
                           decoration: InputDecoration(
-                              hintText: isGuest ? "Login to reply to posts" : "",
-                              hintStyle: hintStyle),
+                              hintText: isGuest ? "Login to reply to posts" : "Comment",
+                              hintStyle: hintStyle,
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: kReceiveBoxColor),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: kReceiveBoxColor),
+                            ),
+                            border: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: kReceiveBoxColor),
+                            ),
+                          ),
                           style: chatTextStyle,
                           controller: chatMessageController,
                         ),
