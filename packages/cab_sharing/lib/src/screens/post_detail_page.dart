@@ -200,7 +200,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         padding: EdgeInsets.all(textFieldPadding),
                         child: TextField(
                           enabled: !isGuest,
+                          maxLines: 1,
                           decoration: InputDecoration(
+                            isDense: true,
                               hintText: isGuest ? "Login to reply to posts" : "Comment",
                               hintStyle: hintStyle,
                             enabledBorder: const UnderlineInputBorder(
