@@ -33,45 +33,48 @@ class _ReplyWidgetState extends State<ReplyWidget> {
       mainAxisAlignment:
           isOthersReply ? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.6,
-          margin: const EdgeInsets.all(4),
-          padding: const EdgeInsets.only(
-            left: 10,
-            right: 8,
-            top: 8,
-            bottom: 8,
-          ),
-          decoration: isOthersReply ? receivedBoxDecoration : sentBoxDecoration,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              isOthersReply
-                  ? Text(
-                      widget.reply.name,
-                      style: nameStyle,
-                    )
-                  : Text(
-                      "You",
-                      style: nameStyle,
-                    ),
-              Text(
-                widget.reply.message,
-                style: chatTextStyle,
-              ),
-              Row(
-                children: [
-                  const Expanded(child: SizedBox()),
-                  Expanded(
-                      flex: 2,
-                      child: Text(
-                        widget.reply.email,
-                        style: chatBoxEmailStyle,
-                        textAlign: TextAlign.end,
-                      )),
-                ],
-              )
-            ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18,),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.6,
+            margin: const EdgeInsets.all(4),
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 8,
+              top: 8,
+              bottom: 8,
+            ),
+            decoration: isOthersReply ? receivedBoxDecoration : sentBoxDecoration,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                isOthersReply
+                    ? Text(
+                        widget.reply.name,
+                        style: nameStyle,
+                      )
+                    : Text(
+                        "You",
+                        style: nameStyle,
+                      ),
+                Text(
+                  widget.reply.message,
+                  style: chatTextStyle,
+                ),
+                Row(
+                  children: [
+                    const Expanded(child: SizedBox()),
+                    Expanded(
+                        flex: 2,
+                        child: Text(
+                          widget.reply.email,
+                          style: chatBoxEmailStyle,
+                          textAlign: TextAlign.end,
+                        )),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ],
