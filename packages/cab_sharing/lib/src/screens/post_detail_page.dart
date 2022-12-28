@@ -79,16 +79,48 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     //Name
-                                    Text(
-                                      widget.post.name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: kiPostNameTextStyle,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width * 0.5,
+                                          child: Text(
+                                            widget.post.name,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: kiPostNameTextStyle,
+                                          ),
+                                        ),
+                                        Text(
+                                          widget.post.getDate(),
+                                          style: kiPostTimeTextStyle,
+                                        ),
+                                      ],
                                     ),
                                     //Email
-                                    Text(
-                                      widget.post.email,
-                                      style: kiPostEmailTextStyle,
-                                      overflow: TextOverflow.ellipsis,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          widget.post.email,
+                                          style: kiPostEmailTextStyle,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        //Time
+                                        Text(
+                                          widget.post.getTime(),
+                                          style: kiPostTimeTextStyle,
+                                        ),
+                                      ],
+                                    ),
+                                    //Travel Mode Icon
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TravelIcons(
+                                          from: widget.post.from,
+                                          to: widget.post.to,
+                                        ),
+                                      ],
                                     ),
                                     //Departure Time
                                     SizedBox(
@@ -98,27 +130,6 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              //Right Column
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    widget.post.getDate(),
-                                    style: kiPostGetNoteTextStyle,
-                                  ),
-                                  //Time
-                                  Text(
-                                    widget.post.getTime(),
-                                    style: kiPostTimeTextStyle,
-                                  ),
-                                  //Travel Mode Icon
-                                  TravelIcons(
-                                    from: widget.post.from,
-                                    to: widget.post.to,
-                                  ),
-                                ],
                               ),
                             ],
                           ),
