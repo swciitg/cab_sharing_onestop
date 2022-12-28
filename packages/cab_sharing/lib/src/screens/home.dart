@@ -29,6 +29,8 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
       builder: (context, _) {
         var commonStore = context.read<CommonStore>();
         return SafeArea(
+          top: false,
+          bottom: false,
           child: Scaffold(
             appBar: AppBar(
               leading: GestureDetector(
