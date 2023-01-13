@@ -23,7 +23,7 @@ class ReplyWidget extends StatefulWidget {
 
 class _ReplyWidgetState extends State<ReplyWidget> {
   bool get isOthersReply {
-    print("Reply = ${widget.reply.message} and sent by ${widget.reply.name}");
+    // print("Reply = ${widget.reply.message} and sent by ${widget.reply.name}");
     return widget.reply.email != context.read<CommonStore>().userEmail;
   }
 

@@ -55,7 +55,7 @@ class _ToFromFieldState extends State<ToFromField> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Builder(builder: (context) {
               return DropdownButtonFormField<String>(
-                decoration: InputDecoration(border: InputBorder.none),
+                decoration: const InputDecoration(border: InputBorder.none),
                 dropdownColor: kCommonBoxBackground,
                 isExpanded: true,
                 style: secondStyle,

@@ -20,7 +20,7 @@ class _TimePickerColorState extends State<TimePickerColor> {
               color: Color.fromRGBO(91, 146, 227, 1), width: 2),
           dayPeriodColor: MaterialStateColor.resolveWith((states) =>
               states.contains(MaterialState.selected)
-                  ? Color.fromRGBO(91, 146, 227, 1)
+                  ? const Color.fromRGBO(91, 146, 227, 1)
                   : const Color(0xff273141)),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -35,13 +35,13 @@ class _TimePickerColorState extends State<TimePickerColor> {
           ),
           hourMinuteColor: MaterialStateColor.resolveWith((states) =>
               states.contains(MaterialState.selected)
-                  ? Color.fromRGBO(91, 146, 227, 1)
+                  ? const Color.fromRGBO(91, 146, 227, 1)
                   : const Color(0xff2B3E5C)),
           hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
               states.contains(MaterialState.selected)
                   ? Colors.white
                   : Colors.white),
-          dialHandColor: Color.fromRGBO(118, 172, 255, 1),
+          dialHandColor: const Color.fromRGBO(118, 172, 255, 1),
           dialBackgroundColor: const Color(0xff2B3E5C),
           hourMinuteTextStyle: GoogleFonts.montserrat(
             fontSize: 20,
@@ -63,7 +63,7 @@ class _TimePickerColorState extends State<TimePickerColor> {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
               backgroundColor: const Color(0xff273141), // button
-              foregroundColor: Color.fromRGBO(118, 172, 255, 1),
+              foregroundColor: const Color.fromRGBO(118, 172, 255, 1),
               elevation: 0,
               textStyle: GoogleFonts.montserrat()),
         ),
@@ -73,6 +73,5 @@ class _TimePickerColorState extends State<TimePickerColor> {
           // If you want 24-Hour format, just change alwaysUse24HourFormat to true or remove all the builder argument
           child: widget.childWidget!),
     );
-    ;
   }
 }
