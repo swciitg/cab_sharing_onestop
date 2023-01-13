@@ -19,8 +19,8 @@ class _MyAppState extends State<MyApp> {
     String key = const String.fromEnvironment('SECURITY_KEY');
     return MaterialApp(
       home: CabSharingScreen(userData: {
-        'name': 'Me',
-        'email': 'me@iitg.ac.in',
+        'name': 'SWC Tester',
+        'email': 'swciitghy@gmail.ac.in',
         'security-key': key
       }),
     );
