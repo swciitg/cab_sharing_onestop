@@ -28,6 +28,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final TextEditingController note = TextEditingController();
   final TextEditingController to = TextEditingController(text: "Airport");
   final TextEditingController from = TextEditingController(text: "Campus");
+  final TextEditingController hours = TextEditingController(text: DateTime.now().hour.toString());
+  final TextEditingController min = TextEditingController(text: DateTime.now().minute.toString());
   int get date => dateController.selectedDate?.day ?? 1;
   int get month => dateController.selectedDate?.month ?? 1;
   int get year => dateController.selectedDate?.year ?? 2022;
@@ -35,10 +37,9 @@ class _PostSearchPageState extends State<PostSearchPage> {
       year,
       month,
       date,
-      hours.hasClients ? hours.selectedItem : 0,
-      min.hasClients ? min.selectedItem : 0);
-  final FixedExtentScrollController hours = FixedExtentScrollController();
-  final FixedExtentScrollController min = FixedExtentScrollController();
+      int.parse(hours.text),
+      int.parse(min.text));
+
   final DateRangePickerController dateController = DateRangePickerController();
   final noteFieldKey = GlobalKey<FormState>();
   final toFromKey = GlobalKey<FormState>();
@@ -84,7 +85,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   children: [
                     DateCalendar(dateController: dateController),
                     (widget.category == "post")
-                        ? TimeField(hour: hours, min: min)
+                        ? TimeField(hourController: hours, minController: min,)
                         : Container(),
                     ToFromField(to: to, from: from, formKey: toFromKey),
                     (widget.category == 'post')

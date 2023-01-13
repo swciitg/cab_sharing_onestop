@@ -45,6 +45,12 @@ final dateTimeWheelStyle = GoogleFonts.montserrat(
   fontWeight: FontWeight.bold,
 );
 
+final timePeriodStyle = GoogleFonts.montserrat(
+  fontSize: 15,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+);
+
 final iconMap = {
   'Campus': const Icon(
     Icons.school,
