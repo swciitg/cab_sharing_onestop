@@ -28,17 +28,15 @@ class _PostSearchPageState extends State<PostSearchPage> {
   final TextEditingController note = TextEditingController();
   final TextEditingController to = TextEditingController(text: "Airport");
   final TextEditingController from = TextEditingController(text: "Campus");
-  final TextEditingController hours = TextEditingController(text: DateTime.now().hour.toString());
-  final TextEditingController min = TextEditingController(text: DateTime.now().minute.toString());
+  final TextEditingController hours =
+      TextEditingController(text: DateTime.now().hour.toString());
+  final TextEditingController min =
+      TextEditingController(text: DateTime.now().minute.toString());
   int get date => dateController.selectedDate?.day ?? 1;
   int get month => dateController.selectedDate?.month ?? 1;
   int get year => dateController.selectedDate?.year ?? 2022;
-  DateTime get selectedDateTime => DateTime(
-      year,
-      month,
-      date,
-      int.parse(hours.text),
-      int.parse(min.text));
+  DateTime get selectedDateTime =>
+      DateTime(year, month, date, int.parse(hours.text), int.parse(min.text));
 
   final DateRangePickerController dateController = DateRangePickerController();
   final noteFieldKey = GlobalKey<FormState>();
@@ -71,8 +69,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
       backgroundColor: kBackground,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        child: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           return SingleChildScrollView(
             child: ConstrainedBox(
               constraints:
@@ -85,7 +83,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   children: [
                     DateCalendar(dateController: dateController),
                     (widget.category == "post")
-                        ? TimeField(hourController: hours, minController: min,)
+                        ? TimeField(
+                            hourController: hours,
+                            minController: min,
+                          )
                         : Container(),
                     ToFromField(to: to, from: from, formKey: toFromKey),
                     (widget.category == 'post')
@@ -111,13 +112,27 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                 return;
                               }
                               var res = {};
+                              DateTime formatedDate = selectedDateTime.subtract(
+                                  Duration(
+                                      hours: selectedDateTime.hour,
+                                      minutes: selectedDateTime.minute,
+                                      seconds: selectedDateTime.second,
+                                      milliseconds:
+                                          selectedDateTime.millisecond,
+                                      microseconds:
+                                          selectedDateTime.microsecond));
+
+               
+               
                               Map<String, dynamic> data = {
                                 'to': to.text,
                                 'from': from.text,
                                 'name': userData['name'],
                                 'email': userData['email'],
                                 'security-key': userData['security-key'],
-                                'travelDateTime': selectedDateTime.toIso8601String()
+                                'travelDateTime': widget.category == 'post'
+                                    ? selectedDateTime.toIso8601String()
+                                    : formatedDate.toIso8601String()
                               };
                               try {
                                 if (widget.category == 'post') {
@@ -135,8 +150,9 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                         {...data, ...moreData});
                                     if (res['success']) {
                                       if (!mounted) return;
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          getSnackBar("Post Uploaded"));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                              getSnackBar("Post Uploaded"));
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -150,8 +166,8 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                       setState(() {
                                         allowPostSearch = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          getSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(getSnackBar(
                                               "An error occurred. Check your connection and try again"));
                                     }
                                   } else {
