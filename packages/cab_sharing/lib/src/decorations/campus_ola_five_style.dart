@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 import 'colors.dart';
-
-final kiPostNameTextStyle = GoogleFonts.montserrat(
+const _font='Montserrat';
+const kiPostNameTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.5,
   color: Colors.white,
 );
 
-final kiPostEmailTextStyle = GoogleFonts.montserrat(
+const kiPostEmailTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
   color: kFloatingButtonColor,
 );
 
-final kiPostGetNoteTextStyle = GoogleFonts.montserrat(
+const kiPostGetNoteTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.5,
   color: Colors.white,
 );
 
-final kiPostTimeTextStyle = GoogleFonts.montserrat(
+const kiPostTimeTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.5,
@@ -37,14 +39,16 @@ final kContainerDecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(20),
 );
 
-final kContainerTextStyle = GoogleFonts.montserrat(
+const kContainerTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
   color: Colors.white,
 );
 
-final kContainerBoldTextStyle = GoogleFonts.montserrat(
+const kContainerBoldTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.bold,
   letterSpacing: 0.5,
@@ -52,7 +56,8 @@ final kContainerBoldTextStyle = GoogleFonts.montserrat(
 );
 
 
-final kCornerStyle = GoogleFonts.montserrat(
+const kCornerStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 15.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
