@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
+
 
 import 'colors.dart';
-
-final titleStyle = GoogleFonts.montserrat(
+const _font='Montserrat';
+const titleStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
@@ -15,14 +16,16 @@ const commonBoxDecoration = BoxDecoration(
     color: kCommonBoxBackground,
     borderRadius: BorderRadius.all(Radius.circular(21)));
 
-final secondStyle = GoogleFonts.montserrat(
+const secondStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
   color: Colors.white,
 );
 
-final counterStyle = GoogleFonts.montserrat(
+const counterStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 10.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,
@@ -33,19 +36,22 @@ const hintStyle = TextStyle(
   color: kHintTextColor,
 );
 
-final errorStyle = GoogleFonts.montserrat(
+const errorStyle = TextStyle(
+  fontFamily: _font,
   color: Colors.redAccent,
   fontSize: 10,
   fontWeight: FontWeight.w400,
 );
 
-final dateTimeWheelStyle = GoogleFonts.montserrat(
+const dateTimeWheelStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 18,
   color: Colors.white,
   fontWeight: FontWeight.bold,
 );
 
-final timePeriodStyle = GoogleFonts.montserrat(
+const timePeriodStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 15,
   color: Colors.white,
   fontWeight: FontWeight.bold,

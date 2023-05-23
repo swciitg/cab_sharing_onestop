@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class TimePickerColor extends StatefulWidget {
   final Widget? childWidget;
@@ -43,13 +43,15 @@ class _TimePickerColorState extends State<TimePickerColor> {
                   : Colors.white),
           dialHandColor: const Color.fromRGBO(118, 172, 255, 1),
           dialBackgroundColor: const Color(0xff2B3E5C),
-          hourMinuteTextStyle: GoogleFonts.montserrat(
+          hourMinuteTextStyle: const TextStyle(
+            fontFamily: 'Montserrat',
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
           dayPeriodTextStyle:
-              GoogleFonts.montserrat(fontSize: 12, fontWeight: FontWeight.bold),
-          helpTextStyle: GoogleFonts.montserrat(
+              const TextStyle(fontFamily: 'Montserrat',fontSize: 12, fontWeight: FontWeight.bold),
+          helpTextStyle: const TextStyle(
+            fontFamily: 'Montserrat',
               fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
           dialTextColor: MaterialStateColor.resolveWith((states) =>
               states.contains(MaterialState.selected)
@@ -57,15 +59,15 @@ class _TimePickerColorState extends State<TimePickerColor> {
                   : Colors.white),
           entryModeIconColor: Colors.blueGrey.shade600,
         ),
-        textTheme: TextTheme(
-          caption: GoogleFonts.montserrat(), // days
+        textTheme: const TextTheme(
+          caption: TextStyle(fontFamily: 'Montserrat',), // days
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
               backgroundColor: const Color(0xff273141), // button
               foregroundColor: const Color.fromRGBO(118, 172, 255, 1),
               elevation: 0,
-              textStyle: GoogleFonts.montserrat()),
+              textStyle: const TextStyle(fontFamily: 'Montserrat',)),
         ),
       ),
       child: MediaQuery(

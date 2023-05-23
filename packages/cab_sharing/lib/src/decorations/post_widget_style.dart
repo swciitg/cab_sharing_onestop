@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 import 'colors.dart';
-
+const _font='Montserrat';
 const kRowContainerDecoration = BoxDecoration(
   borderRadius: BorderRadius.all(
     Radius.circular(21.0),
@@ -18,56 +16,64 @@ const kRowContainerDecorationMyPost = BoxDecoration(
   color: kFloatingButtonColor,
 );
 
-final kPostNameTextStyle = GoogleFonts.montserrat(
+const kPostNameTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.1,
   color: Colors.white,
 );
 
-final kPostNameTextStyleMyPost = GoogleFonts.montserrat(
+const kPostNameTextStyleMyPost = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.1,
   color: Colors.black,
 );
 
-final kPostEmailTextStyle = GoogleFonts.montserrat(
+const kPostEmailTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.25,
   color: kFloatingButtonColor,
 );
 
-final kPostEmailTextStyleMyPost = GoogleFonts.montserrat(
+const kPostEmailTextStyleMyPost = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.25,
   color: Colors.black,
 );
 
-final kPostGetNoteTextStyle = GoogleFonts.montserrat(
+const kPostGetNoteTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.4,
   color: Colors.white,
 );
 
-final kPostGetNoteTextStyleMyPost = GoogleFonts.montserrat(
+const kPostGetNoteTextStyleMyPost = TextStyle(
+  fontFamily: _font,
   fontSize: 12.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.4,
   color: Colors.black,
 );
 
-final kPostTimeTextStyle = GoogleFonts.montserrat(
+const kPostTimeTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.1,
   color: Colors.white,
 );
 
-final kPostTimeTextStyleMyPost = GoogleFonts.montserrat(
+const kPostTimeTextStyleMyPost = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
   letterSpacing: 0.1,

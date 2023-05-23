@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 import 'colors.dart';
-
-final kAppBarTextStyle = GoogleFonts.montserrat(
+const _font='Montserrat';
+const kAppBarTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 20.0,
   fontWeight: FontWeight.w500,
   fontStyle: FontStyle.normal,
   color: Colors.white,
 );
 
-final kTodayTextStyle = GoogleFonts.montserrat(
+const kTodayTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 16.0,
   fontWeight: FontWeight.w700,
   letterSpacing: 0.5,
   color: kGreyTextColor,
 );
 
-final kDateTextStyle = GoogleFonts.montserrat(
+const kDateTextStyle = TextStyle(
+  fontFamily: _font,
   fontSize: 14.0,
   fontWeight: FontWeight.w500,
   letterSpacing: 0.5,

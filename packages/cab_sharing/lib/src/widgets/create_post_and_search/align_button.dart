@@ -1,8 +1,6 @@
 import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-
 class AlignButton extends StatelessWidget {
   final String text;
   const AlignButton({Key? key, required this.text}) : super(key: key);
@@ -22,7 +20,8 @@ class AlignButton extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: GoogleFonts.montserrat(
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
             fontSize: 16.0,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.5,
