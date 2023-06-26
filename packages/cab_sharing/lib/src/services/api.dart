@@ -8,7 +8,7 @@ import '../models/reply_model.dart';
 
 class APIService {
   static const String _api =
-const String.fromEnvironment('SERVER-URL');
+const String.fromEnvironment('SERVER-URL') + '/campus-travel';
   // static const String _path = "/onestopapi/v2/campus-travel";
   // static const String _host = "swc.iitg.ac.in";
 
