@@ -8,9 +8,9 @@ import '../models/reply_model.dart';
 
 class APIService {
   static const String _api =
-      "https://swc.iitg.ac.in/onestopapi/v2/campus-travel";
-  static const String _path = "/onestopapi/v2/campus-travel";
-  static const String _host = "swc.iitg.ac.in";
+const String.fromEnvironment('SERVER-URL');
+  // static const String _path = "/onestopapi/v2/campus-travel";
+  // static const String _host = "swc.iitg.ac.in";
 
   static Future<List<Map<String, List<PostModel>>>> getAllPosts(
       Map<String, dynamic> data) async {
@@ -42,7 +42,7 @@ class APIService {
       'to': data['to'],
       'from': data['from'],
     };
-    final uri = Uri.https(_host, _path, queryParameters);
+    final uri = Uri.https(_api,"", queryParameters);
     http.Response response = await http.get(uri, headers: {
       'Content-Type': 'application/json',
       'security-key': data['security-key']!
@@ -66,7 +66,7 @@ class APIService {
 
   static Future<List<PostModel>> getMyPosts(Map<String, dynamic> data) async {
     final queryParameters = {'email': data['email']};
-    final uri = Uri.https(_host, '$_path/myads', queryParameters);
+    final uri = Uri.https(_api, '/myads', queryParameters);
     http.Response response = await http.get(uri, headers: {
       'Content-Type': 'application/json',
       'security-key': data['security-key']!
@@ -137,7 +137,7 @@ class APIService {
     final queryParameters = {
       'chatId': chatId,
     };
-    final uri = Uri.https(_host, '$_path/chat', queryParameters);
+    final uri = Uri.https(_api, '/chat', queryParameters);
     try {
       http.Response response = await http.get(uri);
       var jsonResponse = jsonDecode(response.body);
@@ -154,7 +154,7 @@ class APIService {
     final queryParameters = {
       'chatId': chatId,
     };
-    final uri = Uri.https(_host, '$_path/chat', queryParameters);
+    final uri = Uri.https(_api, '/chat', queryParameters);
     try {
       var res = await http.post(uri,
           body: jsonEncode(
