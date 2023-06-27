@@ -1,5 +1,5 @@
 class CommonStore {
-  Map<String, String> userData;
+  Map<String, dynamic> userData;
 
   CommonStore({required this.userData});
 

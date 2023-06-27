@@ -52,7 +52,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> userData = context.read<CommonStore>().userData;
+    Map<String, dynamic> userData = context.read<CommonStore>().userData;
     var commonStore = context.read<CommonStore>();
     return Scaffold(
       appBar: AppBar(
@@ -157,9 +157,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CabSharingScreen(
-                                                  userData: userData,
-                                                )),
+                                                CabSharingScreen()),
                                       );
                                     } else {
                                       if (!mounted) return;
