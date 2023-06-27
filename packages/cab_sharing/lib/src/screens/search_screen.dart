@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         backgroundColor: kBackground,
         body: FutureBuilder(
-            future: APIService.getSearchResults(widget.userData),
+            future: APIService().getSearchResults(widget.userData),
             builder: (BuildContext context,
                 AsyncSnapshot<Map<String, List<PostModel>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

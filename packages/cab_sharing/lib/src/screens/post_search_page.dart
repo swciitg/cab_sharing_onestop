@@ -146,7 +146,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                     moreData['phonenumber'] = phone.text;
                                   }
                                   if (noteFilled) {
-                                    res = await APIService.postTripData(
+                                    res = await APIService().postTripData(
                                         {...data, ...moreData});
                                     if (res['success']) {
                                       if (!mounted) return;

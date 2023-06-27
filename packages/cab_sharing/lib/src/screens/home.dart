@@ -81,7 +81,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               child: Column(
                 children: [
                   !LoginStore.isGuest ? FutureBuilder(
-                      future: APIService.getMyPosts(LoginStore.userData),
+                      future: APIService().getMyPosts(LoginStore.userData),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<PostModel>> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {

@@ -138,74 +138,103 @@ class APIService {
     // }
   }
 
-  static Future<Map<String, List<PostModel>>> getSearchResults(
+  Future<Map<String, List<PostModel>>> getSearchResults(
       Map<String, dynamic> data) async {
     final queryParameters = {
       'travelDateTime': data['travelDateTime'],
       'to': data['to'],
       'from': data['from'],
     };
-    final uri = Uri.https(_api,"", queryParameters);
-    http.Response response = await http.get(uri, headers: {
-      'Content-Type': 'application/json',
-      'security-key': data['security-key']!
-    });
-    if (response.statusCode == 200) {
-      var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
-      Map<String, List<PostModel>> answer = {};
-      map.forEach((key, value) {
-        var postList = value as List<dynamic>;
-        List<PostModel> posts = [];
-        for (var json in postList) {
-          posts.add(PostModel.fromJson(json));
-        }
-        answer[key] = posts;
-      });
-      return answer;
-    } else {
-      throw Exception('Search Results could not be fetched');
-    }
-  }
-
-  static Future<List<PostModel>> getMyPosts(Map<String, dynamic> data) async {
-    final queryParameters = {'email': data['email']};
-    final uri = Uri.https(_api, '/myads', queryParameters);
-    http.Response response = await http.get(uri, headers: {
-      'Content-Type': 'application/json',
-      'security-key': data['security-key']!
-    });
-    if (response.statusCode == 200) {
-      var posts = jsonDecode(response.body)['details'] as List<dynamic>;
-      List<PostModel> answer = [];
-      for (var post in posts) {
-        answer.add(PostModel.fromJson(post));
+    var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
+    var map = response.data['details'];
+    Map<String, List<PostModel>> answer = {};
+    map.forEach((key, value) {
+      var postList = value;
+      List<PostModel> posts = [];
+      for (var json in postList) {
+        posts.add(PostModel.fromJson(json));
       }
-      return answer;
-    } else {
-      throw Exception('My Posts could not be fetched');
-    }
+      answer[key] = posts;
+    });
+    return answer;
+    // final uri = Uri.https(_api,"", queryParameters);
+    // http.Response response = await http.get(uri, headers: {
+    //   'Content-Type': 'application/json',
+    //   'security-key': data['security-key']!
+    // });
+    // if (response.statusCode == 200) {
+    //   var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
+    //   Map<String, List<PostModel>> answer = {};
+    //   map.forEach((key, value) {
+    //     var postList = value as List<dynamic>;
+    //     List<PostModel> posts = [];
+    //     for (var json in postList) {
+    //       posts.add(PostModel.fromJson(json));
+    //     }
+    //     answer[key] = posts;
+    //   });
+    //   return answer;
+    // } else {
+    //   throw Exception('Search Results could not be fetched');
+    // }
   }
 
-  static Future<Map<String, dynamic>> postTripData(
-      Map<String, dynamic> data) async {
-    var res = await http.post(Uri.parse(_api),
-        body: jsonEncode(
-          {
-            'to': data['to'],
-            'from': data['from'],
-            'margin': data['margin'],
-            'note': data['note'],
-            'phonenumber': data['phonenumber'],
-            'travelDateTime': data['travelDateTime'],
-            'email': data['email'],
-            'name': (data['name'] as String).toTitleCase(),
-          },
-        ),
-        headers: {
-          'Content-Type': 'application/json',
-          'security-key': data['security-key']!
-        });
-    return jsonDecode(res.body);
+  Future<List<PostModel>> getMyPosts(Map<String, dynamic> data) async {
+    final queryParameters = {'email': data['email']};
+    var response = await dio.get(Endpoints.cabSharingMyAdsURL,queryParameters: queryParameters);
+    var posts = response.data['details'];
+    List<PostModel> answer = [];
+    for (var post in posts) {
+      answer.add(PostModel.fromJson(post));
+    }
+    return answer;
+    // final uri = Uri.https(_api, '/myads', queryParameters);
+    // http.Response response = await http.get(uri, headers: {
+    //   'Content-Type': 'application/json',
+    //   'security-key': data['security-key']!
+    // });
+    // if (response.statusCode == 200) {
+    //   var posts = jsonDecode(response.body)['details'] as List<dynamic>;
+    //   List<PostModel> answer = [];
+    //   for (var post in posts) {
+    //     answer.add(PostModel.fromJson(post));
+    //   }
+    //   return answer;
+    // } else {
+    //   throw Exception('My Posts could not be fetched');
+    // }
+  }
+
+  Future<Map<String, dynamic>> postTripData(Map<String, dynamic> data) async {
+    var response = await dio.post(Endpoints.cabSharingURL,
+      data: {
+      'to': data['to'],
+      'from': data['from'],
+      'margin': data['margin'],
+      'note': data['note'],
+      'phonenumber': data['phonenumber'],
+      'travelDateTime': data['travelDateTime'],
+      'email': data['email'],
+      'name': (data['name'] as String).toTitleCase(),
+    },);
+    // var res = await http.post(Uri.parse(_api),
+    //     body: jsonEncode(
+    //       {
+    //         'to': data['to'],
+    //         'from': data['from'],
+    //         'margin': data['margin'],
+    //         'note': data['note'],
+    //         'phonenumber': data['phonenumber'],
+    //         'travelDateTime': data['travelDateTime'],
+    //         'email': data['email'],
+    //         'name': (data['name'] as String).toTitleCase(),
+    //       },
+    //     ),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'security-key': data['security-key']!
+    //     });
+    return response.data;
   }
 
   static Future<bool> deletePost(Map<String, String> data) async {
