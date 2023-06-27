@@ -17,6 +17,7 @@ class LoginStore {
     print("here");
     SharedPreferences instance = await SharedPreferences.getInstance();
     userData = jsonDecode(instance.getString("userInfo")!);
+    userData["email"]=userData["outlookEmail"]; // fix this in next version use outlookEmail as keyword
     print(userData);
     print(isGuest);
     if(instance.getBool("isGuest")!){

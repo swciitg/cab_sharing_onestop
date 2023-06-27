@@ -31,7 +31,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: context.read<LoginStore>().saveToUserData(),
-      builder: (context,snapshot){
+      builder: (buildContext,snapshot){
         if(snapshot.hasData){
           return Provider(
             create: (_) => CommonStore(userData: LoginStore.userData),
