@@ -145,7 +145,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 ],
               ),
             ),
-            floatingActionButton: (LoginStore.userData['email'] != CommonStore.kGuestEmail) ? FloatingActionButton.extended(
+            floatingActionButton: (!LoginStore.isGuest) ? FloatingActionButton.extended(
               onPressed: () {
                 Navigator.push(
                   context,
