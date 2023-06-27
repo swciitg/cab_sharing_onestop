@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cab_sharing/src/functions/title_case.dart';
+import 'package:cab_sharing/src/stores/login_store.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
@@ -242,7 +243,12 @@ class APIService {
 
   Future<bool> deletePost(Map<String, String> data) async {
     try {
-      var response = await dio.delete("${Endpoints.cabSharingURL}?travelPostId=${data['postId']}");
+      var response = await dio.delete(
+        "${Endpoints.cabSharingURL}?travelPostId=${data['postId']}",
+        data: {
+          'email' : LoginStore.userData['email']
+        }
+      );
       // var res = await http.delete(
       //     Uri.parse(),
       //     body: jsonEncode({'email': data['email']}),
