@@ -29,14 +29,14 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: context.read<LoginStore>().saveToUserData(),
-      builder: (buildContext,snapshot){
-        if(snapshot.hasData){
-          return Provider(
-            create: (_) => CommonStore(userData: LoginStore.userData),
-            builder: (context, _) {
-              var commonStore = context.read<CommonStore>();
+    return Provider(
+      create: (_) => CommonStore(userData: LoginStore.userData),
+      builder: (context, _) {
+        var commonStore = context.read<CommonStore>();
+        return FutureBuilder(
+          future: context.read<LoginStore>().saveToUserData(),
+          builder: (buildContext,snapshot){
+            if(snapshot.hasData){
               return SafeArea(
                 top: false,
                 bottom: false,
@@ -173,10 +173,10 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   ): Container(),
                 ),
               );
-            },
-          );
-        }
-        return Scaffold();
+            }
+            return Scaffold();
+          },
+        );
       },
     );
   }
