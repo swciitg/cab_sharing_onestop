@@ -273,7 +273,7 @@ class APIService {
     final queryParameters = {
       'chatId': chatId,
     };
-    var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
+    var response = await dio.get(Endpoints.cabSharingChatURL,queryParameters: queryParameters);
     List<dynamic> listReplies = response.data['replies'];
     List<ReplyModel> replies = [];
     for (var reply in listReplies) {
