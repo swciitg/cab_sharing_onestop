@@ -84,7 +84,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     physics: const ScrollPhysics(),
                     child: Column(
                       children: [
-                        FutureBuilder(
+                        !LoginStore.isGuest ? FutureBuilder(
                             future: APIService.getMyPosts(LoginStore.userData),
                             builder: (BuildContext context,
                                 AsyncSnapshot<List<PostModel>> snapshot) {
@@ -114,7 +114,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                                     )
                                 ],
                               );
-                            }),
+                            }) : Container(),
                         FutureBuilder(
                           future: APIService().getAllPosts(LoginStore.userData),
                           builder: (BuildContext context,
