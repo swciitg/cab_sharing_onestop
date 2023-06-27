@@ -146,6 +146,7 @@ class APIService {
       'from': data['from'],
     };
     var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
+    print(response.data);
     var map = response.data['details'];
     Map<String, List<PostModel>> answer = {};
     map.forEach((key, value) {
@@ -156,6 +157,7 @@ class APIService {
       }
       answer[key] = posts;
     });
+    print(answer);
     return answer;
     // final uri = Uri.https(_api,"", queryParameters);
     // http.Response response = await http.get(uri, headers: {
