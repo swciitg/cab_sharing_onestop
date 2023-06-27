@@ -111,7 +111,7 @@ class _PostWidgetState extends State<PostWidget> {
                                         allowDelete = false;
                                       });
                                       bool deleteSuccess =
-                                          await APIService.deletePost(data);
+                                          await APIService().deletePost(data);
                                       if (deleteSuccess) {
                                         widget.deleteCallback();
                                       } else {

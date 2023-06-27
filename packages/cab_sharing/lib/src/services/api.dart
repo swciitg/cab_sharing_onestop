@@ -138,8 +138,7 @@ class APIService {
     // }
   }
 
-  Future<Map<String, List<PostModel>>> getSearchResults(
-      Map<String, dynamic> data) async {
+  Future<Map<String, List<PostModel>>> getSearchResults(Map<String, dynamic> data) async {
     print(data);
     final queryParameters = {
       'travelDateTime': data['travelDateTime'],
@@ -220,7 +219,7 @@ class APIService {
       'travelDateTime': data['travelDateTime'],
       'email': data['email'],
       'name': (data['name'] as String).toTitleCase(),
-    },);
+    });
     // var res = await http.post(Uri.parse(_api),
     //     body: jsonEncode(
     //       {
@@ -241,16 +240,17 @@ class APIService {
     return response.data;
   }
 
-  static Future<bool> deletePost(Map<String, String> data) async {
+  Future<bool> deletePost(Map<String, String> data) async {
     try {
-      var res = await http.delete(
-          Uri.parse("$_api?travelPostId=${data['postId']}"),
-          body: jsonEncode({'email': data['email']}),
-          headers: {
-            'Content-Type': 'application/json',
-            'security-key': data['security-key']!
-          });
-      var jsonResponse = jsonDecode(res.body);
+      var response = await dio.delete("${Endpoints.cabSharingURL}?travelPostId=${data['postId']}");
+      // var res = await http.delete(
+      //     Uri.parse(),
+      //     body: jsonEncode({'email': data['email']}),
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'security-key': data['security-key']!
+      //     });
+      var jsonResponse = response.data;
       if (jsonResponse['success'] == true) {
         return true;
       }
@@ -269,48 +269,61 @@ class APIService {
   //   return jsonDecode(res.body);
   // }
 
-  static Future<List<ReplyModel>> getPostReplies(String chatId) async {
+  Future<List<ReplyModel>> getPostReplies(String chatId) async {
     final queryParameters = {
       'chatId': chatId,
     };
-    final uri = Uri.https(_api, '/chat', queryParameters);
-    try {
-      http.Response response = await http.get(uri);
-      var jsonResponse = jsonDecode(response.body);
-      List<dynamic> listReplies = jsonResponse['replies'];
-      var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
-      return replies;
-    } catch (e) {
-      throw Exception("An error occurred in fetching replies");
-    }
+    var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
+    List<dynamic> listReplies = response.data['replies'];
+    var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
+    return replies;
+    // final uri = Uri.https(_api, '/chat', queryParameters);
+    // try {
+    //   http.Response response = await http.get(uri);
+    //   var jsonResponse = jsonDecode(response.body);
+    //   List<dynamic> listReplies = jsonResponse['replies'];
+    //   var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
+    //   return replies;
+    // } catch (e) {
+    //   throw Exception("An error occurred in fetching replies");
+    // }
   }
 
-  static Future<bool> postReply(
-      String name, String email, String message, String chatId, String securityKey) async {
+  Future<bool> postReply(String name, String email, String message, String chatId, String securityKey) async {
     final queryParameters = {
       'chatId': chatId,
     };
-    final uri = Uri.https(_api, '/chat', queryParameters);
-    try {
-      var res = await http.post(uri,
-          body: jsonEncode(
-            {
-              'name': name.toTitleCase(),
-              'message': message,
-              'email':email,
-            },
-          ),
-          headers: {
-            'Content-Type': 'application/json',
-            'security-key': securityKey
-          });
-      var jsonResponse = jsonDecode(res.body);
-      if (jsonResponse['success'] == true) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      return false;
+    var response = await dio.post(Endpoints.cabSharingChatURL,data: {
+      'name': name.toTitleCase(),
+      'message': message,
+      'email':email,
+    });
+    var jsonResponse = response.data;
+    if (jsonResponse['success'] == true) {
+      return true;
     }
+    return false;
+    // final uri = Uri.https(_api, '/chat', queryParameters);
+    // try {
+    //   var res = await http.post(uri,
+    //       body: jsonEncode(
+    //         {
+    //           'name': name.toTitleCase(),
+    //           'message': message,
+    //           'email':email,
+    //         },
+    //       ),
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         'security-key': securityKey
+    //       });
+    //   var jsonResponse = jsonDecode(res.body);
+    //   if (jsonResponse['success'] == true) {
+    //     return true;
+    //   }
+    //   return false;
+    // } catch (e) {
+    //   return false;
+    // }
   }
 }

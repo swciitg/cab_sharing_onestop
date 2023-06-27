@@ -258,7 +258,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                       allowPostReply = false;
                                     });
                                     var replySuccess =
-                                        await APIService.postReply(
+                                        await APIService().postReply(
                                             commonStore.userName,
                                             commonStore.userEmail,
                                             chatMessageController.text,
