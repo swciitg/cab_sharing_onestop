@@ -275,7 +275,10 @@ class APIService {
     };
     var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
     List<dynamic> listReplies = response.data['replies'];
-    var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
+    List<ReplyModel> replies = [];
+    for (var reply in listReplies) {
+      replies.add(ReplyModel.fromJson(reply));
+    }
     return replies;
     // final uri = Uri.https(_api, '/chat', queryParameters);
     // try {
