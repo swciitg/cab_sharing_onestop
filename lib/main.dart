@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
         'name': 'SWC Tester',
         'email': 'swciitghy@gmail.ac.in',
         'security-key': key
-      }),
+      })
     );
   }
 }

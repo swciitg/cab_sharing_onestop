@@ -2,37 +2,138 @@ import 'dart:convert';
 
 import 'package:cab_sharing/src/functions/title_case.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
+import '../globals/database_strings.dart';
+import '../globals/endpoints.dart';
 import '../models/post_model.dart';
 import '../models/reply_model.dart';
+import '../utilities/auth_user_helpers.dart';
+import '../utilities/show_snackbar.dart';
 
 class APIService {
-  static const String _api =
-const String.fromEnvironment('SERVER-URL') + '/campus-travel';
-  // static const String _path = "/onestopapi/v2/campus-travel";
-  // static const String _host = "swc.iitg.ac.in";
 
-  static Future<List<Map<String, List<PostModel>>>> getAllPosts(
-      Map<String, dynamic> data) async {
-    http.Response response = await http.get(Uri.parse(_api), headers: {
-      'Content-Type': 'application/json',
-      'security-key': data['security-key']!
-    });
-    if (response.statusCode == 200) {
-      var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
-      List<Map<String, List<PostModel>>> answer = [];
-      map.forEach((key, value) {
-        var postList = value as List<dynamic>;
-        List<PostModel> posts = [];
-        for (var json in postList) {
-          posts.add(PostModel.fromJson(json));
+  final dio = Dio(BaseOptions(
+      baseUrl: Endpoints.baseUrl,
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 15),
+      headers: Endpoints.getHeader()));
+
+  APIService() {
+
+    dio.interceptors
+        .add(InterceptorsWrapper(onRequest: (options, handler) async {
+      print("THIS IS TOKEN");
+      print(await AuthUserHelpers.getAccessToken());
+      print(options.path);
+      options.headers["Authorization"] =
+      "Bearer ${await AuthUserHelpers.getAccessToken()}";
+      handler.next(options);
+    }, onError: (error, handler) async {
+      var response = error.response;
+      if (response != null && response.statusCode == 401) {
+        if((await AuthUserHelpers.getAccessToken()).isEmpty){
+          showSnackBar("Login to continue!!");
         }
-        answer.add({key: posts});
-      });
-      return answer;
+        else{
+          print(response.requestOptions.path);
+          bool couldRegenerate = await regenerateAccessToken();
+          // ignore: use_build_context_synchronously
+          if (couldRegenerate) {
+            // retry
+            return handler.resolve(await retryRequest(response));
+          } else {
+            showSnackBar("Your session has expired!! Login again.");
+          }
+        }
+      }
+      else if(response != null && response.statusCode == 403){
+        showSnackBar("Access not allowed in guest mode");
+      }
+      // admin user with expired tokens
+      return handler.next(error);
+    }));
+  }
+
+  Future<Response<dynamic>> retryRequest(Response response) async {
+    RequestOptions requestOptions = response.requestOptions;
+    response.requestOptions.headers[BackendHelper.authorization] =
+    "Bearer ${await AuthUserHelpers.getAccessToken()}";
+    final options = Options(method: requestOptions.method, headers: requestOptions.headers);
+    Dio retryDio = Dio(BaseOptions(
+        baseUrl: Endpoints.baseUrl,
+        connectTimeout: const Duration(seconds: 5),
+        receiveTimeout: const Duration(seconds: 5),
+        headers: {
+          'Security-Key': Endpoints.apiSecurityKey
+        }));
+    if (requestOptions.method == "GET") {
+      return retryDio.request(requestOptions.path,
+          queryParameters: requestOptions.queryParameters, options: options);
     } else {
-      throw Exception('Posts could not be fetched');
+      return retryDio.request(requestOptions.path,
+          queryParameters: requestOptions.queryParameters,
+          data: requestOptions.data,
+          options: options);
     }
+  }
+
+  Future<bool> regenerateAccessToken() async {
+    String refreshToken = await AuthUserHelpers.getRefreshToken();
+    try {
+      Dio regenDio = Dio(BaseOptions(
+          baseUrl: Endpoints.baseUrl,
+          connectTimeout: const Duration(seconds: 5),
+          receiveTimeout: const Duration(seconds: 5),
+          headers: {
+            'Security-Key': Endpoints.apiSecurityKey
+          }));
+      Response<Map<String, dynamic>> resp = await regenDio.post(
+          "/user/accesstoken",
+          options: Options(headers: {"authorization": "Bearer $refreshToken"}));
+      var data = resp.data!;
+      await AuthUserHelpers.setAccessToken(data["token"]);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+
+  static const String _api = const String.fromEnvironment('SERVER-URL') + '/campus-travel';
+
+  Future<List<Map<String, List<PostModel>>>> getAllPosts(Map<String, dynamic> data) async {
+    var response = await dio.get(Endpoints.cabSharingURL);
+    var map = jsonDecode(response.data)['details'] as Map<String, dynamic>;
+    List<Map<String, List<PostModel>>> answer = [];
+    map.forEach((key, value) {
+      var postList = value as List<dynamic>;
+      List<PostModel> posts = [];
+      for (var json in postList) {
+        posts.add(PostModel.fromJson(json));
+      }
+      answer.add({key: posts});
+    });
+    return answer;
+    // http.Response response = await http.get(Uri.parse(_api), headers: {
+    //   'Content-Type': 'application/json',
+    //   'security-key': data['security-key']!
+    // });
+    // if (response.statusCode == 200) {
+    //   var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
+    //   List<Map<String, List<PostModel>>> answer = [];
+    //   map.forEach((key, value) {
+    //     var postList = value as List<dynamic>;
+    //     List<PostModel> posts = [];
+    //     for (var json in postList) {
+    //       posts.add(PostModel.fromJson(json));
+    //     }
+    //     answer.add({key: posts});
+    //   });
+    //   return answer;
+    // } else {
+    //   throw Exception('Posts could not be fetched');
+    // }
   }
 
   static Future<Map<String, List<PostModel>>> getSearchResults(

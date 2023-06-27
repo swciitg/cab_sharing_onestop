@@ -13,6 +13,10 @@ import '../widgets/home/post_widget.dart';
 import '../widgets/ui/post_shimer.dart';
 import 'post_search_page.dart';
 
+final GlobalKey<ScaffoldMessengerState> cabSharingRootScaffoldMessengerKey =
+GlobalKey<ScaffoldMessengerState>();
+
+
 class CabSharingScreen extends StatefulWidget {
   final Map<String, String> userData;
   const CabSharingScreen({Key? key, required this.userData}) : super(key: key);
@@ -24,6 +28,7 @@ class CabSharingScreen extends StatefulWidget {
 class _CabSharingScreenState extends State<CabSharingScreen> {
   @override
   Widget build(BuildContext context) {
+
     return Provider(
       create: (_) => CommonStore(userData: widget.userData),
       builder: (context, _) {
@@ -107,7 +112,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                         );
                       }),
                   FutureBuilder(
-                    future: APIService.getAllPosts(widget.userData),
+                    future: APIService().getAllPosts(widget.userData),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Map<String, List<PostModel>>>>
                             snapshot) {
