@@ -104,6 +104,7 @@ class APIService {
 
   Future<List<Map<String, List<PostModel>>>> getAllPosts(Map<String, dynamic> data) async {
     var response = await dio.get(Endpoints.cabSharingURL);
+    print(response.data);
     var map = jsonDecode(response.data)['details'] as Map<String, dynamic>;
     List<Map<String, List<PostModel>>> answer = [];
     map.forEach((key, value) {
