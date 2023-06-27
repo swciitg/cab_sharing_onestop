@@ -140,11 +140,13 @@ class APIService {
 
   Future<Map<String, List<PostModel>>> getSearchResults(
       Map<String, dynamic> data) async {
+    print(data);
     final queryParameters = {
       'travelDateTime': data['travelDateTime'],
       'to': data['to'],
       'from': data['from'],
     };
+    print(queryParameters);
     var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
     print(response.data);
     var map = response.data['details'];
