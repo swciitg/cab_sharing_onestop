@@ -308,7 +308,7 @@ class APIService {
       'name': name.toTitleCase(),
       'message': message,
       'email':email,
-    });
+    },queryParameters: queryParameters);
     var jsonResponse = response.data;
     if (jsonResponse['success'] == true) {
       return true;
