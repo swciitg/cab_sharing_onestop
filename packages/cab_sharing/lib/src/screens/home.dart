@@ -33,149 +33,141 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
       create: (_) => CommonStore(userData: LoginStore.userData),
       builder: (context, _) {
         var commonStore = context.read<CommonStore>();
-        return FutureBuilder(
-          future: context.read<LoginStore>().saveToUserData(),
-          builder: (buildContext,snapshot){
-            if(snapshot.hasData){
-              return SafeArea(
-                top: false,
-                bottom: false,
-                child: Scaffold(
-                  appBar: AppBar(
-                    leading: GestureDetector(
+        return SafeArea(
+          top: false,
+          bottom: false,
+          child: Scaffold(
+            appBar: AppBar(
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.popUntil(context, ModalRoute.withName("/home2"));
+                },
+                child: const Icon(
+                  Icons.arrow_back_sharp,
+                  color: Colors.white,
+                ),
+              ),
+              title: Text(
+                "Cab Sharing",
+                style: kAppBarTextStyle,
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: GestureDetector(
                       onTap: () {
-                        Navigator.popUntil(context, ModalRoute.withName("/home2"));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Provider.value(
+                                value: commonStore,
+                                child: const PostSearchPage(
+                                  category: "search",
+                                ),
+                              )),
+                        );
                       },
                       child: const Icon(
-                        Icons.arrow_back_sharp,
+                        Icons.search,
                         color: Colors.white,
-                      ),
-                    ),
-                    title: Text(
-                      "Cab Sharing",
-                      style: kAppBarTextStyle,
-                    ),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Provider.value(
-                                      value: commonStore,
-                                      child: const PostSearchPage(
-                                        category: "search",
-                                      ),
-                                    )),
-                              );
-                            },
-                            child: const Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            )),
-                      )
-                    ],
-                    backgroundColor: kCommonBoxBackground.withOpacity(0.64),
-                  ),
-                  backgroundColor: kBackground,
-                  body: SingleChildScrollView(
-                    physics: const ScrollPhysics(),
-                    child: Column(
-                      children: [
-                        !LoginStore.isGuest ? FutureBuilder(
-                            future: APIService.getMyPosts(LoginStore.userData),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<PostModel>> snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const LoadingScreen();
-                              }
-                              if (snapshot.data == null || snapshot.data!.isEmpty) {
-                                return Container();
-                              }
+                      )),
+                )
+              ],
+              backgroundColor: kCommonBoxBackground.withOpacity(0.64),
+            ),
+            backgroundColor: kBackground,
+            body: SingleChildScrollView(
+              physics: const ScrollPhysics(),
+              child: Column(
+                children: [
+                  !LoginStore.isGuest ? FutureBuilder(
+                      future: APIService.getMyPosts(LoginStore.userData),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<PostModel>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const LoadingScreen();
+                        }
+                        if (snapshot.data == null || snapshot.data!.isEmpty) {
+                          return Container();
+                        }
 
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 18.0, left: 15.0, bottom: 10.0),
-                                    child: Text(
-                                      "My Post",
-                                      style: kTodayTextStyle,
-                                    ),
-                                  ),
-                                  for (var post in snapshot.data!)
-                                    PostWidget(
-                                      colorCategory: 'mypost',
-                                      post: post,
-                                      deleteCallback: () => setState(() {}),
-                                    )
-                                ],
-                              );
-                            }) : Container(),
-                        FutureBuilder(
-                          future: APIService().getAllPosts(LoginStore.userData),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<Map<String, List<PostModel>>>>
-                              snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const LoadingScreen();
-                            }
-                            if (snapshot.data == null) {
-                              return const CornerCase(
-                                  message: 'Some error occured, please try again');
-                            }
-
-                            if (snapshot.data!.isEmpty) {
-                              return const CornerCase(message: 'No Posts Available');
-                            }
-
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  String date =
-                                      snapshot.data![index].keys.toList().first;
-                                  return DateTile(
-                                    posts: snapshot.data![index][date]!,
-                                    date: date,
-                                  );
-                                });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  floatingActionButton: (LoginStore.userData['email'] != CommonStore.kGuestEmail) ? FloatingActionButton.extended(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Provider.value(
-                              value: commonStore,
-                              child: const PostSearchPage(
-                                category: "post",
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 18.0, left: 15.0, bottom: 10.0),
+                              child: Text(
+                                "My Post",
+                                style: kTodayTextStyle,
                               ),
-                            )),
-                      );
+                            ),
+                            for (var post in snapshot.data!)
+                              PostWidget(
+                                colorCategory: 'mypost',
+                                post: post,
+                                deleteCallback: () => setState(() {}),
+                              )
+                          ],
+                        );
+                      }) : Container(),
+                  FutureBuilder(
+                    future: APIService().getAllPosts(LoginStore.userData),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Map<String, List<PostModel>>>>
+                        snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const LoadingScreen();
+                      }
+                      if (snapshot.data == null) {
+                        return const CornerCase(
+                            message: 'Some error occured, please try again');
+                      }
+
+                      if (snapshot.data!.isEmpty) {
+                        return const CornerCase(message: 'No Posts Available');
+                      }
+
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            String date =
+                                snapshot.data![index].keys.toList().first;
+                            return DateTile(
+                              posts: snapshot.data![index][date]!,
+                              date: date,
+                            );
+                          });
                     },
-                    label: const Text(
-                      "+",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 40,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    backgroundColor: kFloatingButtonColor,
-                  ): Container(),
-                ),
-              );
-            }
-            return Scaffold();
-          },
+                  ),
+                ],
+              ),
+            ),
+            floatingActionButton: (LoginStore.userData['email'] != CommonStore.kGuestEmail) ? FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Provider.value(
+                        value: commonStore,
+                        child: const PostSearchPage(
+                          category: "post",
+                        ),
+                      )),
+                );
+              },
+              label: const Text(
+                "+",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w300),
+              ),
+              backgroundColor: kFloatingButtonColor,
+            ): Container(),
+          ),
         );
       },
     );

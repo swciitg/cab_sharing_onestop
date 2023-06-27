@@ -12,7 +12,7 @@ class LoginStore {
     return isGuest;
   }
 
-  Future<bool> saveToUserData() async {
+  static Future<bool> saveToUserData() async {
     // gets user data stored in local storage
     print("here");
     SharedPreferences instance = await SharedPreferences.getInstance();

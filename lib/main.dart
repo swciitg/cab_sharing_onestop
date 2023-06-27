@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     String key = const String.fromEnvironment('SECURITY_KEY');
     return MaterialApp(
-      home: CabSharingScreen()
+      home: CabSharingSplashScreen()
     );
   }
 }
