@@ -243,8 +243,10 @@ class APIService {
 
   Future<bool> deletePost(Map<String, String> data) async {
     try {
-      var response = await dio.delete(
-        "${Endpoints.cabSharingURL}?travelPostId=${data['postId']}",
+      var response = await dio.delete(Endpoints.cabSharingURL,
+        queryParameters: {
+          "travelPostId" : data['postId']
+        },
         data: {
           'email' : LoginStore.userData['email']
         }
