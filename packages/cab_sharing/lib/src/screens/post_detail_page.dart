@@ -1,5 +1,6 @@
 import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:cab_sharing/src/decorations/post_and_search_style.dart';
+import 'package:cab_sharing/src/stores/login_store.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -206,9 +207,7 @@ class _PostDetailPageState extends State<PostDetailPage> {
                 child: Container(
                   color: kBackground,
                   child: Builder(builder: (context) {
-                    var commonStore = context.read<CommonStore>();
-                    bool isGuest =
-                        CommonStore.kGuestEmail == commonStore.userEmail;
+                    bool isGuest = LoginStore.isGuest;
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
