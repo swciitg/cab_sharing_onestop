@@ -90,8 +90,7 @@ class APIService {
           "/user/accesstoken",
           options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
       var data = resp.data!;
-      print(data);
-      print("FETCHED ACCESS TOKEN");
+      print("REGENRATED ACCESS TOKEN");
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
       return true;
     } catch (err) {
