@@ -86,10 +86,11 @@ class APIService {
           baseUrl: Endpoints.baseUrl,
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5)));
-      Response<Map<String, dynamic>> resp = await regenDio.post(
+      Response resp = await regenDio.post(
           "/user/accesstoken",
           options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
       var data = resp.data!;
+      print(data);
       print("REGENRATED ACCESS TOKEN");
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
       return true;
