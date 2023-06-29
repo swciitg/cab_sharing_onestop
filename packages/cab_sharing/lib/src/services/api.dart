@@ -32,8 +32,6 @@ class APIService {
       handler.next(options);
     }, onError: (error, handler) async {
       var response = error.response;
-      print(error.response!.toString());
-      print(error.message!);
       if (response != null && response.statusCode == 401) {
         if((await AuthUserHelpers.getAccessToken()).isEmpty){
           showSnackBar("Login to continue!!");
@@ -53,6 +51,9 @@ class APIService {
       }
       else if(response != null && response.statusCode == 403){
         showSnackBar("Access not allowed in guest mode");
+      }
+      else if(response != null && response.statusCode == 400){
+        showSnackBar(response.data["message"]);
       }
       // admin user with expired tokens
       return handler.next(error);
