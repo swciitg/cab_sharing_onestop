@@ -81,6 +81,8 @@ class APIService {
 
   Future<bool> regenerateAccessToken() async {
     String refreshToken = await AuthUserHelpers.getRefreshToken();
+    print("REFRESH TOKEN");
+    print(refreshToken);
     try {
       Dio regenDio = Dio(BaseOptions(
           baseUrl: Endpoints.baseUrl,
@@ -96,7 +98,8 @@ class APIService {
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
       return true;
     } catch (err) {
-      console.log(err.toString());
+      print("ERROR OCCURED");
+      print(err.toString());
       return false;
     }
   }
