@@ -96,6 +96,7 @@ class APIService {
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
       return true;
     } catch (err) {
+      console.log(err.toString());
       return false;
     }
   }
