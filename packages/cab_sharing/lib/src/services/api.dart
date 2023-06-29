@@ -32,6 +32,7 @@ class APIService {
       handler.next(options);
     }, onError: (error, handler) async {
       var response = error.response;
+      print(error.response!.toString());
       if (response != null && response.statusCode == 401) {
         if((await AuthUserHelpers.getAccessToken()).isEmpty){
           showSnackBar("Login to continue!!");
