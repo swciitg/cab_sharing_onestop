@@ -39,6 +39,7 @@ class APIService {
         else{
           print(response.requestOptions.path);
           bool couldRegenerate = await regenerateAccessToken();
+          print(couldRegenerate);
           // ignore: use_build_context_synchronously
           if (couldRegenerate) {
             // retry
@@ -57,6 +58,7 @@ class APIService {
   }
 
   Future<Response<dynamic>> retryRequest(Response response) async {
+    print("INSIDE RETRY REQUEST");
     RequestOptions requestOptions = response.requestOptions;
     response.requestOptions.headers[BackendHelper.authorization] =
     "Bearer ${await AuthUserHelpers.getAccessToken()}";
