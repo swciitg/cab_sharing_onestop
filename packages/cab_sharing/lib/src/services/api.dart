@@ -112,8 +112,6 @@ class APIService {
   static const String _api = const String.fromEnvironment('SERVER-URL') + '/campus-travel';
 
   Future<List<Map<String, List<PostModel>>>> getAllPosts(Map<String, dynamic> data) async {
-    bool couldRegenerate = await regenerateAccessToken();
-    print(couldRegenerate);
     var response = await dio.get(Endpoints.cabSharingURL);
     print(response.data);
     var map = response.data['details'];
