@@ -89,6 +89,7 @@ class APIService {
       Response resp = await regenDio.post(
           "/user/accesstoken",
           options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
+      print(resp);
       var data = resp.data!;
       print(data);
       print("REGENRATED ACCESS TOKEN");
