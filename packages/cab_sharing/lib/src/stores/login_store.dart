@@ -24,6 +24,10 @@ class LoginStore {
     if((instance.getBool("isGuest")!)==true){
       isGuest=true;
     }
+    else
+      {
+        isGuest = false;
+      }
     return true;
   }
 
