@@ -1,10 +1,10 @@
 name: cab_sharing
-description: A new Flutter package project.
+description: This a a cutsom cab sharing project that allows users to share cabs from campus to airport and vice-versa
 version: 1.0.1
-homepage: 'cab_sharing.dart'
+homepage: 'https://swc.iitg.ac.in/swc'
 
 environment:
-  sdk: '>=2.15.1 <3.0.0'
+  sdk: '>=2.15.1 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

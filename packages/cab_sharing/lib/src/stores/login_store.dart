@@ -1,8 +1,5 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dio/dio.dart';
-
-import '../globals/database_strings.dart';
 
 class LoginStore {
   static Map<String, dynamic> userData = {};

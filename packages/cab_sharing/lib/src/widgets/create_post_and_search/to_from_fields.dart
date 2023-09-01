@@ -27,6 +27,7 @@ class _ToFromFieldState extends State<ToFromField> {
     setState(() {
       fieldHeight = 70;
     });
+    return null;
   }
   @override
   Widget build(BuildContext context) {
@@ -37,8 +38,8 @@ class _ToFromFieldState extends State<ToFromField> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 28.0, left: 20.0),
+          const Padding(
+            padding: EdgeInsets.only(top: 28.0, left: 20.0),
             child: Text(
               "From",
               style: titleStyle,
@@ -79,8 +80,8 @@ class _ToFromFieldState extends State<ToFromField> {
               );
             }),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 28.0, left: 20.0),
+          const Padding(
+            padding: EdgeInsets.only(top: 28.0, left: 20.0),
             child: Text(
               "To",
               style: titleStyle,
@@ -98,7 +99,7 @@ class _ToFromFieldState extends State<ToFromField> {
             child: Builder(builder: (context) {
               return DropdownButtonFormField<String>(
                 validator: dropValidator,
-                decoration: InputDecoration(border: InputBorder.none,errorStyle: errorStyle),
+                decoration: const InputDecoration(border: InputBorder.none,errorStyle: errorStyle),
                 dropdownColor: kCommonBoxBackground,
                 isExpanded: true,
                 style: secondStyle,

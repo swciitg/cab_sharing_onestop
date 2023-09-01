@@ -24,7 +24,7 @@ class _SearchScreenState extends State<SearchScreen> {
         appBar: AppBar(
           backgroundColor: kBackground,
           elevation: 0,
-          title: Text(
+          title: const Text(
             'Search Results',
             style: kAppBarTextStyle,
           ),

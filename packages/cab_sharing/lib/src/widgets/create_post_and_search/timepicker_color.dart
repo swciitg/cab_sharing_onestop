@@ -60,7 +60,7 @@ class _TimePickerColorState extends State<TimePickerColor> {
           entryModeIconColor: Colors.blueGrey.shade600,
         ),
         textTheme: const TextTheme(
-          caption: TextStyle(fontFamily: 'Montserrat',), // days
+          bodySmall: TextStyle(fontFamily: 'Montserrat',), // days
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(

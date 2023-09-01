@@ -53,7 +53,7 @@ class _ReplyWidgetState extends State<ReplyWidget> {
                   widget.reply.name,
                   style: nameStyle,
                 )
-                    : Text(
+                    : const Text(
                   "You",
                   style: nameStyle,
                 ),

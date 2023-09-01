@@ -23,8 +23,8 @@ class TimeField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 28.0, left: 20.0),
+        const Padding(
+          padding: EdgeInsets.only(top: 28.0, left: 20.0),
           child: Text(
             "Time",
             style: titleStyle,

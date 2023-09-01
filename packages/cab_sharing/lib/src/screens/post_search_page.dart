@@ -157,7 +157,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CabSharingScreen()),
+                                                const CabSharingScreen()),
                                       );
                                     } else {
                                       if (!mounted) return;

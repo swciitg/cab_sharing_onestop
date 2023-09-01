@@ -47,7 +47,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   color: Colors.white,
                 ),
               ),
-              title: Text(
+              title: const Text(
                 "Cab Sharing",
                 style: kAppBarTextStyle,
               ),
@@ -94,8 +94,8 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
+                            const Padding(
+                              padding: EdgeInsets.only(
                                   top: 18.0, left: 15.0, bottom: 10.0),
                               child: Text(
                                 "My Post",

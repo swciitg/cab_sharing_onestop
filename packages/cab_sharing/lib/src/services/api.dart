@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:cab_sharing/src/functions/title_case.dart';
 import 'package:cab_sharing/src/stores/login_store.dart';
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
 import '../globals/database_strings.dart';
@@ -24,9 +21,6 @@ class APIService {
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
-      print("THIS IS TOKEN");
-      print(await AuthUserHelpers.getAccessToken());
-      print(options.path);
       options.headers["Authorization"] =
       "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
@@ -37,9 +31,7 @@ class APIService {
           showSnackBar("Login to continue!!");
         }
         else{
-          print(response.requestOptions.path);
           bool couldRegenerate = await regenerateAccessToken();
-          print(couldRegenerate);
           // ignore: use_build_context_synchronously
           if (couldRegenerate) {
             // retry
@@ -61,7 +53,6 @@ class APIService {
   }
 
   Future<Response<dynamic>> retryRequest(Response response) async {
-    print("INSIDE RETRY REQUEST");
     RequestOptions requestOptions = response.requestOptions;
     response.requestOptions.headers[BackendHelper.authorization] =
     "Bearer ${await AuthUserHelpers.getAccessToken()}";
@@ -86,8 +77,6 @@ class APIService {
 
   Future<bool> regenerateAccessToken() async {
     String refreshToken = await AuthUserHelpers.getRefreshToken();
-    print("REFRESH TOKEN");
-    print(refreshToken);
     try {
       Dio regenDio = Dio(BaseOptions(
           baseUrl: Endpoints.baseUrl,
@@ -96,25 +85,18 @@ class APIService {
       Response resp = await regenDio.post(
           "/user/accesstoken",
           options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
-      print(resp);
       var data = resp.data!;
-      print(data);
-      print("REGENRATED ACCESS TOKEN");
+
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
       return true;
     } catch (err) {
-      print("ERROR OCCURED");
-      print(err.toString());
       return false;
     }
   }
 
 
-  static const String _api = const String.fromEnvironment('SERVER-URL') + '/campus-travel';
-
   Future<List<Map<String, List<PostModel>>>> getAllPosts(Map<String, dynamic> data) async {
     var response = await dio.get(Endpoints.cabSharingURL);
-    print(response.data);
     var map = response.data['details'];
     List<Map<String, List<PostModel>>> answer = [];
     map.forEach((key, value) {
@@ -125,39 +107,16 @@ class APIService {
       }
       answer.add({key: posts});
     });
-    print(answer);
     return answer;
-    // http.Response response = await http.get(Uri.parse(_api), headers: {
-    //   'Content-Type': 'application/json',
-    //   'security-key': data['security-key']!
-    // });
-    // if (response.statusCode == 200) {
-    //   var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
-    //   List<Map<String, List<PostModel>>> answer = [];
-    //   map.forEach((key, value) {
-    //     var postList = value as List<dynamic>;
-    //     List<PostModel> posts = [];
-    //     for (var json in postList) {
-    //       posts.add(PostModel.fromJson(json));
-    //     }
-    //     answer.add({key: posts});
-    //   });
-    //   return answer;
-    // } else {
-    //   throw Exception('Posts could not be fetched');
-    // }
   }
 
   Future<Map<String, List<PostModel>>> getSearchResults(Map<String, dynamic> data) async {
-    print(data);
     final queryParameters = {
       'travelDateTime': data['travelDateTime'],
       'to': data['to'],
       'from': data['from'],
     };
-    print(queryParameters);
     var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
-    print(response.data);
     var map = response.data['details'];
     Map<String, List<PostModel>> answer = {};
     map.forEach((key, value) {
@@ -168,28 +127,7 @@ class APIService {
       }
       answer[key] = posts;
     });
-    print(answer);
     return answer;
-    // final uri = Uri.https(_api,"", queryParameters);
-    // http.Response response = await http.get(uri, headers: {
-    //   'Content-Type': 'application/json',
-    //   'security-key': data['security-key']!
-    // });
-    // if (response.statusCode == 200) {
-    //   var map = jsonDecode(response.body)['details'] as Map<String, dynamic>;
-    //   Map<String, List<PostModel>> answer = {};
-    //   map.forEach((key, value) {
-    //     var postList = value as List<dynamic>;
-    //     List<PostModel> posts = [];
-    //     for (var json in postList) {
-    //       posts.add(PostModel.fromJson(json));
-    //     }
-    //     answer[key] = posts;
-    //   });
-    //   return answer;
-    // } else {
-    //   throw Exception('Search Results could not be fetched');
-    // }
   }
 
   Future<List<PostModel>> getMyPosts(Map<String, dynamic> data) async {
@@ -201,21 +139,6 @@ class APIService {
       answer.add(PostModel.fromJson(post));
     }
     return answer;
-    // final uri = Uri.https(_api, '/myads', queryParameters);
-    // http.Response response = await http.get(uri, headers: {
-    //   'Content-Type': 'application/json',
-    //   'security-key': data['security-key']!
-    // });
-    // if (response.statusCode == 200) {
-    //   var posts = jsonDecode(response.body)['details'] as List<dynamic>;
-    //   List<PostModel> answer = [];
-    //   for (var post in posts) {
-    //     answer.add(PostModel.fromJson(post));
-    //   }
-    //   return answer;
-    // } else {
-    //   throw Exception('My Posts could not be fetched');
-    // }
   }
 
   Future<Map<String, dynamic>> postTripData(Map<String, dynamic> data) async {
@@ -230,23 +153,6 @@ class APIService {
       'email': data['email'],
       'name': (data['name'] as String).toTitleCase(),
     });
-    // var res = await http.post(Uri.parse(_api),
-    //     body: jsonEncode(
-    //       {
-    //         'to': data['to'],
-    //         'from': data['from'],
-    //         'margin': data['margin'],
-    //         'note': data['note'],
-    //         'phonenumber': data['phonenumber'],
-    //         'travelDateTime': data['travelDateTime'],
-    //         'email': data['email'],
-    //         'name': (data['name'] as String).toTitleCase(),
-    //       },
-    //     ),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'security-key': data['security-key']!
-    //     });
     return response.data;
   }
 
@@ -260,13 +166,6 @@ class APIService {
           'email' : LoginStore.userData['email']
         }
       );
-      // var res = await http.delete(
-      //     Uri.parse(),
-      //     body: jsonEncode({'email': data['email']}),
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'security-key': data['security-key']!
-      //     });
       var jsonResponse = response.data;
       if (jsonResponse['success'] == true) {
         return true;
@@ -276,15 +175,6 @@ class APIService {
       return false;
     }
   }
-
-  // static Future<Map<String, dynamic>> deleteAllPost(
-  //     Map<String, dynamic> data) async {
-  //   var res = await http.delete(Uri.parse('$_api/all'), headers: {
-  //     'Content-Type': 'application/json',
-  //     'security-key': data['security-key']!
-  //   });
-  //   return jsonDecode(res.body);
-  // }
 
   Future<List<ReplyModel>> getPostReplies(String chatId) async {
     final queryParameters = {
@@ -297,16 +187,6 @@ class APIService {
       replies.add(ReplyModel.fromJson(reply));
     }
     return replies;
-    // final uri = Uri.https(_api, '/chat', queryParameters);
-    // try {
-    //   http.Response response = await http.get(uri);
-    //   var jsonResponse = jsonDecode(response.body);
-    //   List<dynamic> listReplies = jsonResponse['replies'];
-    //   var replies = listReplies.map((e) => ReplyModel.fromJson(e)).toList();
-    //   return replies;
-    // } catch (e) {
-    //   throw Exception("An error occurred in fetching replies");
-    // }
   }
 
   Future<bool> postReply(String name, String email, String message, String chatId, String securityKey) async {

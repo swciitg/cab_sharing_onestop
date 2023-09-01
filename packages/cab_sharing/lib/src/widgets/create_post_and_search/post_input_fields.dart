@@ -27,8 +27,8 @@ class _PostFieldsState extends State<PostFields> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0, left: 20.0),
+          const Padding(
+            padding: EdgeInsets.only(top: 24.0, left: 20.0),
             child: Text(
               "Phone Number",
               style: titleStyle,
@@ -44,7 +44,7 @@ class _PostFieldsState extends State<PostFields> {
             height: 75,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Optional',
                 counterStyle: counterStyle,
                 hintStyle: hintStyle,
@@ -57,8 +57,8 @@ class _PostFieldsState extends State<PostFields> {
               style: titleStyle,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0, left: 20.0),
+          const Padding(
+            padding: EdgeInsets.only(top: 24.0, left: 20.0),
             child: Text(
               "Note",
               style: titleStyle,
@@ -77,7 +77,7 @@ class _PostFieldsState extends State<PostFields> {
               keyboardType: TextInputType.multiline,
               minLines: 1,
               maxLines: 3,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 errorStyle: errorStyle,
                 hintStyle: hintStyle,
                 hintMaxLines: 3,

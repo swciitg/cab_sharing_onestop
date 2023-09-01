@@ -1,4 +1,3 @@
-import 'package:cab_sharing/cab_sharing.dart';
 import 'package:cab_sharing/src/stores/login_store.dart';
 import 'package:flutter/material.dart';
 import './screens/home.dart';

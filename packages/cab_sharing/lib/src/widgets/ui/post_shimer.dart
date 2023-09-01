@@ -39,7 +39,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                         ),
                         color: kShimmerBase,
                       ),
-                      child: Text(
+                      child: const Text(
                         " ",
                         style: kDateTextStyle,
                       )),

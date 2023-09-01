@@ -56,8 +56,8 @@ class _DateDisplayState extends State<DateDisplay> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 15.0, left: 20.0),
+        const Padding(
+          padding: EdgeInsets.only(top: 15.0, left: 20.0),
           child: Text(
             "Date ",
             style: titleStyle,

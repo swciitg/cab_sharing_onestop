@@ -16,11 +16,11 @@ class ChatLoading extends StatelessWidget {
       child: Shimmer.fromColors(
         baseColor: kShimmerBase,
         highlightColor: kShimmerHighlight,
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: Column(
-              children: const [
+              children: [
                 OthersReply(height: 50),
                 YourReply(height: 60),
                 YourReply(height: 50),
