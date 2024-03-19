@@ -16,7 +16,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    String key = const String.fromEnvironment('SECURITY_KEY');
     return MaterialApp(
       home: CabSharingSplashScreen()
     );
