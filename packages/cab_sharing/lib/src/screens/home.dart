@@ -1,4 +1,5 @@
 import 'package:cab_sharing/src/decorations/colors.dart';
+import 'package:cab_sharing/src/services/date.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -152,8 +153,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   MaterialPageRoute(
                       builder: (context) => Provider.value(
                         value: commonStore,
-                        child: const PostSearchPage(
-                          category: "post",
+                        child: ChangeNotifierProvider(
+                          create: (context) => datecontroller(),
+                          child: const PostSearchPage(
+                            category: "post",
+                          ),
                         ),
                       )),
                 );
