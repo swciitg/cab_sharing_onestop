@@ -4,12 +4,15 @@ version: 1.0.1
 homepage: 'https://swc.iitg.ac.in/swc'
 
 environment:
-  sdk: '>=2.15.1 <4.0.0'
+  sdk: '>=2.17.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  onestop_kit:
+    git:
+      url: https://github.com/swciitg/onestop_kit.git
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   url_launcher: ^6.0.20

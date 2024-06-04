@@ -1,7 +1,6 @@
 import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:cab_sharing/src/services/date.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 import '../decorations/home_screen_style.dart';
@@ -9,15 +8,15 @@ import '../models/post_model.dart';
 import '../services/api.dart';
 import '../services/user_store.dart';
 import '../stores/login_store.dart';
-import '../widgets/ui/corner_case.dart';
 import '../widgets/home/date_tile.dart';
 import '../widgets/home/post_widget.dart';
+import '../widgets/ui/corner_case.dart';
 import '../widgets/ui/post_shimer.dart';
+import 'error_screen.dart';
 import 'post_search_page.dart';
 
 final GlobalKey<ScaffoldMessengerState> cabSharingRootScaffoldMessengerKey =
-GlobalKey<ScaffoldMessengerState>();
-
+    GlobalKey<ScaffoldMessengerState>();
 
 class CabSharingScreen extends StatefulWidget {
   const CabSharingScreen({Key? key}) : super(key: key);
@@ -27,7 +26,6 @@ class CabSharingScreen extends StatefulWidget {
 }
 
 class _CabSharingScreenState extends State<CabSharingScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Provider(
@@ -61,11 +59,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Provider.value(
-                                value: commonStore,
-                                child: const PostSearchPage(
-                                  category: "search",
-                                ),
-                              )),
+                                    value: commonStore,
+                                    child: const PostSearchPage(
+                                      category: "search",
+                                    ),
+                                  )),
                         );
                       },
                       child: const Icon(
@@ -81,42 +79,53 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               physics: const ScrollPhysics(),
               child: Column(
                 children: [
-                  !LoginStore.isGuest ? FutureBuilder(
-                      future: APIService().getMyPosts(LoginStore.userData),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<PostModel>> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const LoadingScreen();
-                        }
-                        if (snapshot.data == null || snapshot.data!.isEmpty) {
-                          return Container();
-                        }
+                  !LoginStore.isGuest
+                      ? FutureBuilder(
+                          future: APIService().getMyPosts(LoginStore.userData),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<PostModel>> snapshot) {
+                            if (snapshot.hasError == true) {
+                              return ErrorScreen(
+                                  reloadCallback: () => setState(() {}));
+                            }
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const LoadingScreen();
+                            }
+                            if (snapshot.data == null ||
+                                snapshot.data!.isEmpty) {
+                              return Container();
+                            }
 
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                  top: 18.0, left: 15.0, bottom: 10.0),
-                              child: Text(
-                                "My Post",
-                                style: kTodayTextStyle,
-                              ),
-                            ),
-                            for (var post in snapshot.data!)
-                              PostWidget(
-                                colorCategory: 'mypost',
-                                post: post,
-                                deleteCallback: () => setState(() {}),
-                              )
-                          ],
-                        );
-                      }) : Container(),
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 18.0, left: 15.0, bottom: 10.0),
+                                  child: Text(
+                                    "My Post",
+                                    style: kTodayTextStyle,
+                                  ),
+                                ),
+                                for (var post in snapshot.data!)
+                                  PostWidget(
+                                    colorCategory: 'mypost',
+                                    post: post,
+                                    deleteCallback: () => setState(() {}),
+                                  )
+                              ],
+                            );
+                          })
+                      : Container(),
                   FutureBuilder(
                     future: APIService().getAllPosts(LoginStore.userData),
                     builder: (BuildContext context,
                         AsyncSnapshot<List<Map<String, List<PostModel>>>>
-                        snapshot) {
+                            snapshot) {
+                      if (snapshot.hasError == true) {
+                        return Container();
+                      }
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const LoadingScreen();
                       }
@@ -146,31 +155,33 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 ],
               ),
             ),
-            floatingActionButton: (!LoginStore.isGuest) ? FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Provider.value(
-                        value: commonStore,
-                        child: ChangeNotifierProvider(
-                          create: (context) => datecontroller(),
-                          child: const PostSearchPage(
-                            category: "post",
-                          ),
-                        ),
-                      )),
-                );
-              },
-              label: const Text(
-                "+",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w300),
-              ),
-              backgroundColor: kFloatingButtonColor,
-            ): Container(),
+            floatingActionButton: (!LoginStore.isGuest)
+                ? FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Provider.value(
+                                  value: commonStore,
+                                  child: ChangeNotifierProvider(
+                                    create: (context) => datecontroller(),
+                                    child: const PostSearchPage(
+                                      category: "post",
+                                    ),
+                                  ),
+                                )),
+                      );
+                    },
+                    label: const Text(
+                      "+",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w300),
+                    ),
+                    backgroundColor: kFloatingButtonColor,
+                  )
+                : Container(),
           ),
         );
       },
