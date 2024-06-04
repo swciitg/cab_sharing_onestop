@@ -10,7 +10,6 @@ import '../utilities/auth_user_helpers.dart';
 import '../utilities/show_snackbar.dart';
 
 class APIService {
-
   final dio = Dio(BaseOptions(
       baseUrl: Endpoints.baseUrl,
       connectTimeout: const Duration(seconds: 15),
@@ -18,19 +17,17 @@ class APIService {
       headers: Endpoints.getHeader()));
 
   APIService() {
-
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (options, handler) async {
       options.headers["Authorization"] =
-      "Bearer ${await AuthUserHelpers.getAccessToken()}";
+          "Bearer ${await AuthUserHelpers.getAccessToken()}";
       handler.next(options);
     }, onError: (error, handler) async {
       var response = error.response;
       if (response != null && response.statusCode == 401) {
-        if((await AuthUserHelpers.getAccessToken()).isEmpty){
+        if ((await AuthUserHelpers.getAccessToken()).isEmpty) {
           showSnackBar("Login to continue!!");
-        }
-        else{
+        } else {
           bool couldRegenerate = await regenerateAccessToken();
           // ignore: use_build_context_synchronously
           if (couldRegenerate) {
@@ -40,11 +37,9 @@ class APIService {
             showSnackBar("Your session has expired!! Login again.");
           }
         }
-      }
-      else if(response != null && response.statusCode == 403){
+      } else if (response != null && response.statusCode == 403) {
         showSnackBar("Access not allowed in guest mode");
-      }
-      else if(response != null && response.statusCode == 400){
+      } else if (response != null && response.statusCode == 400) {
         showSnackBar(response.data["message"]);
       }
       // admin user with expired tokens
@@ -55,15 +50,14 @@ class APIService {
   Future<Response<dynamic>> retryRequest(Response response) async {
     RequestOptions requestOptions = response.requestOptions;
     response.requestOptions.headers[BackendHelper.authorization] =
-    "Bearer ${await AuthUserHelpers.getAccessToken()}";
-    final options = Options(method: requestOptions.method, headers: requestOptions.headers);
+        "Bearer ${await AuthUserHelpers.getAccessToken()}";
+    final options =
+        Options(method: requestOptions.method, headers: requestOptions.headers);
     Dio retryDio = Dio(BaseOptions(
         baseUrl: Endpoints.baseUrl,
         connectTimeout: const Duration(seconds: 5),
         receiveTimeout: const Duration(seconds: 5),
-        headers: {
-          'Security-Key': Endpoints.apiSecurityKey
-        }));
+        headers: {'Security-Key': Endpoints.apiSecurityKey}));
     if (requestOptions.method == "GET") {
       return retryDio.request(requestOptions.path,
           queryParameters: requestOptions.queryParameters, options: options);
@@ -82,9 +76,11 @@ class APIService {
           baseUrl: Endpoints.baseUrl,
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5)));
-      Response resp = await regenDio.post(
-          "/user/accesstoken",
-          options: Options(headers: {'Security-Key': Endpoints.apiSecurityKey,"authorization": "Bearer $refreshToken"}));
+      Response resp = await regenDio.post("/user/accesstoken",
+          options: Options(headers: {
+            'Security-Key': Endpoints.apiSecurityKey,
+            "authorization": "Bearer $refreshToken"
+          }));
       var data = resp.data!;
 
       await AuthUserHelpers.setAccessToken(data[BackendHelper.accesstoken]);
@@ -94,8 +90,8 @@ class APIService {
     }
   }
 
-
-  Future<List<Map<String, List<PostModel>>>> getAllPosts(Map<String, dynamic> data) async {
+  Future<List<Map<String, List<PostModel>>>> getAllPosts(
+      Map<String, dynamic> data) async {
     var response = await dio.get(Endpoints.cabSharingURL);
     var map = response.data['details'];
     List<Map<String, List<PostModel>>> answer = [];
@@ -110,13 +106,15 @@ class APIService {
     return answer;
   }
 
-  Future<Map<String, List<PostModel>>> getSearchResults(Map<String, dynamic> data) async {
+  Future<Map<String, List<PostModel>>> getSearchResults(
+      Map<String, dynamic> data) async {
     final queryParameters = {
       'travelDateTime': data['travelDateTime'],
       'to': data['to'],
       'from': data['from'],
     };
-    var response = await dio.get(Endpoints.cabSharingURL,queryParameters: queryParameters);
+    var response = await dio.get(Endpoints.cabSharingURL,
+        queryParameters: queryParameters);
     var map = response.data['details'];
     Map<String, List<PostModel>> answer = {};
     map.forEach((key, value) {
@@ -132,7 +130,8 @@ class APIService {
 
   Future<List<PostModel>> getMyPosts(Map<String, dynamic> data) async {
     final queryParameters = {'email': data['email']};
-    var response = await dio.get(Endpoints.cabSharingMyAdsURL,queryParameters: queryParameters);
+    var response = await dio.get(Endpoints.cabSharingMyAdsURL,
+        queryParameters: queryParameters);
     var posts = response.data['details'];
     List<PostModel> answer = [];
     for (var post in posts) {
@@ -142,8 +141,7 @@ class APIService {
   }
 
   Future<Map<String, dynamic>> postTripData(Map<String, dynamic> data) async {
-    var response = await dio.post(Endpoints.cabSharingURL,
-      data: {
+    var response = await dio.post(Endpoints.cabSharingURL, data: {
       'to': data['to'],
       'from': data['from'],
       'margin': data['margin'],
@@ -159,13 +157,8 @@ class APIService {
   Future<bool> deletePost(Map<String, String> data) async {
     try {
       var response = await dio.delete(Endpoints.cabSharingURL,
-        queryParameters: {
-          "travelPostId" : data['postId']
-        },
-        data: {
-          'email' : LoginStore.userData['email']
-        }
-      );
+          queryParameters: {"travelPostId": data['postId']},
+          data: {'email': LoginStore.userData['email']});
       var jsonResponse = response.data;
       if (jsonResponse['success'] == true) {
         return true;
@@ -180,7 +173,8 @@ class APIService {
     final queryParameters = {
       'chatId': chatId,
     };
-    var response = await dio.get(Endpoints.cabSharingChatURL,queryParameters: queryParameters);
+    var response = await dio.get(Endpoints.cabSharingChatURL,
+        queryParameters: queryParameters);
     List<dynamic> listReplies = response.data['replies'];
     List<ReplyModel> replies = [];
     for (var reply in listReplies) {
@@ -189,15 +183,18 @@ class APIService {
     return replies;
   }
 
-  Future<bool> postReply(String name, String email, String message, String chatId, String securityKey) async {
+  Future<bool> postReply(String name, String email, String message,
+      String chatId, String securityKey) async {
     final queryParameters = {
       'chatId': chatId,
     };
-    var response = await dio.post(Endpoints.cabSharingChatURL,data: {
-      'name': name.toTitleCase(),
-      'message': message,
-      'email':email,
-    },queryParameters: queryParameters);
+    var response = await dio.post(Endpoints.cabSharingChatURL,
+        data: {
+          'name': name.toTitleCase(),
+          'message': message,
+          'email': email,
+        },
+        queryParameters: queryParameters);
     var jsonResponse = response.data;
     if (jsonResponse['success'] == true) {
       return true;
