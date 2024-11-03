@@ -1,6 +1,7 @@
 import 'package:cab_sharing/src/decorations/colors.dart';
 import 'package:cab_sharing/src/services/date.dart';
 import 'package:flutter/material.dart';
+import 'package:onestop_kit/onestop_kit.dart';
 import 'package:provider/provider.dart';
 
 import '../decorations/home_screen_style.dart';
@@ -37,42 +38,40 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
           bottom: false,
           child: Scaffold(
             appBar: AppBar(
-              leading: GestureDetector(
+              scrolledUnderElevation: 0,
+              leading: OneStopBackButton(
                 onTap: () {
                   Navigator.popUntil(context, ModalRoute.withName("/home2"));
                 },
-                child: const Icon(
-                  Icons.arrow_back_sharp,
-                  color: Colors.white,
-                ),
               ),
-              title: const Text(
-                "Cab Sharing",
-                style: kAppBarTextStyle,
+              centerTitle: true,
+              leadingWidth: 100,
+              title: const AppBarTitle(
+                title: "Cab Sharing",
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Provider.value(
-                                    value: commonStore,
-                                    child: const PostSearchPage(
-                                      category: "search",
-                                    ),
-                                  )),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      )),
-                )
-              ],
-              backgroundColor: kCommonBoxBackground.withOpacity(0.64),
+              // actions: [
+              //   Padding(
+              //     padding: const EdgeInsets.only(right: 20),
+              //     child: GestureDetector(
+              //         onTap: () {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => Provider.value(
+              //                       value: commonStore,
+              //                       child: const PostSearchPage(
+              //                         category: "search",
+              //                       ),
+              //                     )),
+              //           );
+              //         },
+              //         child: const Icon(
+              //           Icons.search,
+              //           color: Colors.white,
+              //         )),
+              //   )
+              // ],
+              backgroundColor: OneStopColors.backgroundColor,
             ),
             backgroundColor: kBackground,
             body: SingleChildScrollView(

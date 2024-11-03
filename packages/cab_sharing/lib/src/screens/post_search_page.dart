@@ -17,7 +17,7 @@ import 'search_screen.dart';
 class PostSearchPage extends StatefulWidget {
   final String category;
 
-  const PostSearchPage({Key? key, required this.category}) : super(key: key);
+  const PostSearchPage({super.key, required this.category});
 
   @override
   State<PostSearchPage> createState() => _PostSearchPageState();
