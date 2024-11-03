@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginStore {
@@ -15,17 +16,14 @@ class LoginStore {
     SharedPreferences instance = await SharedPreferences.getInstance();
     userData = jsonDecode(instance.getString("userInfo")!);
     print(userData);
-    userData["email"]=userData["outlookEmail"]; // fix this in next version use outlookEmail as keyword
+    userData["email"] = userData["outlookEmail"];
     print(userData);
     print(isGuest);
-    if((instance.getBool("isGuest")!)==true){
-      isGuest=true;
+    if ((instance.getBool("isGuest")!) == true) {
+      isGuest = true;
+    } else {
+      isGuest = false;
     }
-    else
-      {
-        isGuest = false;
-      }
     return true;
   }
-
 }

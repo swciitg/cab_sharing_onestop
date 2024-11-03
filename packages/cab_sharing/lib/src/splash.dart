@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import './screens/home.dart';
 
 class CabSharingSplashScreen extends StatefulWidget {
+  const CabSharingSplashScreen({super.key});
+  
   @override
   State<CabSharingSplashScreen> createState() => _CabSharingSplashScreenState();
 }
@@ -15,9 +17,9 @@ class _CabSharingSplashScreenState extends State<CabSharingSplashScreen> {
       future: LoginStore.saveToUserData(),
       builder: (buildContext, snapshot) {
         if (snapshot.hasData) {
-          return CabSharingScreen();
+          return const CabSharingScreen();
         }
-        return Scaffold();
+        return const Scaffold();
       },
     );
   }
