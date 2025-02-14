@@ -1,5 +1,6 @@
 import 'package:cab_sharing/src/functions/title_case.dart';
 import 'package:cab_sharing/src/stores/login_store.dart';
+import 'package:cab_sharing/src/utilities/show_snackbar.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 import '../globals/endpoints.dart';
@@ -9,10 +10,13 @@ import '../models/reply_model.dart';
 class APIService extends OneStopApi {
   APIService()
       : super(
-          onestopSecurityKey: Endpoints.apiSecurityKey,
-          onestopBaseUrl: Endpoints.baseUrl,
-          serverBaseUrl: Endpoints.baseUrl,
-        );
+            onestopSecurityKey: Endpoints.apiSecurityKey,
+            onestopBaseUrl: Endpoints.baseUrl,
+            serverBaseUrl: Endpoints.baseUrl,
+            onRefreshTokenExpired: () async {
+              await LoginStore.clearAppData();
+              showSnackBar("Your session has expired!! Login again.");
+            });
 
   Future<List<Map<String, List<PostModel>>>> getAllPosts(
       Map<String, dynamic> data) async {

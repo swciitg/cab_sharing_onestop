@@ -26,4 +26,11 @@ class LoginStore {
     }
     return true;
   }
+
+  static clearAppData() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    userData.clear();
+    isGuest = false;
+  }
 }
