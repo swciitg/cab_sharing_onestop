@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class datecontroller extends ChangeNotifier{
+class DateController extends ChangeNotifier {
   DateTime? dateController;
   DateTime get selectdatetime => dateController ?? DateTime.now();
   void setdate(DateTime value) {

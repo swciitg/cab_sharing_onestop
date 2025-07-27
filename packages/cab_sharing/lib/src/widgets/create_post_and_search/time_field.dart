@@ -8,10 +8,10 @@ class TimeField extends StatelessWidget {
   final TextEditingController hourController;
   final TextEditingController minController;
   const TimeField({
-    Key? key,
+    super.key,
     required this.hourController,
     required this.minController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

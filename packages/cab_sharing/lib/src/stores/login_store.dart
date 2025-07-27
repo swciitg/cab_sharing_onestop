@@ -12,13 +12,9 @@ class LoginStore {
 
   static Future<bool> saveToUserData() async {
     // gets user data stored in local storage
-    print("here");
     SharedPreferences instance = await SharedPreferences.getInstance();
     userData = jsonDecode(instance.getString("userInfo")!);
-    print(userData);
     userData["email"] = userData["outlookEmail"];
-    print(userData);
-    print(isGuest);
     if ((instance.getBool("isGuest")!) == true) {
       isGuest = true;
     } else {

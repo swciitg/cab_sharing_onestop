@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class AlignButton extends StatelessWidget {
   final String text;
-  const AlignButton({Key? key, required this.text}) : super(key: key);
+  const AlignButton({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

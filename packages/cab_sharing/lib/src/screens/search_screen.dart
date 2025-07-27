@@ -10,7 +10,7 @@ import '../widgets/ui/post_shimer.dart';
 
 class SearchScreen extends StatefulWidget {
   final Map<String, dynamic> userData;
-  const SearchScreen({Key? key, required this.userData}) : super(key: key);
+  const SearchScreen({super.key, required this.userData});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();

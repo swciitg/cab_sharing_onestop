@@ -9,11 +9,11 @@ class CustomButton extends StatelessWidget {
   final IconData icon;
   final String value;
   const CustomButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.icon,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

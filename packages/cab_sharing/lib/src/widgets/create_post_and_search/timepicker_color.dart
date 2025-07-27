@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TimePickerColor extends StatefulWidget {
   final Widget? childWidget;
-  const TimePickerColor({Key? key,  required this.childWidget}) : super(key: key);
+  const TimePickerColor({super.key,  required this.childWidget});
 
   @override
   State<TimePickerColor> createState() => _TimePickerColorState();
@@ -18,27 +18,27 @@ class _TimePickerColorState extends State<TimePickerColor> {
           backgroundColor: const Color(0xff273141),
           dayPeriodBorderSide: const BorderSide(
               color: Color.fromRGBO(91, 146, 227, 1), width: 2),
-          dayPeriodColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected)
+          dayPeriodColor: WidgetStateColor.resolveWith((states) =>
+              states.contains(WidgetState.selected)
                   ? const Color.fromRGBO(91, 146, 227, 1)
                   : const Color(0xff273141)),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
-          dayPeriodTextColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected)
+          dayPeriodTextColor: WidgetStateColor.resolveWith((states) =>
+              states.contains(WidgetState.selected)
                   ? Colors.white
                   : Colors.blueGrey.shade600),
           dayPeriodShape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
             side: BorderSide(width: 4),
           ),
-          hourMinuteColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected)
+          hourMinuteColor: WidgetStateColor.resolveWith((states) =>
+              states.contains(WidgetState.selected)
                   ? const Color.fromRGBO(91, 146, 227, 1)
                   : const Color(0xff2B3E5C)),
-          hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected)
+          hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
+              states.contains(WidgetState.selected)
                   ? Colors.white
                   : Colors.white),
           dialHandColor: const Color.fromRGBO(118, 172, 255, 1),
@@ -53,8 +53,8 @@ class _TimePickerColorState extends State<TimePickerColor> {
           helpTextStyle: const TextStyle(
             fontFamily: 'Montserrat',
               fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
-          dialTextColor: MaterialStateColor.resolveWith((states) =>
-              states.contains(MaterialState.selected)
+          dialTextColor: WidgetStateColor.resolveWith((states) =>
+              states.contains(WidgetState.selected)
                   ? Colors.black
                   : Colors.white),
           entryModeIconColor: Colors.blueGrey.shade600,

@@ -49,7 +49,7 @@ class ErrorScreen extends StatelessWidget {
             ),
           ),
           style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(OneStopColors.kYellow),
+            backgroundColor: WidgetStatePropertyAll(OneStopColors.kYellow),
           ),
         )
       ],

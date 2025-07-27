@@ -15,11 +15,11 @@ class PostWidget extends StatefulWidget {
   final PostModel post;
   final Function deleteCallback;
   const PostWidget({
-    Key? key,
+    super.key,
     required this.post,
     required this.colorCategory,
     required this.deleteCallback,
-  }) : super(key: key);
+  });
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -35,12 +35,11 @@ class _PostWidgetState extends State<PostWidget> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) {
-            return Provider.value(
-              value: commonStore,
-              child: PostDetailPage(post: widget.post),
-            );
-          }),
+          MaterialPageRoute(
+            builder: (context) {
+              return Provider.value(value: commonStore, child: PostDetailPage(post: widget.post));
+            },
+          ),
         );
       },
       child: Container(
@@ -82,40 +81,12 @@ class _PostWidgetState extends State<PostWidget> {
                 children: [
                   myPost
                       ? GestureDetector(
-                          onTap: allowDelete
-                              ? () async {
-                                  Map<String, String> data = {};
-                                  data['postId'] = widget.post.id;
-                                  data['email'] = commonStore.userEmail;
-                                  data['security-key'] = commonStore.securityKey;
-                                  setState(() {
-                                    allowDelete = false;
-                                  });
-                                  bool deleteSuccess = await APIService().deletePost(data);
-                                  if (deleteSuccess) {
-                                    widget.deleteCallback();
-                                  } else {
-                                    if (!mounted) {
-                                      return;
-                                    }
-                                    ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
-                                        "An error occurred. Your post could not be deleted at this moment."));
-                                    setState(() {
-                                      allowDelete = true;
-                                    });
-                                  }
-                                }
-                              : () => {},
-                          child: const Icon(Icons.delete_outline, color: Colors.black),
-                        )
-                      : const SizedBox(
-                          height: 1,
-                        ),
+                        onTap: allowDelete ? () => _delete(commonStore) : null,
+                        child: const Icon(Icons.delete_outline, color: Colors.black),
+                      )
+                      : const SizedBox(height: 1),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 4.0,
-                      bottom: 4.0,
-                    ),
+                    padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
                     child: Text(
                       widget.post.getTime(),
                       style: myPost ? kPostTimeTextStyleMyPost : kPostTimeTextStyle,
@@ -128,10 +99,33 @@ class _PostWidgetState extends State<PostWidget> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _delete(CommonStore commonStore) async {
+    Map<String, String> data = {};
+    data['postId'] = widget.post.id;
+    data['email'] = commonStore.userEmail;
+    data['security-key'] = commonStore.securityKey;
+    setState(() {
+      allowDelete = false;
+    });
+    bool deleteSuccess = await APIService().deletePost(data);
+    if (deleteSuccess) {
+      widget.deleteCallback();
+    } else {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        getSnackBar("An error occurred. Your post could not be deleted at this moment."),
+      );
+      setState(() {
+        allowDelete = true;
+      });
+    }
   }
 }

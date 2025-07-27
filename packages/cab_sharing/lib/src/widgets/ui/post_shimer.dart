@@ -6,7 +6,7 @@ import '../../decorations/colors.dart';
 import '../../decorations/home_screen_style.dart';
 
 class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({Key? key}) : super(key: key);
+  const LoadingScreen({super.key});
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();

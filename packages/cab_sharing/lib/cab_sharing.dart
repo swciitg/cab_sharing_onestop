@@ -1,3 +1,3 @@
-library cab_sharing;
+library;
 
 export 'src/splash.dart' show CabSharingSplashScreen;

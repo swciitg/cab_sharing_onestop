@@ -7,8 +7,8 @@ import '../../decorations/colors.dart';
 
 class ChatLoading extends StatelessWidget {
   const ChatLoading({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class ChatLoading extends StatelessWidget {
 
 class YourReply extends StatelessWidget {
   final double height;
-  const YourReply({Key? key, required this.height}) : super(key: key);
+  const YourReply({super.key, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +58,9 @@ class YourReply extends StatelessWidget {
 class OthersReply extends StatelessWidget {
   final double height;
   const OthersReply({
-    Key? key,
+    super.key,
     required this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

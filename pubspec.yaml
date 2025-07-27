@@ -36,7 +36,7 @@ dependencies:
   shimmer: ^3.0.0
   cupertino_icons: ^1.0.2
   json_serializable: ^6.5.4
-  build_runner_core: ^8.0.0
+  build_runner_core: ^9.2.0
   cab_sharing:
     path: packages/cab_sharing
   shared_preferences: ^2.1.2
@@ -51,7 +51,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.3.2
 
 

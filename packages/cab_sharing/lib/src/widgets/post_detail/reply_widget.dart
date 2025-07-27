@@ -11,11 +11,11 @@ class ReplyWidget extends StatefulWidget {
   final ReplyModel reply;
   final PostModel post;
   const ReplyWidget({
-    Key? key,
+    super.key,
     required this.reply,
     required BuildContext context,
     required this.post,
-  }) : super(key: key);
+  });
 
   @override
   State<ReplyWidget> createState() => _ReplyWidgetState();

@@ -8,10 +8,10 @@ class DateTile extends StatefulWidget {
   final String date;
   final List<PostModel> posts;
   const DateTile({
-    Key? key,
+    super.key,
     required this.posts,
     required this.date,
-  }) : super(key: key);
+  });
 
   @override
   State<DateTile> createState() => _DateTileState();

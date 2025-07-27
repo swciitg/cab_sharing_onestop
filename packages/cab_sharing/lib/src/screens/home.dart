@@ -20,7 +20,7 @@ final GlobalKey<ScaffoldMessengerState> cabSharingRootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 class CabSharingScreen extends StatefulWidget {
-  const CabSharingScreen({Key? key}) : super(key: key);
+  const CabSharingScreen({super.key});
 
   @override
   State<CabSharingScreen> createState() => _CabSharingScreenState();
@@ -46,9 +46,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               ),
               centerTitle: true,
               leadingWidth: 100,
-              title: const AppBarTitle(
-                title: "Cab Sharing",
-              ),
+              title: const AppBarTitle(title: "Cab Sharing"),
               // actions: [
               //   Padding(
               //     padding: const EdgeInsets.only(right: 20),
@@ -80,48 +78,42 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 children: [
                   !LoginStore.isGuest
                       ? FutureBuilder(
-                          future: APIService().getMyPosts(LoginStore.userData),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<PostModel>> snapshot) {
-                            if (snapshot.hasError == true) {
-                              return ErrorScreen(
-                                  reloadCallback: () => setState(() {}));
-                            }
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const LoadingScreen();
-                            }
-                            if (snapshot.data == null ||
-                                snapshot.data!.isEmpty) {
-                              return Container();
-                            }
+                        future: APIService().getMyPosts(LoginStore.userData),
+                        builder: (BuildContext context, AsyncSnapshot<List<PostModel>> snapshot) {
+                          if (snapshot.hasError == true) {
+                            return ErrorScreen(reloadCallback: () => setState(() {}));
+                          }
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const LoadingScreen();
+                          }
+                          if (snapshot.data == null || snapshot.data!.isEmpty) {
+                            return Container();
+                          }
 
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 18.0, left: 15.0, bottom: 10.0),
-                                  child: Text(
-                                    "My Post",
-                                    style: kTodayTextStyle,
-                                  ),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(top: 18.0, left: 15.0, bottom: 10.0),
+                                child: Text("My Post", style: kTodayTextStyle),
+                              ),
+                              for (var post in snapshot.data!)
+                                PostWidget(
+                                  colorCategory: 'mypost',
+                                  post: post,
+                                  deleteCallback: () => setState(() {}),
                                 ),
-                                for (var post in snapshot.data!)
-                                  PostWidget(
-                                    colorCategory: 'mypost',
-                                    post: post,
-                                    deleteCallback: () => setState(() {}),
-                                  )
-                              ],
-                            );
-                          })
+                            ],
+                          );
+                        },
+                      )
                       : Container(),
                   FutureBuilder(
                     future: APIService().getAllPosts(LoginStore.userData),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Map<String, List<PostModel>>>>
-                            snapshot) {
+                    builder: (
+                      BuildContext context,
+                      AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot,
+                    ) {
                       if (snapshot.hasError == true) {
                         return Container();
                       }
@@ -129,8 +121,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                         return const LoadingScreen();
                       }
                       if (snapshot.data == null) {
-                        return const CornerCase(
-                            message: 'Some error occured, please try again');
+                        return const CornerCase(message: 'Some error occured, please try again');
                       }
 
                       if (snapshot.data!.isEmpty) {
@@ -138,49 +129,48 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                       }
 
                       return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            String date =
-                                snapshot.data![index].keys.toList().first;
-                            return DateTile(
-                              posts: snapshot.data![index][date]!,
-                              date: date,
-                            );
-                          });
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          String date = snapshot.data![index].keys.toList().first;
+                          return DateTile(posts: snapshot.data![index][date]!, date: date);
+                        },
+                      );
                     },
                   ),
                 ],
               ),
             ),
-            floatingActionButton: (!LoginStore.isGuest)
-                ? FloatingActionButton.extended(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Provider.value(
+            floatingActionButton:
+                (!LoginStore.isGuest)
+                    ? FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => Provider.value(
                                   value: commonStore,
                                   child: ChangeNotifierProvider(
-                                    create: (context) => datecontroller(),
-                                    child: const PostSearchPage(
-                                      category: "post",
-                                    ),
+                                    create: (context) => DateController(),
+                                    child: const PostSearchPage(category: "post"),
                                   ),
-                                )),
-                      );
-                    },
-                    label: const Text(
-                      "+",
-                      style: TextStyle(
+                                ),
+                          ),
+                        );
+                      },
+                      label: const Text(
+                        "+",
+                        style: TextStyle(
                           color: Colors.black,
                           fontSize: 40,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    backgroundColor: kFloatingButtonColor,
-                  )
-                : Container(),
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      backgroundColor: kFloatingButtonColor,
+                    )
+                    : Container(),
           ),
         );
       },

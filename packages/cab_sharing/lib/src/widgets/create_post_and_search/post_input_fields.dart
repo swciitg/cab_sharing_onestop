@@ -8,11 +8,11 @@ class PostFields extends StatefulWidget {
   final TextEditingController noteController;
   final GlobalKey formKey;
   const PostFields({
-    Key? key,
+    super.key,
     required this.phoneController,
     required this.noteController,
     required this.formKey,
-  }) : super(key: key);
+  });
 
   @override
   State<PostFields> createState() => _PostFieldsState();

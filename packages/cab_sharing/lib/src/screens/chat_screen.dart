@@ -12,7 +12,7 @@ import '../widgets/ui/chat_shimmer.dart';
 
 class ChatScreen extends StatefulWidget {
   final PostModel post;
-  const ChatScreen({Key? key, required this.post}) : super(key: key);
+  const ChatScreen({super.key, required this.post});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();

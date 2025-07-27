@@ -8,7 +8,6 @@ class AuthUserHelpers{
   }
 
   static Future<void> setAccessToken(String value) async {
-    print(value);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(BackendHelper.accesstoken, value);
   }

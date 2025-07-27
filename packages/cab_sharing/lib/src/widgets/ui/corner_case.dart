@@ -6,7 +6,7 @@ import '../../decorations/colors.dart';
 
 class CornerCase extends StatelessWidget {
   final String message;
-  const CornerCase({Key? key, required this.message}) : super(key: key);
+  const CornerCase({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

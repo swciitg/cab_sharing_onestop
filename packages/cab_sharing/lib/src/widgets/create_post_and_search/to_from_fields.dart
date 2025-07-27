@@ -8,8 +8,7 @@ class ToFromField extends StatefulWidget {
   final TextEditingController from;
   final GlobalKey formKey;
   const ToFromField(
-      {Key? key, required this.to, required this.from, required this.formKey})
-      : super(key: key);
+      {super.key, required this.to, required this.from, required this.formKey});
 
   @override
   State<ToFromField> createState() => _ToFromFieldState();
@@ -132,7 +131,7 @@ class _ToFromFieldState extends State<ToFromField> {
 
 class IconRow extends StatelessWidget {
   final String value;
-  const IconRow({Key? key, required this.value}) : super(key: key);
+  const IconRow({super.key, required this.value});
 
   @override
   Widget build(BuildContext context) {

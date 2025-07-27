@@ -6,11 +6,10 @@ class TravelIcons extends StatelessWidget {
   final String to;
   final Color color;
   const TravelIcons(
-      {Key? key,
+      {super.key,
       required this.from,
       required this.to,
-      this.color = Colors.white})
-      : super(key: key);
+      this.color = Colors.white});
 
   @override
   Widget build(BuildContext context) {
