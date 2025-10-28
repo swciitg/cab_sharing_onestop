@@ -15,6 +15,12 @@ dependencies:
     git:
       url: https://github.com/swciitg/onestop_kit.git
       ref: dev
+  onestop_ui:
+    git:
+      url: https://github.com/swciitg/onestop_ui.git
+      path: packages/onestop_ui
+      ref: dev
+    # path: ../onestop_ui/packages/onestop_ui
   cupertino_icons: ^1.0.2
   http: ^1.0.0
   url_launcher: ^6.0.20
