@@ -144,7 +144,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
             ),
             floatingActionButton:
                 (!LoginStore.isGuest)
-                    ? FloatingActionButton.extended(
+                    ? FloatingActionButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -160,15 +160,8 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                           ),
                         );
                       },
-                      label: const Text(
-                        "+",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 40,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
                       backgroundColor: kFloatingButtonColor,
+                      child: Icon(Icons.add_rounded, color: Colors.black),
                     )
                     : Container(),
           ),

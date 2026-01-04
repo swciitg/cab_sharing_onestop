@@ -61,6 +61,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
           appBar: AppBar(
             backgroundColor: kBackground,
             elevation: 0,
+            scrolledUnderElevation: 0,
             leading: IconButton(
               onPressed: Navigator.of(context).pop,
               icon: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white),

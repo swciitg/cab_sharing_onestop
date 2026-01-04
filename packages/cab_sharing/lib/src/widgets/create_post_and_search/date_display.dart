@@ -56,13 +56,13 @@ class _DateDisplayState extends State<DateDisplay> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(width: 35, child: Text(date, style: dateTimeWheelStyle)),
-                  Container(width: 1, color: Colors.white),
+                  Container(width: 2, height: 40, color: const Color.fromRGBO(118, 172, 255, 1)),
                   SizedBox(
-                    width: 35,
+                    width: 45,
                     height: 70,
                     child: FittedBox(child: Text(month, style: dateTimeWheelStyle)),
                   ),
-                  Container(width: 1, color: Colors.white),
+                  Container(width: 2, height: 40, color: Colors.white),
                   SizedBox(
                     width: 45,
                     height: 70,
