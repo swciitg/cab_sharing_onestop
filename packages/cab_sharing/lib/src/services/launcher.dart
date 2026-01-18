@@ -9,6 +9,15 @@ launchPhoneURL(String phoneNumber) async {
   }
 }
 
+launchSmsURL(String phoneNumber) async {
+  String url = 'sms:+91$phoneNumber';
+  if (await canLaunchUrlString(url)) {
+    await launchUrlString(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 launchEmailURL(String email) async {
   String url = 'mailto:$email?subject=&body=';
   if (await canLaunchUrlString(url)) {

@@ -8,30 +8,28 @@ import '../functions/snackbar.dart';
 import '../services/api.dart';
 import '../services/date.dart';
 import '../services/user_store.dart';
-import '../widgets/add_post/selectable_field.dart';
-import '../widgets/add_post/location_picker_modal.dart';
-import '../widgets/add_post/time_picker_modal.dart';
 import '../widgets/add_post/date_picker_modal.dart';
+import '../widgets/add_post/location_picker_modal.dart';
 import '../widgets/add_post/seats_picker_modal.dart';
+import '../widgets/add_post/selectable_field.dart';
+import '../widgets/add_post/time_picker_modal.dart';
 import './home.dart';
-import 'search_screen.dart';
 
-class PostSearchPage extends StatefulWidget {
-  final String category;
-
-  const PostSearchPage({super.key, required this.category});
+class AddPostPage extends StatefulWidget {
+  const AddPostPage({super.key});
 
   @override
-  State<PostSearchPage> createState() => _PostSearchPageState();
+  State<AddPostPage> createState() => _AddPostPageState();
 }
 
-class _PostSearchPageState extends State<PostSearchPage> {
+class _AddPostPageState extends State<AddPostPage> {
   // Form controllers
   final TextEditingController noteController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   // Location values
   String _fromLocation = 'Campus';
-  String _toLocation = 'Guwahati Airport';
+  String _toLocation = 'Airport';
 
   // Time values (24-hour format stored internally)
   late int _selectedHour;
@@ -45,7 +43,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   int _availableSeats = 3;
 
   // Form state
-  bool _allowPostSearch = true;
+  bool _allowPost = true;
 
   @override
   void initState() {
@@ -152,7 +150,7 @@ class _PostSearchPageState extends State<PostSearchPage> {
   }
 
   Future<void> _handleSubmit() async {
-    if (!_allowPostSearch) return;
+    if (!_allowPost) return;
 
     final nav = Navigator.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -160,70 +158,61 @@ class _PostSearchPageState extends State<PostSearchPage> {
     Map<String, dynamic> userData = commonStore.userData;
 
     setState(() {
-      _allowPostSearch = false;
+      _allowPost = false;
     });
 
     // Validate From and To are different
     if (_fromLocation == _toLocation) {
       messenger.showSnackBar(getSnackBar("From and To cannot be the same"));
       setState(() {
-        _allowPostSearch = true;
+        _allowPost = true;
       });
       return;
     }
 
-    DateTime formatedDate = selectedDateTime.subtract(
-      Duration(
-        hours: selectedDateTime.hour,
-        minutes: selectedDateTime.minute,
-        seconds: selectedDateTime.second,
-        milliseconds: selectedDateTime.millisecond,
-        microseconds: selectedDateTime.microsecond,
-      ),
-    );
+    // Validate note field
+    if (noteController.text.trim().isEmpty) {
+      messenger.showSnackBar(getSnackBar("Please enter additional notes"));
+      setState(() {
+        _allowPost = true;
+      });
+      return;
+    }
 
-    Map<String, dynamic> data = {
-      'to': _toLocation,
-      'from': _fromLocation,
-      'name': userData['name'],
-      'email': userData['email'],
-      'travelDateTime':
-          widget.category == 'post'
-              ? selectedDateTime.toIso8601String()
-              : formatedDate.toIso8601String(),
-    };
+    // Validate phone number
+    if (phoneController.text.trim().isEmpty) {
+      messenger.showSnackBar(getSnackBar("Please enter your phone number"));
+      setState(() {
+        _allowPost = true;
+      });
+      return;
+    }
 
-    if (widget.category != 'post') {
-      nav.push(
-        MaterialPageRoute(
-          builder:
-              (context) => Provider.value(
-                value: commonStore,
-                child: SearchScreen(userData: data),
-              ),
-        ),
+    // Validate phone number format (10 digits)
+    final phoneRegex = RegExp(r'^[0-9]{10}$');
+    if (!phoneRegex.hasMatch(phoneController.text.trim())) {
+      messenger.showSnackBar(
+        getSnackBar("Please enter a valid 10-digit phone number"),
       );
       setState(() {
-        _allowPostSearch = true;
+        _allowPost = true;
       });
       return;
     }
-    try {
-      // Validate note field for post
-      if (widget.category == 'post' && noteController.text.trim().isEmpty) {
-        messenger.showSnackBar(getSnackBar("Please enter additional notes"));
-        setState(() {
-          _allowPostSearch = true;
-        });
-        return;
-      }
 
-      Map<String, dynamic> moreData = {
+    try {
+      Map<String, dynamic> data = {
+        'to': _toLocation,
+        'from': _fromLocation,
+        'name': userData['name'],
+        'email': userData['email'],
+        'travelDateTime': selectedDateTime.toIso8601String(),
         'note': noteController.text,
+        'phonenumber': phoneController.text.trim(),
         'margin': _availableSeats,
       };
 
-      bool res = await APIService().postTripData({...data, ...moreData});
+      bool res = await APIService().postTripData(data);
 
       if (res) {
         if (!mounted) return;
@@ -234,13 +223,13 @@ class _PostSearchPageState extends State<PostSearchPage> {
       } else {
         if (!mounted) return;
         setState(() {
-          _allowPostSearch = true;
+          _allowPost = true;
         });
         messenger.showSnackBar(getSnackBar("Some error occurred!"));
       }
     } catch (e) {
       setState(() {
-        _allowPostSearch = true;
+        _allowPost = true;
       });
       messenger.showSnackBar(getSnackBar("An error occurred. $e"));
     }
@@ -248,8 +237,6 @@ class _PostSearchPageState extends State<PostSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isPostMode = widget.category == 'post';
-
     return Consumer<DateController>(
       builder: (_, provider, __) {
         return Scaffold(
@@ -312,15 +299,14 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   ),
                   const SizedBox(height: OSpacing.m),
 
-                  if (isPostMode) ...[
-                    SelectableField(
-                      label: 'Select Pickup Time',
-                      value: _formattedTime,
-                      icon: TablerIcons.clock,
-                      onTap: _showTimePicker,
-                    ),
-                    const SizedBox(height: OSpacing.m),
-                  ],
+                  // Time field
+                  SelectableField(
+                    label: 'Select Pickup Time',
+                    value: _formattedTime,
+                    icon: TablerIcons.clock,
+                    onTap: _showTimePicker,
+                  ),
+                  const SizedBox(height: OSpacing.m),
 
                   // Date field
                   SelectableField(
@@ -331,25 +317,30 @@ class _PostSearchPageState extends State<PostSearchPage> {
                   ),
                   const SizedBox(height: OSpacing.m),
 
-                  // Seats field (only for post mode)
-                  if (isPostMode) ...[
-                    SelectableField(
-                      label: 'Seats Available in Cab (excluding yours)',
-                      value: _availableSeats.toString(),
-                      icon: TablerIcons.users,
-                      onTap: _showSeatsPicker,
-                    ),
-                    const SizedBox(height: OSpacing.m),
+                  // Seats field
+                  SelectableField(
+                    label: 'Seats Available in Cab (excluding yours)',
+                    value: _availableSeats.toString(),
+                    icon: TablerIcons.users,
+                    onTap: _showSeatsPicker,
+                  ),
+                  const SizedBox(height: OSpacing.m),
 
-                    // Additional Notes using OTextField
-                    OTextField(
-                      label: 'Additional Notes',
-                      controller: noteController,
-                      hint: 'e.g. Timing is flexible by 15 mins',
-                      isParagraph: true,
-                    ),
-                    const SizedBox(height: OSpacing.l),
-                  ],
+                  // Phone Number field
+                  OTextField(
+                    label: 'Phone Number',
+                    controller: phoneController,
+                  ),
+                  const SizedBox(height: OSpacing.m),
+
+                  // Additional Notes using OTextField
+                  OTextField(
+                    label: 'Additional Notes',
+                    controller: noteController,
+                    hint: 'e.g. Timing is flexible by 15 mins',
+                    isParagraph: true,
+                  ),
+                  const SizedBox(height: OSpacing.l),
 
                   // Bottom buttons
                   const SizedBox(height: OSpacing.m),
@@ -365,10 +356,10 @@ class _PostSearchPageState extends State<PostSearchPage> {
                       const SizedBox(width: OSpacing.m),
                       Expanded(
                         child: PrimaryButton(
-                          label: isPostMode ? 'Post' : 'Search',
+                          label: 'Post',
                           tarilingIcon: TablerIcons.check,
-                          onPressed: _allowPostSearch ? _handleSubmit : null,
-                          enabled: _allowPostSearch,
+                          onPressed: _allowPost ? _handleSubmit : null,
+                          enabled: _allowPost,
                         ),
                       ),
                     ],

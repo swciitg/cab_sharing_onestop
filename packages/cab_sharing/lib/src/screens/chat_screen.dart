@@ -44,8 +44,8 @@ class _ChatScreenState extends State<ChatScreen> {
     return FutureBuilder<List<ReplyModel>>(
       future: APIService().getPostReplies(widget.post.chatId),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<ReplyModel> replies = snapshot.data!;
+        if (snapshot.hasData && snapshot.data != null) {
+          List<ReplyModel> replies = snapshot.data ?? [];
           return Expanded(
             child: Stack(
               alignment: Alignment.bottomRight,
@@ -56,7 +56,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemBuilder: (context, index) {
                     final item = replies[index];
                     return ReplyWidget(
-                        reply: item, context: context, post: widget.post);
+                      reply: item,
+                      context: context,
+                      post: widget.post,
+                    );
                   },
                 ),
                 if (showDown)
@@ -66,9 +69,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       backgroundColor: kFloatingButtonColor,
                       onPressed: () {
                         scrollController.animateTo(
-                            scrollController.position.maxScrollExtent,
-                            duration: const Duration(seconds: 1),
-                            curve: Curves.easeOut);
+                          scrollController.position.maxScrollExtent,
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeOut,
+                        );
                       },
                       child: const Icon(
                         Icons.arrow_drop_down_circle_outlined,

@@ -66,7 +66,11 @@ final iconMap = {
     Icons.airplanemode_active_outlined,
     color: Colors.white,
   ),
-  'Railway Station': const Icon(
+  'Guwahati Station': const Icon(
+    Icons.directions_railway,
+    color: Colors.white,
+  ),
+  'Kamakhya Station': const Icon(
     Icons.directions_railway,
     color: Colors.white,
   )

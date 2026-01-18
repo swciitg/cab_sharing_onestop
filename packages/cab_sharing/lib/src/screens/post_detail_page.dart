@@ -40,7 +40,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
             elevation: 0,
             leading: IconButton(
               onPressed: Navigator.of(context).pop,
-              icon: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
+              icon: const Icon(
+                Icons.arrow_back_ios_outlined,
+                color: Colors.white,
+              ),
             ),
           ),
           body: SafeArea(
@@ -73,26 +76,36 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                 //Left Column
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       //Name
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.5,
+                                            width:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width *
+                                                0.5,
                                             child: Text(
                                               widget.post.name,
                                               overflow: TextOverflow.ellipsis,
                                               style: kiPostNameTextStyle,
                                             ),
                                           ),
-                                          Text(widget.post.getDate(), style: kiPostTimeTextStyle),
+                                          Text(
+                                            widget.post.getDate(),
+                                            style: kiPostTimeTextStyle,
+                                          ),
                                         ],
                                       ),
                                       //Email
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             widget.post.email,
@@ -100,18 +113,29 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           //Time
-                                          Text(widget.post.getTime(), style: kiPostTimeTextStyle),
+                                          Text(
+                                            widget.post.getTime(),
+                                            style: kiPostTimeTextStyle,
+                                          ),
                                         ],
                                       ),
                                       //Travel Mode Icon
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-                                          TravelIcons(from: widget.post.from, to: widget.post.to),
+                                          TravelIcons(
+                                            from: widget.post.from,
+                                            to: widget.post.to,
+                                          ),
                                         ],
                                       ),
                                       //Departure Time
-                                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                            0.02,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -130,7 +154,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                                   text: TextSpan(
                                     text: 'Note: ',
                                     children: [
-                                      TextSpan(text: widget.post.note, style: kContainerTextStyle),
+                                      TextSpan(
+                                        text: widget.post.note,
+                                        style: kContainerTextStyle,
+                                      ),
                                     ],
                                     style: kContainerBoldTextStyle,
                                   ),
@@ -150,15 +177,18 @@ class _PostDetailPageState extends State<PostDetailPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            if (widget.post.phonenumber != null)
+                            if (widget.post.phonenumber != null &&
+                                widget.post.phonenumber?.isNotEmpty == true)
                               Expanded(
                                 child: CustomButton(
                                   text: 'Call',
                                   icon: Icons.call_outlined,
-                                  value: widget.post.phonenumber!,
+                                  value: widget.post.phonenumber ?? '',
                                 ),
                               ),
-                            if (widget.post.phonenumber != null) const SizedBox(width: 20),
+                            if (widget.post.phonenumber != null &&
+                                widget.post.phonenumber?.isNotEmpty == true)
+                              const SizedBox(width: 20),
                             Expanded(
                               child: CustomButton(
                                 text: 'Mail',
@@ -199,16 +229,25 @@ class _PostDetailPageState extends State<PostDetailPage> {
                               maxLines: 1,
                               decoration: InputDecoration(
                                 isDense: true,
-                                hintText: isGuest ? "Login to reply to posts" : "Comment",
+                                hintText:
+                                    isGuest
+                                        ? "Login to reply to posts"
+                                        : "Comment",
                                 hintStyle: hintStyle,
                                 enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kReceiveBoxColor),
+                                  borderSide: BorderSide(
+                                    color: kReceiveBoxColor,
+                                  ),
                                 ),
                                 focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kReceiveBoxColor),
+                                  borderSide: BorderSide(
+                                    color: kReceiveBoxColor,
+                                  ),
                                 ),
                                 border: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kReceiveBoxColor),
+                                  borderSide: BorderSide(
+                                    color: kReceiveBoxColor,
+                                  ),
                                 ),
                               ),
                               style: chatTextStyle,
@@ -219,12 +258,17 @@ class _PostDetailPageState extends State<PostDetailPage> {
                             height: textFieldHeight,
                             decoration: BoxDecoration(
                               color: kReceiveBoxColor,
-                              borderRadius: BorderRadius.all(Radius.circular(textFieldHeight)),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(textFieldHeight),
+                              ),
                             ),
                             child: IconButton(
                               alignment: Alignment.center,
                               onPressed: () => onSubmit(isGuest),
-                              icon: const Icon(Icons.send_outlined, color: Colors.white),
+                              icon: const Icon(
+                                Icons.send_outlined,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -260,7 +304,9 @@ class _PostDetailPageState extends State<PostDetailPage> {
       chatMessageController.clear();
     } else {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(getSnackBar("An error occurred."));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(getSnackBar("An error occurred."));
     }
     setState(() {
       allowPostReply = true;
