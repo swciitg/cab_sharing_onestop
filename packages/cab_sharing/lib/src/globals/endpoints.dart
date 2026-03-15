@@ -5,8 +5,11 @@ class Endpoints {
   static const cabSharingMyAdsURL = "/campus-travel/myads";
   static const cabSharingChatURL = "/campus-travel/chat";
   static const cabSharingAllURL = "/campus-travel/all";
-  static const cabSharingBookingURL = "/campus-travel/booking";
-  static const cabSharingBookingAcceptURL = "/campus-travel/booking/accept";
+  static const cabSharingRequestToJoinURL = "/campus-travel/request-to-join";
+
+  // Accept booking uses path params: /campus-travel/:postId/bookings/:bookingId/accept
+  static String cabSharingAcceptBookingURL(String postId, String bookingId) =>
+      "/campus-travel/$postId/bookings/$bookingId/accept";
 
   static getHeader() {
     return {

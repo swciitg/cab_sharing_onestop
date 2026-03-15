@@ -231,12 +231,9 @@ class CurrentPostCard extends StatelessWidget {
         statusIcon: TablerIcons.clock,
         subHeading: formatNote(post.note),
         onArrowPressed: () => _navigateToDetail(context),
-        buttonIcon1: TablerIcons.edit,
-        buttonLabel1: 'Edit',
-        pressedButton1: () => _editPost(context),
-        buttonIcon2: TablerIcons.trash,
-        buttonLabel2: 'Delete',
-        pressedButton2: () => _deletePost(context),
+        buttonIcon1: TablerIcons.trash,
+        buttonLabel1: 'Delete',
+        pressedButton1: () => _deletePost(context),
       ),
     );
   }

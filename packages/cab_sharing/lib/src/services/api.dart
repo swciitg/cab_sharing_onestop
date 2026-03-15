@@ -154,12 +154,12 @@ class APIService extends OneStopApi {
   }) async {
     try {
       var response = await serverDio.post(
-        Endpoints.cabSharingBookingURL,
+        Endpoints.cabSharingRequestToJoinURL,
+        queryParameters: {'travelPostId': postId},
         data: {
-          'postId': postId,
-          'name': name.toTitleCase(),
           'email': email,
-          if (phoneNumber != null) 'phoneNumber': phoneNumber,
+          'name': name.toTitleCase(),
+          if (phoneNumber != null) 'phonenumber': phoneNumber,
         },
       );
       return response.data['success'] as bool;
@@ -170,10 +170,10 @@ class APIService extends OneStopApi {
 
   Future<List<BookingModel>> getPostBookings(String postId) async {
     var response = await serverDio.get(
-      Endpoints.cabSharingBookingURL,
+      Endpoints.cabSharingURL,
       queryParameters: {'postId': postId},
     );
-    List<dynamic> list = response.data['bookings'];
+    List<dynamic> list = response.data['bookings'] ?? [];
     return list.map((json) => BookingModel.fromJson(json)).toList();
   }
 
@@ -182,9 +182,8 @@ class APIService extends OneStopApi {
     required String bookingId,
   }) async {
     try {
-      var response = await serverDio.post(
-        Endpoints.cabSharingBookingAcceptURL,
-        data: {'postId': postId, 'bookingId': bookingId},
+      var response = await serverDio.patch(
+        Endpoints.cabSharingAcceptBookingURL(postId, bookingId),
       );
       return response.data['success'] as bool;
     } catch (e) {

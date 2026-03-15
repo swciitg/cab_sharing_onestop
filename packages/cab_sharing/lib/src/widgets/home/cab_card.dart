@@ -10,6 +10,7 @@ import '../../models/post_model.dart';
 class CabCard extends StatelessWidget {
   final PostModel post;
   final String userName;
+  final String userEmail;
   final VoidCallback onTap;
   final VoidCallback onJoinPressed;
 
@@ -17,12 +18,15 @@ class CabCard extends StatelessWidget {
     super.key,
     required this.post,
     required this.userName,
+    required this.userEmail,
     required this.onTap,
     required this.onJoinPressed,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isOwnPost = userEmail == post.email;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: OSpacing.xs,
@@ -43,9 +47,9 @@ class CabCard extends StatelessWidget {
         imageURl:
             'https://ui-avatars.com/api/?name=${Uri.encodeComponent(userName)}&background=random',
         onArrowPressed: onTap,
-        buttonIcon2: TablerIcons.user_plus,
-        buttonLabel2: 'Join',
-        pressedButton2: onJoinPressed,
+        buttonIcon2: isOwnPost ? null : TablerIcons.user_plus,
+        buttonLabel2: isOwnPost ? null : 'Join',
+        pressedButton2: isOwnPost ? null : onJoinPressed,
       ),
     );
   }

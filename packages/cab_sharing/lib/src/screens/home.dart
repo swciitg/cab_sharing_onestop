@@ -3,6 +3,7 @@ import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 import '../functions/filter_helpers.dart';
+import '../services/api.dart';
 import '../models/post_model.dart';
 import '../services/date.dart';
 import '../services/user_store.dart';
@@ -36,15 +37,25 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
     );
   }
 
-  void _showPostDetailModal(PostModel post) {
+  void _showPostDetailModal(PostModel post, CommonStore commonStore) {
     PostDetailModal.show(
       context,
       post: post,
-      onJoin: () {
-        // TODO: Implement join post functionality with backend
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Join request sent!')));
+      userEmail: commonStore.userEmail,
+      onJoin: () async {
+        final success = await APIService().createBooking(
+          postId: post.id,
+          name: commonStore.userName,
+          email: commonStore.userEmail,
+        );
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              success ? 'Join request sent!' : 'Failed to send request. Try again.',
+            ),
+          ),
+        );
       },
     );
   }
@@ -119,7 +130,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     selectedDate: _selectedDate,
                     commonStore: commonStore,
                     onRefresh: () => setState(() {}),
-                    onPostTap: (post) => _showPostDetailModal(post),
+                    onPostTap: (post) => _showPostDetailModal(post, commonStore),
                   ),
                 ),
               ],

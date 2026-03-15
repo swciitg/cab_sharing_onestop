@@ -12,21 +12,29 @@ import '../ui/contact_action_buttons.dart';
 /// Modal to display post details when user taps "Join" on a cab card
 class PostDetailModal extends StatelessWidget {
   final PostModel post;
+  final String userEmail;
   final VoidCallback? onJoin;
 
-  const PostDetailModal({super.key, required this.post, this.onJoin});
+  const PostDetailModal({
+    super.key,
+    required this.post,
+    required this.userEmail,
+    this.onJoin,
+  });
 
   /// Shows the post detail modal
   static Future<void> show(
     BuildContext context, {
     required PostModel post,
+    required String userEmail,
     VoidCallback? onJoin,
   }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => PostDetailModal(post: post, onJoin: onJoin),
+      builder: (context) =>
+          PostDetailModal(post: post, userEmail: userEmail, onJoin: onJoin),
     );
   }
 
@@ -34,6 +42,7 @@ class PostDetailModal extends StatelessWidget {
   Widget build(BuildContext context) {
     final int totalSeats = post.totalSeats;
     final int joinedCount = post.totalSeats - post.availableSeats;
+    final bool isOwnPost = userEmail == post.email;
 
     final phoneNumber = post.phonenumber ?? '';
 
@@ -73,10 +82,12 @@ class PostDetailModal extends StatelessWidget {
         ],
       ),
       buttonLabel: 'Join',
-      buttonPressed: () {
-        Navigator.pop(context);
-        onJoin?.call();
-      },
+      buttonPressed: isOwnPost
+          ? null
+          : () {
+              Navigator.pop(context);
+              onJoin?.call();
+            },
     );
   }
 }
