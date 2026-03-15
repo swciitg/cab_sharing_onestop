@@ -33,14 +33,14 @@ class _PostWidgetState extends State<PostWidget> {
     var commonStore = context.read<CommonStore>();
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return Provider.value(value: commonStore, child: PostDetailPage(post: widget.post));
-            },
-          ),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return Provider.value(value: commonStore, child: PostDetailPage(post: widget.post));
+        //     },
+        //   ),
+        // );
       },
       child: Container(
         width: double.infinity,

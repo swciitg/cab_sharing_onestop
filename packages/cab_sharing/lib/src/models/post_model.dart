@@ -20,18 +20,23 @@ class PostModel {
   /// The generated code below handles if the corresponding JSON value doesn't
   /// exist or is empty.
   final String? phonenumber;
+  final int totalSeats;
+  final int availableSeats;
 
-  const PostModel(
-      {required this.name,
-      required this.email,
-      required this.travelDateTime,
-      required this.to,
-      required this.from,
-      required this.note,
-      required this.margin,
-      required this.chatId,
-      required this.id,
-      this.phonenumber});
+  const PostModel({
+    required this.name,
+    required this.email,
+    required this.travelDateTime,
+    required this.to,
+    required this.from,
+    required this.note,
+    required this.margin,
+    required this.chatId,
+    required this.id,
+    this.phonenumber,
+    this.totalSeats = 0,
+    this.availableSeats = 0,
+  });
 
   /// Connect the generated [_$PostModelFromJson] function to the `fromJson`
   /// factory.
@@ -65,7 +70,7 @@ class PostModel {
       'Sep',
       'Oct',
       'Nov',
-      'Dec'
+      'Dec',
     ];
     String time = travelDateTime.substring(0, 10);
     String year = ", ${time.substring(0, 4)}";

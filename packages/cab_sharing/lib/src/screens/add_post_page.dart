@@ -209,7 +209,9 @@ class _AddPostPageState extends State<AddPostPage> {
         'travelDateTime': selectedDateTime.toIso8601String(),
         'note': noteController.text,
         'phonenumber': phoneController.text.trim(),
-        'margin': _availableSeats,
+        'margin': 0,
+        'totalSeats': _availableSeats,
+        'availableSeats': _availableSeats,
       };
 
       bool res = await APIService().postTripData(data);

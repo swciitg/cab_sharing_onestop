@@ -7,8 +7,8 @@ import '../../functions/formatters.dart';
 import '../../models/post_model.dart';
 import '../../services/api.dart';
 import '../../services/user_store.dart';
-
-//import 'post_detail_page.dart';
+import '../ui/corner_case.dart';
+import '../ui/post_shimer.dart';
 import 'current_post_popup.dart';
 import 'past_post_popup.dart';
 
@@ -23,6 +23,12 @@ class MyPostsScreen extends StatefulWidget {
 }
 
 class _MyPostsScreenState extends State<MyPostsScreen> {
+  int _refreshKey = 0;
+
+  void _refresh() {
+    setState(() => _refreshKey++);
+  }
+
   @override
   Widget build(BuildContext context) {
     var commonStore = context.read<CommonStore>();
@@ -43,129 +49,68 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.info , color: OColor.green600),
+            icon: Icon(Icons.info, color: OColor.green600),
             onPressed: () => Navigator.pop(context),
           ),
         ],
       ),
       backgroundColor: OColor.white,
-      body: Builder(
-        builder: (context) {
-          // API IMPLEMENTATION (Commented out for now)
-          /*
-          return FutureBuilder(
-            future: APIService().getMyPosts(LoginStore.userData),
-            builder: (context, snapshot) { ... }
-          );
-          */
+      body: FutureBuilder<List<PostModel>>(
+        key: ValueKey(_refreshKey),
+        future: APIService().getMyPosts({'email': commonStore.userEmail}),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingScreen();
+          }
+          if (snapshot.hasError || snapshot.data == null) {
+            return const CornerCase(message: 'Failed to load posts');
+          }
 
-          // HARDCODED MOCK DATA FOR TESTING
-          final allPosts = [
-            PostModel(
-              id: '1',
-              name: 'Test User',
-              email: 'test@iitg.ac.in',
-              travelDateTime: '2026-01-31T08:00:00',
-              from: 'IIT Guwahati',
-              to: 'Kamakhya Station',
-              note: 'Flight at 8:00 AM, but I am a bit flexible with the timings.',
-              margin: 2,
-              chatId: 'chat1',
-              phonenumber: '1234567890',
-            ),
-            PostModel(
-              id: '2',
-              name: 'Test User',
-              email: 'test@iitg.ac.in',
-              travelDateTime: '2026-01-31T09:00:00',
-              from: 'IIT Guwahati',
-              to: 'Kamakhya Station',
-              note: 'Flight at 8:00 AM, but I am a bit flexible with the timings.',
-              margin: 1,
-              chatId: 'chat2',
-              phonenumber: '1234567890',
-            ),
-            PostModel(
-              id: '3',
-              name: 'Test User',
-              email: 'test@iitg.ac.in',
-              travelDateTime: '2026-01-31T09:00:00',
-              from: 'IIT Guwahati',
-              to: 'Kamakhya Station',
-              note: 'Flight at 8:00 AM, but I am a bit flexible with the timings.',
-              margin: 0,
-              chatId: 'chat3',
-              phonenumber: '1234567890',
-            ),
-            PostModel(
-              id: '4',
-              name: 'Test User',
-              email: 'test@iitg.ac.in',
-              travelDateTime: '2026-01-31T09:00:00',
-              from: 'IIT Guwahati',
-              to: 'Kamakhya Station',
-              note: 'Flight at 8:00 AM, but I am a bit flexible with the timings.',
-              margin: 2,
-              chatId: 'chat4',
-              phonenumber: '1234567890',
-            ),
-            PostModel(
-              id: '5',
-              name: 'Test User',
-              email: 'test@iitg.ac.in',
-              travelDateTime: '2026-01-31T09:00:00',
-              from: 'IIT Guwahati',
-              to: 'Kamakhya Station',
-              note: 'Flight at 8:00 AM, but I am a bit flexible with the timings.',
-              margin: 1,
-              chatId: 'chat5',
-              phonenumber: '1234567890',
-            ),
-            PostModel(
-              id: '6',
-              name: 'Test User',
-              email: 'test@iitg.ac.in',
-              travelDateTime: '2026-01-31T09:00:00',
-              from: 'IIT Guwahati',
-              to: 'Kamakhya Station',
-              note: 'Flight at 8:00 AM, but I am a bit flexible with the timings.',
-              margin: 0,
-              chatId: 'chat6',
-              phonenumber: '1234567890',
-            ),
-          ];
+          final allPosts = snapshot.data!;
 
-          final currentPost = allPosts.isNotEmpty ? allPosts.first : null;
-          final pastPosts = allPosts.length > 1 ? allPosts.sublist(1) : <PostModel>[];
+          if (allPosts.isEmpty) {
+            return const CornerCase(message: 'No Posts Available');
+          }
+
+          final now = DateTime.now();
+          final upcomingPosts =
+              allPosts
+                  .where((p) => DateTime.parse(p.travelDateTime).isAfter(now))
+                  .toList()
+                ..sort((a, b) => a.travelDateTime.compareTo(b.travelDateTime));
+
+          final pastPosts =
+              allPosts
+                  .where((p) => !DateTime.parse(p.travelDateTime).isAfter(now))
+                  .toList()
+                ..sort((a, b) => b.travelDateTime.compareTo(a.travelDateTime));
 
           return SingleChildScrollView(
-           // padding: const EdgeInsets.all(OSpacing.s),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Current Post Section
-                if (currentPost != null) ...[
+                if (upcomingPosts.isNotEmpty) ...[
                   _SectionHeader(title: 'Current Post'),
                   const SizedBox(height: OSpacing.xs),
-                  CurrentPostCard(
-                    post: currentPost,
-                    commonStore: commonStore,
-                    onDeleted: () {
-                      widget.onPostDeleted();
-                      setState(() {});
-                    },
+                  ...upcomingPosts.map(
+                    (post) => CurrentPostCard(
+                      post: post,
+                      commonStore: commonStore,
+                      onDeleted: () {
+                        widget.onPostDeleted();
+                        _refresh();
+                      },
+                    ),
                   ),
                 ],
-                
-                // Past Posts Section
                 if (pastPosts.isNotEmpty) ...[
                   const SizedBox(height: OSpacing.m),
                   _SectionHeader(title: 'Past Posts'),
                   const SizedBox(height: OSpacing.xs),
-                  ...pastPosts.map((post) => PastPostCard(
-                    post: post,
-                    commonStore: commonStore,
-                  )),
+                  ...pastPosts.map(
+                    (post) =>
+                        PastPostCard(post: post, commonStore: commonStore),
+                  ),
                 ],
               ],
             ),
@@ -198,7 +143,7 @@ class _SectionHeader extends StatelessWidget {
 }
 
 /// Card widget for displaying current (active) post with Edit/Delete buttons
-class CurrentPostCard extends StatelessWidget {                                               
+class CurrentPostCard extends StatelessWidget {
   final PostModel post;
   final CommonStore commonStore;
   final VoidCallback onDeleted;
@@ -222,23 +167,24 @@ class CurrentPostCard extends StatelessWidget {
   Future<void> _deletePost(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Post'),
-        content: const Text('Are you sure you want to delete this post?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Delete Post'),
+            content: const Text('Are you sure you want to delete this post?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text(
-              'Delete',
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-        ],
-      ),
     );
 
     if (confirmed == true) {
@@ -386,10 +332,14 @@ class CompactCabSharingCard extends StatelessWidget {
                         ),
                       ),
                       _IconBadge(
-                        icon: byTrain ? TablerIcons.train : TablerIcons.plane_tilt,
-                        color: byTrain
-                            ? const Color(0xFF14B8A6)
-                            : const Color(0xFF0D99D8),
+                        icon:
+                            byTrain
+                                ? TablerIcons.train
+                                : TablerIcons.plane_tilt,
+                        color:
+                            byTrain
+                                ? const Color(0xFF14B8A6)
+                                : const Color(0xFF0D99D8),
                       ),
                       const SizedBox(width: OSpacing.xs),
                       Flexible(
@@ -405,11 +355,15 @@ class CompactCabSharingCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(TablerIcons.chevron_right, color: OColor.gray500, size: 20),
+                Icon(
+                  TablerIcons.chevron_right,
+                  color: OColor.gray500,
+                  size: 20,
+                ),
               ],
             ),
             const SizedBox(height: OSpacing.s),
-            
+
             // Info Row: Status, Time, Date
             Row(
               children: [
@@ -469,7 +423,7 @@ class CompactCabSharingCard extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             // Note Text
             if (note != 'No notes') ...[
               const SizedBox(height: OSpacing.s),
@@ -497,10 +451,7 @@ class _IconBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(icon, color: Colors.white, size: 12),
     );
   }

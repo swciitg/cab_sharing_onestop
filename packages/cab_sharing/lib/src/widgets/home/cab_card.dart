@@ -37,7 +37,7 @@ class CabCard extends StatelessWidget {
         destination: formatLocationShort(post.to),
         time: post.getTime(),
         date: formatDate(post.getDate()),
-        status: '2 Left',
+        status: '${post.availableSeats} Left',
         statusIcon: TablerIcons.chair_director,
         subHeading: formatNote(post.note),
         imageURl:

@@ -32,9 +32,8 @@ class PostDetailModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Fetch actual joined count and total seats from backend
-    const int joinedCount = 3;
-    const int totalSeats = 5;
+    final int totalSeats = post.totalSeats;
+    final int joinedCount = post.totalSeats - post.availableSeats;
 
     final phoneNumber = post.phonenumber ?? '';
 

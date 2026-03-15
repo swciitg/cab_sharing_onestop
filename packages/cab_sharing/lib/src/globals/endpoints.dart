@@ -5,11 +5,13 @@ class Endpoints {
   static const cabSharingMyAdsURL = "/campus-travel/myads";
   static const cabSharingChatURL = "/campus-travel/chat";
   static const cabSharingAllURL = "/campus-travel/all";
+  static const cabSharingBookingURL = "/campus-travel/booking";
+  static const cabSharingBookingAcceptURL = "/campus-travel/booking/accept";
 
   static getHeader() {
     return {
       'Content-Type': 'application/json',
-      'security-key': Endpoints.apiSecurityKey
+      'security-key': Endpoints.apiSecurityKey,
     };
   }
 }

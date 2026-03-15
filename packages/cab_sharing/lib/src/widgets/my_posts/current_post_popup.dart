@@ -3,7 +3,9 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_ui/index.dart';
 
 import '../../functions/formatters.dart';
+import '../../models/booking_model.dart';
 import '../../models/post_model.dart';
+import '../../services/api.dart';
 
 /// Shows the Current Post Popup as a bottom sheet
 void showCurrentPostPopup(BuildContext context, PostModel post) {
@@ -17,31 +19,42 @@ void showCurrentPostPopup(BuildContext context, PostModel post) {
 
 /// Current Post Bottom Sheet showing cab sharing post details
 /// with share list, requests, and action buttons
-class CurrentPostBottomSheet extends StatelessWidget {
+class CurrentPostBottomSheet extends StatefulWidget {
   final PostModel post;
 
   const CurrentPostBottomSheet({super.key, required this.post});
 
   @override
+  State<CurrentPostBottomSheet> createState() => _CurrentPostBottomSheetState();
+}
+
+class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
+  late Future<List<BookingModel>> _bookingsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _bookingsFuture = APIService().getPostBookings(widget.post.id);
+  }
+
+  void _refresh() {
+    setState(() {
+      _bookingsFuture = APIService().getPostBookings(widget.post.id);
+    });
+  }
+
+  Future<void> _acceptBooking(String bookingId) async {
+    final success = await APIService().acceptBooking(
+      postId: widget.post.id,
+      bookingId: bookingId,
+    );
+    if (success && mounted) {
+      _refresh();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Mock data for demonstration
-    final List<_ContactData> shareList = [
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-    ];
-
-    final List<_ContactData> requests = [
-      _ContactData(name: 'Parth Pardeshi', email: 'p.pardeshi@iitg.ac.in'),
-      _ContactData(name: 'krish patel', email: 'krish.patel@iitg.ac.in'),
-      _ContactData(name: 'parth parmar', email: 'parth.parmar@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _ContactData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-    ];
-
     return Container(
       decoration: BoxDecoration(
         color: OColor.white,
@@ -77,42 +90,76 @@ class CurrentPostBottomSheet extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Shortened Cab Card Section
-                      _ShortenedCabCard(post: post),
+                      _ShortenedCabCard(post: widget.post),
 
                       const SizedBox(height: OSpacing.m),
 
                       // Seats Progress Bar
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: OSpacing.m),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: OSpacing.m,
+                        ),
                         child: _SeatsProgressSection(
-                          filledSeats: 5,
-                          totalSeats: 5,
+                          filledSeats:
+                              widget.post.totalSeats -
+                              widget.post.availableSeats,
+                          totalSeats: widget.post.totalSeats,
                         ),
                       ),
 
                       const SizedBox(height: OSpacing.m),
 
-                      // Current Share List Section
-                      _SectionHeader(
-                        title: 'Current Share List',
-                        count: shareList.length,
-                      ),
-                      ...shareList.map((contact) => _ContactTile(
-                        contact: contact,
-                        actionType: _ContactActionType.call,
-                      )),
+                      // Bookings lists
+                      FutureBuilder<List<BookingModel>>(
+                        future: _bookingsFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Padding(
+                              padding: EdgeInsets.all(OSpacing.m),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
 
-                      const SizedBox(height: OSpacing.m),
+                          final bookings = snapshot.data ?? [];
+                          final approved =
+                              bookings.where((b) => b.isApproved).toList();
+                          final pending =
+                              bookings.where((b) => b.isPending).toList();
 
-                      // Requests Section
-                      _SectionHeader(
-                        title: 'Requests',
-                        count: requests.length,
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (approved.isNotEmpty) ...[
+                                _SectionHeader(
+                                  title: 'Current Share List',
+                                  count: approved.length,
+                                ),
+                                ...approved.map(
+                                  (booking) => _ContactTile(
+                                    contact: _ContactData.fromBooking(booking),
+                                    actionType: _ContactActionType.call,
+                                  ),
+                                ),
+                                const SizedBox(height: OSpacing.m),
+                              ],
+                              if (pending.isNotEmpty) ...[
+                                _SectionHeader(
+                                  title: 'Requests',
+                                  count: pending.length,
+                                ),
+                                ...pending.map(
+                                  (booking) => _ContactTile(
+                                    contact: _ContactData.fromBooking(booking),
+                                    actionType: _ContactActionType.accept,
+                                    onAccept: () => _acceptBooking(booking.id),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          );
+                        },
                       ),
-                      ...requests.map((contact) => _ContactTile(
-                        contact: contact,
-                        actionType: _ContactActionType.accept,
-                      )),
 
                       const SizedBox(height: OSpacing.m),
                     ],
@@ -209,7 +256,8 @@ class _ShortenedCabCard extends StatelessWidget {
               ),
               _IconBadge(
                 icon: byTrain ? TablerIcons.train : TablerIcons.plane_tilt,
-                color: byTrain ? const Color(0xFF14B8A6) : const Color(0xFF0D99D8),
+                color:
+                    byTrain ? const Color(0xFF14B8A6) : const Color(0xFF0D99D8),
               ),
               const SizedBox(width: OSpacing.xs),
               Flexible(
@@ -291,11 +339,7 @@ class _SeatsProgressSection extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      TablerIcons.lock,
-                      size: 12,
-                      color: OColor.white,
-                    ),
+                    Icon(TablerIcons.lock, size: 12, color: OColor.white),
                     const SizedBox(width: 4),
                     Text(
                       'FULL',
@@ -316,7 +360,9 @@ class _SeatsProgressSection extends StatelessWidget {
             return Expanded(
               child: Container(
                 height: 6,
-                margin: EdgeInsets.only(right: index < totalSeats - 1 ? OSpacing.xs : 0),
+                margin: EdgeInsets.only(
+                  right: index < totalSeats - 1 ? OSpacing.xs : 0,
+                ),
                 decoration: BoxDecoration(
                   color: isFilled ? OColor.green600 : OColor.gray300,
                   borderRadius: BorderRadius.circular(3),
@@ -341,10 +387,7 @@ class _IconBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(icon, color: Colors.white, size: 14),
     );
   }
@@ -398,179 +441,195 @@ class _SectionHeader extends StatelessWidget {
 }
 
 /// Shows a contact profile dialog
-void _showContactDialog(BuildContext context, _ContactData contact, {bool showAcceptButton = false}) {
+void _showContactDialog(
+  BuildContext context,
+  _ContactData contact, {
+  bool showAcceptButton = false,
+  VoidCallback? onAccept,
+}) {
   showDialog(
     context: context,
-    builder: (context) => Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Container(
-        padding: const EdgeInsets.all(OSpacing.m),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    builder:
+        (context) => Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(OSpacing.m),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          TablerIcons.user,
+                          color: OColor.green600,
+                          size: 20,
+                        ),
+                        const SizedBox(width: OSpacing.xs),
+                        Text(
+                          'Profile',
+                          style: OTextStyle.headingSmall.copyWith(
+                            color: OColor.gray800,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(
+                        TablerIcons.x,
+                        color: OColor.gray500,
+                        size: 20,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: OSpacing.m),
+
+                // Profile Info
                 Row(
                   children: [
-                    Icon(TablerIcons.user, color: OColor.green600, size: 20),
-                    const SizedBox(width: OSpacing.xs),
-                    Text(
-                      'Profile',
-                      style: OTextStyle.headingSmall.copyWith(
-                        color: OColor.gray800,
-                        fontWeight: FontWeight.w600,
+                    CircleAvatar(
+                      radius: 24,
+                      backgroundColor: OColor.gray200,
+                      backgroundImage: NetworkImage(
+                        'https://ui-avatars.com/api/?name=${Uri.encodeComponent(contact.name)}&background=random&size=96',
                       ),
+                    ),
+                    const SizedBox(width: OSpacing.s),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          contact.name,
+                          style: OTextStyle.labelLarge.copyWith(
+                            color: OColor.gray800,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          contact.email,
+                          style: OTextStyle.labelSmall.copyWith(
+                            color: OColor.gray500,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(TablerIcons.x, color: OColor.gray500, size: 20),
-                ),
-              ],
-            ),
 
-            const SizedBox(height: OSpacing.m),
+                const SizedBox(height: OSpacing.m),
 
-            // Profile Info
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: OColor.gray200,
-                  backgroundImage: NetworkImage(
-                    'https://ui-avatars.com/api/?name=${Uri.encodeComponent(contact.name)}&background=random&size=96',
+                // Important Warning
+                Container(
+                  padding: const EdgeInsets.all(OSpacing.s),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFECFDF5), // Light green
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Important',
+                        style: OTextStyle.labelMedium.copyWith(
+                          color: OColor.green600,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'You cannot remove a rider once the ride is confirmed. Only the rider can cancel the ride from their phone.',
+                        style: OTextStyle.bodySmall.copyWith(
+                          color: OColor.gray600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: OSpacing.s),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                const SizedBox(height: OSpacing.m),
+
+                // Action Buttons Row
+                Row(
                   children: [
-                    Text(
-                      contact.name,
-                      style: OTextStyle.labelLarge.copyWith(
-                        color: OColor.gray800,
-                        fontWeight: FontWeight.w600,
+                    Expanded(
+                      child: _DialogActionButton(
+                        icon: TablerIcons.phone,
+                        label: 'Call',
+                        onPressed: () {
+                          // TODO: Call action
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
-                    Text(
-                      contact.email,
-                      style: OTextStyle.labelSmall.copyWith(
-                        color: OColor.gray500,
+                    const SizedBox(width: OSpacing.xs),
+                    Expanded(
+                      child: _DialogActionButton(
+                        icon: TablerIcons.message,
+                        label: 'Text',
+                        onPressed: () {
+                          // TODO: Text action
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: OSpacing.xs),
+                    Expanded(
+                      child: _DialogActionButton(
+                        icon: TablerIcons.mail,
+                        label: 'Mail',
+                        onPressed: () {
+                          // TODO: Mail action
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
 
-            const SizedBox(height: OSpacing.m),
-
-            // Important Warning
-            Container(
-              padding: const EdgeInsets.all(OSpacing.s),
-              decoration: BoxDecoration(
-                color: const Color(0xFFECFDF5), // Light green
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Important',
-                    style: OTextStyle.labelMedium.copyWith(
-                      color: OColor.green600,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'You cannot remove a rider once the ride is confirmed. Only the rider can cancel the ride from their phone.',
-                    style: OTextStyle.bodySmall.copyWith(
-                      color: OColor.gray600,
+                // Accept Button (only for requests)
+                if (showAcceptButton) ...[
+                  const SizedBox(height: OSpacing.m),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onAccept?.call();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: OColor.green600,
+                        foregroundColor: OColor.white,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: OSpacing.s,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        'Accept',
+                        style: OTextStyle.labelLarge.copyWith(
+                          color: OColor.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ],
-              ),
-            ),
-
-            const SizedBox(height: OSpacing.m),
-
-            // Action Buttons Row
-            Row(
-              children: [
-                Expanded(
-                  child: _DialogActionButton(
-                    icon: TablerIcons.phone,
-                    label: 'Call',
-                    onPressed: () {
-                      // TODO: Call action
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                const SizedBox(width: OSpacing.xs),
-                Expanded(
-                  child: _DialogActionButton(
-                    icon: TablerIcons.message,
-                    label: 'Text',
-                    onPressed: () {
-                      // TODO: Text action
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                const SizedBox(width: OSpacing.xs),
-                Expanded(
-                  child: _DialogActionButton(
-                    icon: TablerIcons.mail,
-                    label: 'Mail',
-                    onPressed: () {
-                      // TODO: Mail action
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
               ],
             ),
-
-            // Accept Button (only for requests)
-            if (showAcceptButton) ...[
-              const SizedBox(height: OSpacing.m),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Accept request
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: OColor.green600,
-                    foregroundColor: OColor.white,
-                    padding: const EdgeInsets.symmetric(vertical: OSpacing.s),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    'Accept',
-                    style: OTextStyle.labelLarge.copyWith(
-                      color: OColor.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ],
+          ),
         ),
-      ),
-    ),
   );
 }
 
@@ -593,9 +652,7 @@ class _DialogActionButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: OColor.gray300),
         padding: const EdgeInsets.symmetric(vertical: OSpacing.s),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -604,9 +661,7 @@ class _DialogActionButton extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: OTextStyle.labelSmall.copyWith(
-              color: OColor.gray700,
-            ),
+            style: OTextStyle.labelSmall.copyWith(color: OColor.gray700),
           ),
         ],
       ),
@@ -620,20 +675,24 @@ enum _ContactActionType { call, accept }
 class _ContactTile extends StatelessWidget {
   final _ContactData contact;
   final _ContactActionType actionType;
+  final VoidCallback? onAccept;
 
   const _ContactTile({
     required this.contact,
     required this.actionType,
+    this.onAccept,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _showContactDialog(
-        context,
-        contact,
-        showAcceptButton: actionType == _ContactActionType.accept,
-      ),
+      onTap:
+          () => _showContactDialog(
+            context,
+            contact,
+            showAcceptButton: actionType == _ContactActionType.accept,
+            onAccept: onAccept,
+          ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: OSpacing.m,
@@ -675,14 +734,17 @@ class _ContactTile extends StatelessWidget {
 
             // Action Button
             _ContactActionButton(
-              icon: actionType == _ContactActionType.call
-                  ? TablerIcons.phone
-                  : TablerIcons.check,
-              onPressed: () => _showContactDialog(
-                context,
-                contact,
-                showAcceptButton: actionType == _ContactActionType.accept,
-              ),
+              icon:
+                  actionType == _ContactActionType.call
+                      ? TablerIcons.phone
+                      : TablerIcons.check,
+              onPressed:
+                  () => _showContactDialog(
+                    context,
+                    contact,
+                    showAcceptButton: actionType == _ContactActionType.accept,
+                    onAccept: onAccept,
+                  ),
             ),
           ],
         ),
@@ -696,10 +758,7 @@ class _ContactActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
 
-  const _ContactActionButton({
-    required this.icon,
-    required this.onPressed,
-  });
+  const _ContactActionButton({required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -712,11 +771,7 @@ class _ContactActionButton extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(color: OColor.green600, width: 1.5),
         ),
-        child: Icon(
-          icon,
-          size: 20,
-          color: OColor.green600,
-        ),
+        child: Icon(icon, size: 20, color: OColor.green600),
       ),
     );
   }
@@ -738,9 +793,7 @@ class _BottomActionButtons extends StatelessWidget {
       padding: const EdgeInsets.all(OSpacing.m),
       decoration: BoxDecoration(
         color: OColor.white,
-        border: Border(
-          top: BorderSide(color: OColor.gray200),
-        ),
+        border: Border(top: BorderSide(color: OColor.gray200)),
       ),
       child: SafeArea(
         child: Row(
@@ -761,7 +814,9 @@ class _BottomActionButtons extends StatelessWidget {
                 bgColor: OColor.red100,
                 opColor: OColor.red200,
                 iconColor: OColor.red600,
-                labelStyle: OTextStyle.labelMedium.copyWith(color: OColor.red600),
+                labelStyle: OTextStyle.labelMedium.copyWith(
+                  color: OColor.red600,
+                ),
               ),
             ),
           ],
@@ -775,6 +830,20 @@ class _BottomActionButtons extends StatelessWidget {
 class _ContactData {
   final String name;
   final String email;
+  final String? phoneNumber;
+  final String? bookingId;
 
-  _ContactData({required this.name, required this.email});
+  _ContactData({
+    required this.name,
+    required this.email,
+    this.phoneNumber,
+    this.bookingId,
+  });
+
+  factory _ContactData.fromBooking(BookingModel booking) => _ContactData(
+    name: booking.name,
+    email: booking.email,
+    phoneNumber: booking.phoneNumber,
+    bookingId: booking.id,
+  );
 }
