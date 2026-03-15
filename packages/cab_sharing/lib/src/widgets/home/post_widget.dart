@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../decorations/post_widget_style.dart';
 import '../../functions/snackbar.dart';
 import '../../models/post_model.dart';
-import '../../screens/post_detail_page.dart';
+import '../my_posts/current_post_popup.dart';
 import '../../services/api.dart';
 import '../../services/user_store.dart';
 import '../ui/travel_icons.dart';
