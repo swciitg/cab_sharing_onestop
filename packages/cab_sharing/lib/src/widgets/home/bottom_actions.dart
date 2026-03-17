@@ -21,6 +21,7 @@ class HomeBottomActions extends StatelessWidget {
       children: [
         // My Posts Button
         SecondaryButton(
+          bgColor: OColor.white,
           label: 'My Posts',
           leadingIcon: TablerIcons.list,
           onPressed: onMyPostsPressed,
