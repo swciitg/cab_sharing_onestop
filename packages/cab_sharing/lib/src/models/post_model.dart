@@ -99,4 +99,14 @@ class PostModel {
     }
     return answer;
   }
+
+  /// Returns the [BookingModel] for [email] if they have requested this post,
+  /// or null if no booking exists.
+  BookingModel? getUserBooking(String email) {
+    try {
+      return bookings.firstWhere((b) => b.email == email);
+    } catch (_) {
+      return null;
+    }
+  }
 }

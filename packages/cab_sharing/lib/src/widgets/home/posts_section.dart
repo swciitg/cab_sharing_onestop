@@ -72,7 +72,7 @@ class PostsSection extends StatelessWidget {
                     CabCard(
                       post: post,
                       userName: post.name,
-                      userEmail: post.email,
+                      userEmail: commonStore.userEmail,
                       onTap: () => onPostTap(post),
                       onJoinPressed: () => onPostTap(post),
                     ),

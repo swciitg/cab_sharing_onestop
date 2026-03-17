@@ -14,12 +14,14 @@ class PostDetailModal extends StatelessWidget {
   final PostModel post;
   final String userEmail;
   final VoidCallback? onJoin;
+  final VoidCallback? onCancelRequest;
 
   const PostDetailModal({
     super.key,
     required this.post,
     required this.userEmail,
     this.onJoin,
+    this.onCancelRequest,
   });
 
   /// Shows the post detail modal
@@ -28,14 +30,19 @@ class PostDetailModal extends StatelessWidget {
     required PostModel post,
     required String userEmail,
     VoidCallback? onJoin,
+    VoidCallback? onCancelRequest,
   }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder:
-          (context) =>
-              PostDetailModal(post: post, userEmail: userEmail, onJoin: onJoin),
+          (context) => PostDetailModal(
+            post: post,
+            userEmail: userEmail,
+            onJoin: onJoin,
+            onCancelRequest: onCancelRequest,
+          ),
     );
   }
 
@@ -44,8 +51,30 @@ class PostDetailModal extends StatelessWidget {
     final int totalSeats = post.totalSeats;
     final int joinedCount = post.totalSeats - post.availableSeats;
     final bool isOwnPost = userEmail == post.email;
+    final booking = isOwnPost ? null : post.getUserBooking(userEmail);
 
     final phoneNumber = post.phonenumber ?? '';
+
+    final String buttonLabel;
+    final VoidCallback? buttonAction;
+    if (isOwnPost) {
+      buttonLabel = 'Edit';
+      buttonAction = () {
+        //TODO: Implement edit post functionality
+      };
+    } else if (booking != null) {
+      buttonLabel = 'Cancel Request';
+      buttonAction = () {
+        Navigator.pop(context);
+        onCancelRequest?.call();
+      };
+    } else {
+      buttonLabel = 'Join';
+      buttonAction = () {
+        Navigator.pop(context);
+        onJoin?.call();
+      };
+    }
 
     return CustomModal(
       headerIcon: TablerIcons.car,
@@ -82,16 +111,8 @@ class PostDetailModal extends StatelessWidget {
           ),
         ],
       ),
-      buttonLabel: isOwnPost ? 'Edit' : 'Join',
-      buttonPressed:
-          isOwnPost
-              ? () {
-                //TODO: Implement edit post functionality
-              }
-              : () {
-                Navigator.pop(context);
-                onJoin?.call();
-              },
+      buttonLabel: buttonLabel,
+      buttonPressed: buttonAction,
     );
   }
 }

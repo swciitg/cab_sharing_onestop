@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
 import '../functions/filter_helpers.dart';
@@ -39,6 +38,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
   }
 
   void _showPostDetailModal(PostModel post, CommonStore commonStore) {
+    final booking = post.getUserBooking(commonStore.userEmail);
     PostDetailModal.show(
       context,
       post: post,
@@ -54,11 +54,33 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              success ? 'Join request sent!' : 'Failed to send request. Try again.',
+              success
+                  ? 'Join request sent!'
+                  : 'Failed to send request. Try again.',
             ),
           ),
         );
       },
+      onCancelRequest:
+          booking == null
+              ? null
+              : () async {
+                final success = await APIService().cancelBooking(
+                  postId: post.id,
+                  bookingId: booking.id,
+                );
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      success
+                          ? 'Request cancelled.'
+                          : 'Failed to cancel. Try again.',
+                    ),
+                  ),
+                );
+                if (success) setState(() {});
+              },
     );
   }
 
@@ -152,7 +174,8 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                     selectedDate: _selectedDate,
                     commonStore: commonStore,
                     onRefresh: () => setState(() {}),
-                    onPostTap: (post) => _showPostDetailModal(post, commonStore),
+                    onPostTap:
+                        (post) => _showPostDetailModal(post, commonStore),
                   ),
                 ),
               ],

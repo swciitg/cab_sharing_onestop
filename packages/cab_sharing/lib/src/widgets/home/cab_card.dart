@@ -26,6 +26,22 @@ class CabCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isOwnPost = userEmail == post.email;
+    final booking = isOwnPost ? null : post.getUserBooking(userEmail);
+
+    final String statusText;
+    final IconData statusIcon;
+    if (booking != null) {
+      if (booking.isPending) {
+        statusText = 'Request Sent';
+        statusIcon = TablerIcons.clock;
+      } else {
+        statusText = 'Booked';
+        statusIcon = TablerIcons.circle_check;
+      }
+    } else {
+      statusText = '${post.availableSeats} Left';
+      statusIcon = TablerIcons.chair_director;
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -41,15 +57,16 @@ class CabCard extends StatelessWidget {
         destination: formatLocationShort(post.to),
         time: post.getTime(),
         date: formatDate(post.getDate()),
-        status: '${post.availableSeats} Left',
-        statusIcon: TablerIcons.chair_director,
+        status: statusText,
+        statusIcon: statusIcon,
         subHeading: formatNote(post.note),
         imageURl:
             'https://ui-avatars.com/api/?name=${Uri.encodeComponent(userName)}&background=random',
         onArrowPressed: onTap,
-        buttonIcon2: isOwnPost ? null : TablerIcons.user_plus,
-        buttonLabel2: isOwnPost ? null : 'Join',
-        pressedButton2: isOwnPost ? null : onJoinPressed,
+        buttonIcon2:
+            (isOwnPost || booking != null) ? null : TablerIcons.user_plus,
+        buttonLabel2: (isOwnPost || booking != null) ? null : 'Join',
+        pressedButton2: (isOwnPost || booking != null) ? null : onJoinPressed,
       ),
     );
   }

@@ -172,7 +172,9 @@ class APIService extends OneStopApi {
     required String bookingId,
   }) async {
     try {
-      print("Sending accept booking request for postId: $postId, bookingId: $bookingId");
+      print(
+        "Sending accept booking request for postId: $postId, bookingId: $bookingId",
+      );
       var response = await serverDio.patch(
         Endpoints.cabSharingAcceptBookingURL(postId, bookingId),
       );
@@ -182,8 +184,25 @@ class APIService extends OneStopApi {
       print("acceptBooking caught error: $e");
       try {
         // Attempt to print DioError/DioException response details if available
-        print("acceptBooking error response data: ${(e as dynamic).response?.data}");
+        print(
+          "acceptBooking error response data: ${(e as dynamic).response?.data}",
+        );
       } catch (_) {}
+      return false;
+    }
+  }
+
+  Future<bool> cancelBooking({
+    required String postId,
+    required String bookingId,
+  }) async {
+    try {
+      var response = await serverDio.delete(
+        Endpoints.cabSharingCancelBookingURL(postId, bookingId),
+        data: {'email': LoginStore.userData['email']},
+      );
+      return response.data['success'] as bool;
+    } catch (e) {
       return false;
     }
   }

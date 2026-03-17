@@ -11,6 +11,10 @@ class Endpoints {
   static String cabSharingAcceptBookingURL(String postId, String bookingId) =>
       "/campus-travel/$postId/bookings/$bookingId/accept";
 
+  // Cancel booking uses path params: /campus-travel/:postId/bookings/:bookingId
+  static String cabSharingCancelBookingURL(String postId, String bookingId) =>
+      "/campus-travel/$postId/bookings/$bookingId";
+
   static getHeader() {
     return {
       'Content-Type': 'application/json',
