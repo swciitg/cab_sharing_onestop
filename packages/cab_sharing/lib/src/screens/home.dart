@@ -14,6 +14,7 @@ import '../widgets/home/bottom_actions.dart';
 import '../widgets/home/posts_section.dart';
 import '../widgets/home/post_detail_modal.dart';
 import '../widgets/my_posts/my_posts_screen.dart';
+import '../functions/snackbar.dart';
 import 'add_post_page.dart';
 
 final GlobalKey<ScaffoldMessengerState> cabSharingRootScaffoldMessengerKey =
@@ -52,12 +53,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
         );
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              success
-                  ? 'Join request sent!'
-                  : 'Failed to send request. Try again.',
-            ),
+          getSnackBar(
+            success
+                ? 'Join request sent!'
+                : 'Failed to send request. Try again.',
+            isError: !success,
           ),
         );
       },
@@ -71,12 +71,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 );
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      success
-                          ? 'Request cancelled.'
-                          : 'Failed to cancel. Try again.',
-                    ),
+                  getSnackBar(
+                    success
+                        ? 'Request cancelled.'
+                        : 'Failed to cancel. Try again.',
+                    isError: !success,
                   ),
                 );
                 if (success) setState(() {});
@@ -89,10 +88,9 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
         });
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              success ? 'Post deleted.' : 'Failed to delete. Try again.',
-            ),
+          getSnackBar(
+            success ? 'Post deleted.' : 'Failed to delete. Try again.',
+            isError: !success,
           ),
         );
         if (success) setState(() {});

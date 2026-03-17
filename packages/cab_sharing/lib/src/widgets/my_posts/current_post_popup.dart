@@ -7,6 +7,7 @@ import '../../models/booking_model.dart';
 import '../../models/post_model.dart';
 import '../../services/api.dart';
 import '../../services/launcher.dart';
+import '../../functions/snackbar.dart';
 
 /// Shows the Current Post Popup as a bottom sheet
 void showCurrentPostPopup(
@@ -218,13 +219,11 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
                       widget.onDeleted?.call();
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Post deleted successfully'),
-                        ),
+                        getSnackBar('Post deleted successfully'),
                       );
                     } else if (mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Failed to delete post')),
+                        getSnackBar('Failed to delete post', isError: true),
                       );
                     }
                   }

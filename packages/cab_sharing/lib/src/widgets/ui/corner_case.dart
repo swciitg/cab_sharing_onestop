@@ -24,7 +24,7 @@ class CornerCase extends StatelessWidget {
               borderRadius: BorderRadius.all(
                 Radius.circular(21.0),
               ),
-              color: OColor.white,
+              color: OColor.gray100,
             ),
             child: Center(
               child: Text(message, style: OTextStyle.labelLarge),

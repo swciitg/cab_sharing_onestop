@@ -9,6 +9,7 @@ import '../../services/api.dart';
 import '../../services/user_store.dart';
 import '../ui/corner_case.dart';
 import '../ui/post_shimer.dart';
+import '../../functions/snackbar.dart';
 import 'current_post_popup.dart';
 import 'past_post_popup.dart';
 
@@ -49,7 +50,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         elevation: 0,
   
       ),
-      backgroundColor: OColor.white,
+      backgroundColor: OColor.gray100 ,
       body: FutureBuilder<List<PostModel>>(
         key: ValueKey(_refreshKey),
         future: APIService().getMyPosts({'email': commonStore.userEmail}),
@@ -205,13 +206,13 @@ class CurrentPostCard extends StatelessWidget {
         onDeleted();
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Post deleted successfully')),
+            getSnackBar('Post deleted successfully'),
           );
         }
       } else {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to delete post')),
+            getSnackBar('Failed to delete post', isError: true),
           );
         }
       }

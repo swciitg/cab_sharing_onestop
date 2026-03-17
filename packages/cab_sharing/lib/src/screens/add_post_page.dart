@@ -330,6 +330,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
                   // Phone Number field
                   OTextField(
+                    maxLength: 10,
                     label: 'Phone Number',
                     controller: phoneController,
                   ),
