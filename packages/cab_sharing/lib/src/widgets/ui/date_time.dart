@@ -64,7 +64,7 @@ class _CabCalendarState extends State<CabCalendar> {
     final days = _generateDaysForMonth(_focusedMonth);
 
     return Container(
-      padding: const EdgeInsets.all(OSpacing.m),
+      padding: const EdgeInsets.all(OSpacing.s),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

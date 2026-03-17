@@ -16,6 +16,8 @@ class HomeDatePickerModal extends StatelessWidget {
   }) {
     return showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: OColor.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -48,7 +50,7 @@ class HomeDatePickerModal extends StatelessWidget {
           ),
           const SizedBox(height: OSpacing.s),
           SizedBox(
-            height: 320,
+            height: 420,
             child: SingleChildScrollView(
               child: CabCalendar(
                 dateSelected: (date) {
