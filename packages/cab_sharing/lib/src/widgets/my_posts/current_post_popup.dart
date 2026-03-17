@@ -9,12 +9,17 @@ import '../../services/api.dart';
 import '../../services/launcher.dart';
 
 /// Shows the Current Post Popup as a bottom sheet
-void showCurrentPostPopup(BuildContext context, PostModel post, {VoidCallback? onUpdate}) {
+void showCurrentPostPopup(
+  BuildContext context,
+  PostModel post, {
+  VoidCallback? onUpdate,
+}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (context) => CurrentPostBottomSheet(post: post, onUpdate: onUpdate),
+    builder:
+        (context) => CurrentPostBottomSheet(post: post, onUpdate: onUpdate),
   );
 }
 
@@ -119,9 +124,7 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
                           horizontal: OSpacing.m,
                         ),
                         child: _SeatsProgressSection(
-                          filledSeats:
-                              widget.post.totalSeats -
-                              _availableSeats,
+                          filledSeats: widget.post.totalSeats - _availableSeats,
                           totalSeats: widget.post.totalSeats,
                         ),
                       ),
@@ -466,197 +469,205 @@ class _EmptyState extends StatelessWidget {
   }
 }
 
-/// Shows a contact profile dialog
+/// Shows a contact profile bottom sheet
 void _showContactDialog(
   BuildContext context,
   _ContactData contact, {
   bool showAcceptButton = false,
   VoidCallback? onAccept,
 }) {
-  showDialog(
+  showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
     builder:
-        (context) => Dialog(
-          backgroundColor: OColor.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+        (context) => Container(
+          decoration: BoxDecoration(
+            color: OColor.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
           ),
-          child: Container(
-            padding: const EdgeInsets.all(OSpacing.m),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          TablerIcons.user,
-                          color: OColor.green600,
-                          size: 20,
-                        ),
-                        const SizedBox(width: OSpacing.xs),
-                        Text(
-                          'Profile',
-                          style: OTextStyle.headingSmall.copyWith(
-                            color: OColor.gray800,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Icon(
-                        TablerIcons.x,
-                        color: OColor.gray500,
-                        size: 20,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: OSpacing.m),
-
-                // Profile Info
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 24,
-                      backgroundColor: OColor.gray200,
-                      backgroundImage: NetworkImage(
-                        'https://ui-avatars.com/api/?name=${Uri.encodeComponent(contact.name)}&background=random&size=96',
-                      ),
-                    ),
-                    const SizedBox(width: OSpacing.s),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          contact.name,
-                          style: OTextStyle.labelLarge.copyWith(
-                            color: OColor.gray800,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          contact.email,
-                          style: OTextStyle.labelSmall.copyWith(
-                            color: OColor.gray500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: OSpacing.m),
-
-                // Important Warning
-                Container(
-                  padding: const EdgeInsets.all(OSpacing.s),
+          padding: EdgeInsets.fromLTRB(
+            OSpacing.m,
+            OSpacing.s,
+            OSpacing.m,
+            OSpacing.m + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Drag handle
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: OSpacing.s),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFECFDF5),
-                    borderRadius: BorderRadius.circular(8),
+                    color: OColor.gray300,
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+              ),
+
+              // Header Row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
                     children: [
+                      Icon(TablerIcons.user, color: OColor.green600, size: 20),
+                      const SizedBox(width: OSpacing.xs),
                       Text(
-                        'Important',
-                        style: OTextStyle.labelMedium.copyWith(
-                          color: OColor.green600,
+                        'Profile',
+                        style: OTextStyle.headingSmall.copyWith(
+                          color: OColor.gray800,
                           fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'You cannot remove a rider once the ride is confirmed. Only the rider can cancel the ride from their phone.',
-                        style: OTextStyle.bodySmall.copyWith(
-                          color: OColor.gray600,
                         ),
                       ),
                     ],
                   ),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(TablerIcons.x, color: OColor.gray500, size: 20),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: OSpacing.m),
+
+              // Profile Info
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundColor: OColor.gray200,
+                    backgroundImage: NetworkImage(
+                      'https://ui-avatars.com/api/?name=${Uri.encodeComponent(contact.name)}&background=random&size=96',
+                    ),
+                  ),
+                  const SizedBox(width: OSpacing.s),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        contact.name,
+                        style: OTextStyle.labelLarge.copyWith(
+                          color: OColor.gray800,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        contact.email,
+                        style: OTextStyle.labelSmall.copyWith(
+                          color: OColor.gray500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: OSpacing.m),
+
+              // Important Warning
+              Container(
+                padding: const EdgeInsets.all(OSpacing.s),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFECFDF5),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-
-                const SizedBox(height: OSpacing.m),
-
-                // Action Buttons Row
-                Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: _DialogActionButton(
-                        icon: TablerIcons.phone,
-                        label: 'Call',
-                        onPressed: () {
-                          Navigator.pop(context);
-                          if (contact.phoneNumber != null) {
-                            launchPhoneURL(contact.phoneNumber!);
-                          }
-                        },
+                    Text(
+                      'Important',
+                      style: OTextStyle.labelMedium.copyWith(
+                        color: OColor.green600,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(width: OSpacing.xs),
-                    Expanded(
-                      child: _DialogActionButton(
-                        icon: TablerIcons.message,
-                        label: 'Text',
-                        onPressed: () {
-                          if (contact.phoneNumber != null) {
-                            launchSmsURL(contact.phoneNumber!);
-                          }
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: OSpacing.xs),
-                    Expanded(
-                      child: _DialogActionButton(
-                        icon: TablerIcons.mail,
-                        label: 'Mail',
-                        onPressed: () {
-                          launchEmailURL(contact.email);
-                        },
+                    const SizedBox(height: 4),
+                    Text(
+                      'You cannot remove a rider once the ride is confirmed. Only the rider can cancel the ride from their phone.',
+                      style: OTextStyle.bodySmall.copyWith(
+                        color: OColor.gray600,
                       ),
                     ),
                   ],
                 ),
+              ),
 
-                // Accept Button (only for requests)
-                if (showAcceptButton) ...[
-                  const SizedBox(height: OSpacing.m),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
+              const SizedBox(height: OSpacing.m),
+
+              // Action Buttons Row
+              Row(
+                children: [
+                  Expanded(
+                    child: _DialogActionButton(
+                      icon: TablerIcons.phone,
+                      label: 'Call',
                       onPressed: () {
                         Navigator.pop(context);
-                        onAccept?.call();
+                        if (contact.phoneNumber != null) {
+                          launchPhoneURL(contact.phoneNumber!);
+                        }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: OColor.green600,
-                        foregroundColor: OColor.white,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: OSpacing.s,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(
-                        'Accept',
-                        style: OTextStyle.labelLarge.copyWith(
-                          color: OColor.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    ),
+                  ),
+                  const SizedBox(width: OSpacing.xs),
+                  Expanded(
+                    child: _DialogActionButton(
+                      icon: TablerIcons.message,
+                      label: 'Text',
+                      onPressed: () {
+                        if (contact.phoneNumber != null) {
+                          launchSmsURL(contact.phoneNumber!);
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: OSpacing.xs),
+                  Expanded(
+                    child: _DialogActionButton(
+                      icon: TablerIcons.mail,
+                      label: 'Mail',
+                      onPressed: () {
+                        launchEmailURL(contact.email);
+                      },
                     ),
                   ),
                 ],
+              ),
+
+              // Accept Button (only for requests)
+              if (showAcceptButton) ...[
+                const SizedBox(height: OSpacing.m),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      onAccept?.call();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: OColor.green600,
+                      foregroundColor: OColor.white,
+                      padding: const EdgeInsets.symmetric(vertical: OSpacing.s),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'Accept',
+                      style: OTextStyle.labelLarge.copyWith(
+                        color: OColor.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            ),
+            ],
           ),
         ),
   );
@@ -716,7 +727,9 @@ class _ContactTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('Contact Tapped! Name: ${contact.name}, Phone: ${contact.phoneNumber}');
+        print(
+          'Contact Tapped! Name: ${contact.name}, Phone: ${contact.phoneNumber}',
+        );
         _showContactDialog(
           context,
           contact,
@@ -829,17 +842,22 @@ class _BottomActionButtons extends StatelessWidget {
       child: SafeArea(
         child: Row(
           children: [
+            // Expanded(
+            //   child: SecondaryButton(
+            //     label: 'Edit',
+            //     leadingIcon: TablerIcons.edit,
+            //     onPressed: onEditPressed,
+            //   ),
+            // ),
+            // const SizedBox(width: OSpacing.m),
             Expanded(
               child: SecondaryButton(
-                label: 'Edit',
-                leadingIcon: TablerIcons.edit,
-                onPressed: onEditPressed,
-              ),
-            ),
-            const SizedBox(width: OSpacing.m),
-            Expanded(
-              child: SecondaryButton(
+                labelStyle: TextStyle(
+                  color: OColor.red600,
+                  fontWeight: FontWeight.w500,
+                ),
                 label: 'Delete',
+                iconColor: OColor.red600,
                 leadingIcon: TablerIcons.trash,
                 onPressed: onDeletePressed,
               ),
