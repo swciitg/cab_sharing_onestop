@@ -9,22 +9,33 @@ import '../../services/api.dart';
 import '../../services/launcher.dart';
 
 /// Shows the Past Post Popup as a bottom sheet
-void showPastPostPopup(BuildContext context, PostModel post) {
+void showPastPostPopup(
+  BuildContext context,
+  PostModel post, {
+  VoidCallback? onDeleted,
+}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (context) => PastPostBottomSheet(post: post),
+    builder:
+        (context) => PastPostBottomSheet(post: post, onDeleted: onDeleted),
   );
 }
 
 /// Past Post Bottom Sheet showing historical cab sharing post details
 /// with cab co-riders list and delete history option
-class PastPostBottomSheet extends StatelessWidget {
+class PastPostBottomSheet extends StatefulWidget {
   final PostModel post;
+  final VoidCallback? onDeleted;
 
-  const PastPostBottomSheet({super.key, required this.post});
+  const PastPostBottomSheet({super.key, required this.post, this.onDeleted});
 
+  @override
+  State<PastPostBottomSheet> createState() => _PastPostBottomSheetState();
+}
+
+class _PastPostBottomSheetState extends State<PastPostBottomSheet> {
   void _showDeleteConfirmation(BuildContext context) {
     showDialog(
       context: context,
@@ -40,14 +51,26 @@ class PastPostBottomSheet extends StatelessWidget {
                 child: const Text('Cancel'),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   Map<String, String> data = {
-                    "postId": post.id,
-                    "email": post.email,
+                    "postId": widget.post.id,
+                    "email": widget.post.email,
                   };
-                  Navigator.pop(dialogContext);
-                  Navigator.pop(context);
-                  APIService().deletePost(data);
+                  Navigator.pop(dialogContext); // pop dialog
+                  bool success = await APIService().deletePost(data);
+                  if (success && mounted) {
+                    widget.onDeleted?.call();
+                    Navigator.pop(context); // pop bottom sheet
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Post deleted successfully'),
+                      ),
+                    );
+                  } else if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Failed to delete post')),
+                    );
+                  }
                 },
                 child: Text('Delete', style: TextStyle(color: OColor.red600)),
               ),
@@ -58,9 +81,9 @@ class PastPostBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int totalSeats = post.totalSeats;
-    final int filledSeats = post.totalSeats - post.availableSeats;
-    final coRiders = post.bookings.where((b) => b.isApproved).toList();
+    final int totalSeats = widget.post.totalSeats;
+    final int filledSeats = widget.post.totalSeats - widget.post.availableSeats;
+    final coRiders = widget.post.bookings.where((b) => b.isApproved).toList();
 
     return Container(
       decoration: BoxDecoration(
@@ -104,11 +127,11 @@ class PastPostBottomSheet extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Route Row
-                        _RouteRow(post: post),
+                        _RouteRow(post: widget.post),
                         const SizedBox(height: OSpacing.s),
 
                         // Time and Date Row
-                        _TimeAndDateRow(post: post),
+                        _TimeAndDateRow(post: widget.post),
                         const SizedBox(height: OSpacing.l),
 
                         // Seats Progress Section

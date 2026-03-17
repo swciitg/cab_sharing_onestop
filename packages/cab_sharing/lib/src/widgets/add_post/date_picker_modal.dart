@@ -43,7 +43,7 @@ class DatePickerModal extends StatelessWidget {
           heading: 'Select Pickup Date',
           headerIcon: TablerIcons.calendar,
           headerButtonPressed: () => Navigator.pop(modalContext),
-          body: OCalendar(
+          body: CabCalendar(
             dateSelected: (date) {
               tempDate = date;
             },

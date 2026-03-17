@@ -26,7 +26,7 @@ String formatName(String name) {
 
 /// Formats date for display
 String formatDate(String date) {
-  return date.length > 12 ? '${date.substring(0, 12)}...' : date;
+  return date;
 }
 
 /// Formats status/margin text for display

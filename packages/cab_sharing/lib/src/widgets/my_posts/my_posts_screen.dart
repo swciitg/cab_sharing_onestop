@@ -47,12 +47,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         ),
         backgroundColor: OColor.white,
         elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.info, color: OColor.green600),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
+  
       ),
       backgroundColor: OColor.white,
       body: FutureBuilder<List<PostModel>>(
@@ -75,13 +70,13 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
           final now = DateTime.now();
           final upcomingPosts =
               allPosts
-                  .where((p) => DateTime.parse(p.travelDateTime).isAfter(now))
+                  .where((p) => !DateTime.parse(p.travelDateTime).isBefore(now))
                   .toList()
                 ..sort((a, b) => a.travelDateTime.compareTo(b.travelDateTime));
 
           final pastPosts =
               allPosts
-                  .where((p) => !DateTime.parse(p.travelDateTime).isAfter(now))
+                  .where((p) => DateTime.parse(p.travelDateTime).isBefore(now))
                   .toList()
                 ..sort((a, b) => b.travelDateTime.compareTo(a.travelDateTime));
 
@@ -109,8 +104,14 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                   _SectionHeader(title: 'Past Posts'),
                   const SizedBox(height: OSpacing.xs),
                   ...pastPosts.map(
-                    (post) =>
-                        PastPostCard(post: post, commonStore: commonStore),
+                    (post) => PastPostCard(
+                      post: post,
+                      commonStore: commonStore,
+                      onDeleted: () {
+                        widget.onPostDeleted();
+                        _refresh();
+                      },
+                    ),
                   ),
                 ],
               ],
@@ -159,13 +160,15 @@ class CurrentPostCard extends StatelessWidget {
   });
 
   void _navigateToDetail(BuildContext context) {
-    showCurrentPostPopup(context, post, onUpdate: onUpdated);
+    showCurrentPostPopup(
+      context,
+      post,
+      onUpdate: onUpdated,
+      onDeleted: onDeleted,
+    );
   }
 
-  void _editPost(BuildContext context) {
-    // Navigate to edit screen
-    _navigateToDetail(context);
-  }
+  
 
   Future<void> _deletePost(BuildContext context) async {
     final confirmed = await showDialog<bool>(
@@ -217,6 +220,8 @@ class CurrentPostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int pendingBookings = post.bookings.where((b) => b.isPending).length;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: OSpacing.xs,
@@ -230,13 +235,13 @@ class CurrentPostCard extends StatelessWidget {
         destination: formatLocationShort(post.to),
         time: post.getTime(),
         date: formatDate(post.getDate()),
-        status: formatStatus(post.getMargin()),
-        statusIcon: TablerIcons.clock,
+        status: '$pendingBookings Req',
+        statusIcon: TablerIcons.car,
         subHeading: formatNote(post.note),
         onArrowPressed: () => _navigateToDetail(context),
-        buttonIcon1: TablerIcons.trash,
-        buttonLabel1: 'Delete',
-        pressedButton1: () => _deletePost(context),
+        buttonIcon2: TablerIcons.trash,
+        buttonLabel2: 'Delete',
+        pressedButton2: () => _deletePost(context),
       ),
     );
   }
@@ -246,15 +251,17 @@ class CurrentPostCard extends StatelessWidget {
 class PastPostCard extends StatelessWidget {
   final PostModel post;
   final CommonStore commonStore;
+  final VoidCallback onDeleted;
 
   const PastPostCard({
     super.key,
     required this.post,
     required this.commonStore,
+    required this.onDeleted,
   });
 
   void _navigateToDetail(BuildContext context) {
-    showPastPostPopup(context, post);
+    showPastPostPopup(context, post, onDeleted: onDeleted);
   }
 
   @override
@@ -290,7 +297,6 @@ class CompactCabSharingCard extends StatelessWidget {
     final String destination = formatLocationShort(post.to);
     final String time = post.getTime();
     final String date = formatDate(post.getDate());
-    final String status = formatStatus(post.getMargin());
     final String note = formatNote(post.note);
 
     return InkWell(
@@ -308,10 +314,7 @@ class CompactCabSharingCard extends StatelessWidget {
             // Header Row: Origin -> Destination
             Row(
               children: [
-                _IconBadge(
-                  icon: TablerIcons.school,
-                  color: const Color(0xFF4D51EF),
-                ),
+                _IconBadge(icon: TablerIcons.school, color: OColor.gray200),
                 const SizedBox(width: OSpacing.xs),
                 Expanded(
                   child: Row(
@@ -336,10 +339,7 @@ class CompactCabSharingCard extends StatelessWidget {
                             byTrain
                                 ? TablerIcons.train
                                 : TablerIcons.plane_tilt,
-                        color:
-                            byTrain
-                                ? const Color(0xFF14B8A6)
-                                : const Color(0xFF0D99D8),
+                        color: OColor.gray200,
                       ),
                       const SizedBox(width: OSpacing.xs),
                       Flexible(
@@ -380,13 +380,13 @@ class CompactCabSharingCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
-                        TablerIcons.clock,
+                        TablerIcons.chair_director,
                         size: 14,
                         color: Color(0xFF047857),
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        status,
+                        '${post.totalSeats - post.availableSeats} co-riders',
                         style: OTextStyle.labelSmall.copyWith(
                           color: const Color(0xFF047857),
                           fontWeight: FontWeight.bold,

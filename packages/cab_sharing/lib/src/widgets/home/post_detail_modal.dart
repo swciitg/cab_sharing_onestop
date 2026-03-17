@@ -15,6 +15,7 @@ class PostDetailModal extends StatelessWidget {
   final String userEmail;
   final VoidCallback? onJoin;
   final VoidCallback? onCancelRequest;
+  final VoidCallback? onDelete;
 
   const PostDetailModal({
     super.key,
@@ -22,6 +23,7 @@ class PostDetailModal extends StatelessWidget {
     required this.userEmail,
     this.onJoin,
     this.onCancelRequest,
+    this.onDelete,
   });
 
   /// Shows the post detail modal
@@ -31,6 +33,7 @@ class PostDetailModal extends StatelessWidget {
     required String userEmail,
     VoidCallback? onJoin,
     VoidCallback? onCancelRequest,
+    VoidCallback? onDelete,
   }) {
     return showModalBottomSheet(
       context: context,
@@ -42,6 +45,7 @@ class PostDetailModal extends StatelessWidget {
             userEmail: userEmail,
             onJoin: onJoin,
             onCancelRequest: onCancelRequest,
+            onDelete: onDelete,
           ),
     );
   }
@@ -57,19 +61,24 @@ class PostDetailModal extends StatelessWidget {
 
     final String buttonLabel;
     final VoidCallback? buttonAction;
+    final Color? buttonColor;
     if (isOwnPost) {
-      buttonLabel = 'Edit';
+      buttonLabel = 'Delete';
+      buttonColor = OColor.red600;
       buttonAction = () {
-        //TODO: Implement edit post functionality
+        Navigator.pop(context);
+        onDelete?.call();
       };
     } else if (booking != null) {
       buttonLabel = 'Cancel Request';
+      buttonColor = null;
       buttonAction = () {
         Navigator.pop(context);
         onCancelRequest?.call();
       };
     } else {
       buttonLabel = 'Join';
+      buttonColor = null;
       buttonAction = () {
         Navigator.pop(context);
         onJoin?.call();
@@ -113,6 +122,7 @@ class PostDetailModal extends StatelessWidget {
       ),
       buttonLabel: buttonLabel,
       buttonPressed: buttonAction,
+      buttonColor: buttonColor,
     );
   }
 }

@@ -75,6 +75,7 @@ class CustomModal extends StatelessWidget {
   final Widget body;
   final String? buttonLabel;
   final Function()? buttonPressed;
+  final Color? buttonColor;
 
   const CustomModal({
     super.key,
@@ -86,6 +87,7 @@ class CustomModal extends StatelessWidget {
     required this.body,
     this.buttonLabel,
     this.buttonPressed,
+    this.buttonColor,
   });
 
   @override
@@ -125,10 +127,32 @@ class CustomModal extends StatelessWidget {
               ),
               child: SizedBox(
                 width: double.infinity,
-                child: PrimaryButton(
-                  label: buttonLabel!,
-                  onPressed: buttonPressed,
-                ),
+                child:
+                    buttonColor != null
+                        ? ElevatedButton(
+                          onPressed: buttonPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: buttonColor,
+                            foregroundColor: OColor.white,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: OSpacing.s,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: Text(
+                            buttonLabel!,
+                            style: OTextStyle.labelLarge.copyWith(
+                              color: OColor.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                        : PrimaryButton(
+                          label: buttonLabel!,
+                          onPressed: buttonPressed,
+                        ),
               ),
             ),
           const SizedBox(height: OSpacing.m),

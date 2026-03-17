@@ -13,13 +13,18 @@ void showCurrentPostPopup(
   BuildContext context,
   PostModel post, {
   VoidCallback? onUpdate,
+  VoidCallback? onDeleted,
 }) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder:
-        (context) => CurrentPostBottomSheet(post: post, onUpdate: onUpdate),
+        (context) => CurrentPostBottomSheet(
+          post: post,
+          onUpdate: onUpdate,
+          onDeleted: onDeleted,
+        ),
   );
 }
 
@@ -28,8 +33,14 @@ void showCurrentPostPopup(
 class CurrentPostBottomSheet extends StatefulWidget {
   final PostModel post;
   final VoidCallback? onUpdate;
+  final VoidCallback? onDeleted;
 
-  const CurrentPostBottomSheet({super.key, required this.post, this.onUpdate});
+  const CurrentPostBottomSheet({
+    super.key,
+    required this.post,
+    this.onUpdate,
+    this.onDeleted,
+  });
 
   @override
   State<CurrentPostBottomSheet> createState() => _CurrentPostBottomSheetState();
@@ -173,13 +184,50 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
                   // TODO: Edit post
                   Navigator.pop(context);
                 },
-                onDeletePressed: () {
-                  Map<String, String> data = {
-                    "postId": widget.post.id,
-                    "email": widget.post.email,
-                  };
-                  APIService().deletePost(data);
-                  Navigator.pop(context);
+                onDeletePressed: () async {
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    builder:
+                        (context) => AlertDialog(
+                          title: const Text('Delete Post'),
+                          content: const Text(
+                            'Are you sure you want to delete this post?',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, false),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, true),
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
+                        ),
+                  );
+                  if (confirmed == true) {
+                    Map<String, String> data = {
+                      "postId": widget.post.id,
+                      "email": widget.post.email,
+                    };
+                    bool success = await APIService().deletePost(data);
+                    if (success && mounted) {
+                      widget.onDeleted?.call();
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Post deleted successfully'),
+                        ),
+                      );
+                    } else if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Failed to delete post')),
+                      );
+                    }
+                  }
                 },
               ),
             ],
@@ -219,7 +267,7 @@ class _ShortenedCabCard extends StatelessWidget {
                   const SizedBox(width: OSpacing.xs),
                   Text(
                     'Current Post',
-                    style: OTextStyle.headingSmall.copyWith(
+                    style: OTextStyle.headingMedium.copyWith(
                       color: OColor.gray800,
                       fontWeight: FontWeight.w600,
                     ),
@@ -336,7 +384,7 @@ class _SeatsProgressSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: OSpacing.s,
-                  vertical: 4,
+                  vertical: 3,
                 ),
                 decoration: BoxDecoration(
                   color: OColor.green600,
@@ -746,7 +794,7 @@ class _ContactTile extends StatelessWidget {
           children: [
             // Avatar
             CircleAvatar(
-              radius: 24,
+              radius: 20,
               backgroundColor: OColor.gray200,
               backgroundImage: NetworkImage(
                 'https://ui-avatars.com/api/?name=${Uri.encodeComponent(contact.name)}&background=random&size=96',

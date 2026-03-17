@@ -53,8 +53,23 @@ class PostsSection extends StatelessWidget {
               );
             }
 
+            final now = DateTime.now();
+            final futurePosts =
+                snapshot.data!.map((dateGroup) {
+                  final date = dateGroup.keys.first;
+                  final posts =
+                      dateGroup[date]!
+                          .where(
+                            (p) => !DateTime.parse(
+                              p.travelDateTime,
+                            ).isBefore(now),
+                          )
+                          .toList();
+                  return {date: posts};
+                }).where((g) => g.values.first.isNotEmpty).toList();
+
             final filteredPosts = filterPosts(
-              snapshot.data!,
+              futurePosts,
               selectedFilter,
               selectedDate,
             );

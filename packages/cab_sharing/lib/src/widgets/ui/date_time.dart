@@ -5,16 +5,16 @@ import 'package:onestop_ui/constants/spacing.dart';
 // import '../utils/colors.dart';
 // import '../utils/styles.dart';
 
-class OCalendar extends StatefulWidget {
+class CabCalendar extends StatefulWidget {
   final Function(DateTime)? dateSelected;
 
-  const OCalendar({super.key, this.dateSelected});
+  const CabCalendar({super.key, this.dateSelected});
 
   @override
-  State<OCalendar> createState() => _OCalendarState();
+  State<CabCalendar> createState() => _CabCalendarState();
 }
 
-class _OCalendarState extends State<OCalendar> {
+class _CabCalendarState extends State<CabCalendar> {
   DateTime _focusedMonth = DateTime.now();
   DateTime? _selectedDate;
 

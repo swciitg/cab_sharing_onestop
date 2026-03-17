@@ -81,6 +81,22 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                 );
                 if (success) setState(() {});
               },
+      onDelete: () async {
+        final success = await APIService().deletePost({
+          'postId': post.id,
+          'email': commonStore.userEmail,
+          'security-key': commonStore.securityKey,
+        });
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              success ? 'Post deleted.' : 'Failed to delete. Try again.',
+            ),
+          ),
+        );
+        if (success) setState(() {});
+      },
     );
   }
 
@@ -124,6 +140,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
           bottom: false,
           child: Scaffold(
             appBar: AppBar(
+    
               scrolledUnderElevation: 0,
               backgroundColor: OColor.white,
               leading: IconButton(
@@ -139,23 +156,14 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
               centerTitle: true,
               title: Text(
                 'Cab Sharing',
-                style: OTextStyle.headingSmall.copyWith(
+                style: OTextStyle.headingMedium.copyWith(
                   color: OColor.gray800,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    TablerIcons.info_circle,
-                    color: OColor.green600,
-                    size: 24,
-                  ),
-                  onPressed: () {},
-                ),
-              ],
+             
             ),
-            backgroundColor: OColor.white,
+            backgroundColor: OColor.gray100,
             body: Column(
               children: [
                 // Filter Section
