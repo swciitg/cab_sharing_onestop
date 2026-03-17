@@ -48,9 +48,8 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
         ),
         backgroundColor: OColor.white,
         elevation: 0,
-  
       ),
-      backgroundColor: OColor.gray100 ,
+      backgroundColor: OColor.gray100,
       body: FutureBuilder<List<PostModel>>(
         key: ValueKey(_refreshKey),
         future: APIService().getMyPosts({'email': commonStore.userEmail}),
@@ -86,8 +85,9 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (upcomingPosts.isNotEmpty) ...[
+                  const SizedBox(height: OSpacing.s),
                   _SectionHeader(title: 'Current Post'),
-                  const SizedBox(height: OSpacing.xs),
+                  const SizedBox(height: OSpacing.s),
                   ...upcomingPosts.map(
                     (post) => CurrentPostCard(
                       post: post,
@@ -169,25 +169,30 @@ class CurrentPostCard extends StatelessWidget {
     );
   }
 
-  
-
   Future<void> _deletePost(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('Delete Post'),
-            content: const Text('Are you sure you want to delete this post?'),
+            backgroundColor: OColor.gray100,
+            title:  Text('Delete Post', style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
+            content:  Text(
+              'Are you sure you want to delete this post?',
+              style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text(
+                child: Text(
                   'Delete',
-                  style: TextStyle(color: Colors.red),
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.red600),
                 ),
               ),
             ],
@@ -205,15 +210,15 @@ class CurrentPostCard extends StatelessWidget {
       if (success) {
         onDeleted();
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            getSnackBar('Post deleted successfully'),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(getSnackBar('Post deleted successfully'));
         }
       } else {
         if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            getSnackBar('Failed to delete post', isError: true),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(getSnackBar('Failed to delete post', isError: true));
         }
       }
     }

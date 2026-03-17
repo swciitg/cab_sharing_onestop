@@ -190,24 +190,29 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
                     context: context,
                     builder:
                         (context) => AlertDialog(
-                          title: const Text('Delete Post'),
-                          content: const Text(
-                            'Are you sure you want to delete this post?',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, true),
-                              child: const Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          ],
-                        ),
+            backgroundColor: OColor.gray100,
+            title:  Text('Delete Post', style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
+            content:  Text(
+              'Are you sure you want to delete this post?',
+              style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(
+                  'Cancel',
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(
+                  'Delete',
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.red600),
+                ),
+              ),
+            ],
+          ),
                   );
                   if (confirmed == true) {
                     Map<String, String> data = {
