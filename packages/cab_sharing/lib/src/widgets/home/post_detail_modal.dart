@@ -33,8 +33,9 @@ class PostDetailModal extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) =>
-          PostDetailModal(post: post, userEmail: userEmail, onJoin: onJoin),
+      builder:
+          (context) =>
+              PostDetailModal(post: post, userEmail: userEmail, onJoin: onJoin),
     );
   }
 
@@ -81,13 +82,16 @@ class PostDetailModal extends StatelessWidget {
           ),
         ],
       ),
-      buttonLabel: 'Join',
-      buttonPressed: isOwnPost
-          ? null
-          : () {
-              Navigator.pop(context);
-              onJoin?.call();
-            },
+      buttonLabel: isOwnPost ? 'Edit' : 'Join',
+      buttonPressed:
+          isOwnPost
+              ? () {
+                //TODO: Implement edit post functionality
+              }
+              : () {
+                Navigator.pop(context);
+                onJoin?.call();
+              },
     );
   }
 }

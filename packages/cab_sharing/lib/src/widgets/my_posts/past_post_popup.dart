@@ -3,7 +3,10 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_ui/index.dart';
 
 import '../../functions/formatters.dart';
+import '../../models/booking_model.dart';
 import '../../models/post_model.dart';
+import '../../services/api.dart';
+import '../../services/launcher.dart';
 
 /// Shows the Past Post Popup as a bottom sheet
 void showPastPostPopup(BuildContext context, PostModel post) {
@@ -15,24 +18,49 @@ void showPastPostPopup(BuildContext context, PostModel post) {
   );
 }
 
-/// Past Post Bottom Sheet showing historical cab sharing post details 
+/// Past Post Bottom Sheet showing historical cab sharing post details
 /// with cab co-riders list and delete history option
 class PastPostBottomSheet extends StatelessWidget {
   final PostModel post;
 
   const PastPostBottomSheet({super.key, required this.post});
 
+  void _showDeleteConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (dialogContext) => AlertDialog(
+            title: const Text('Delete Post History'),
+            content: const Text(
+              'Are you sure you want to delete this post from history?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Map<String, String> data = {
+                    "postId": post.id,
+                    "email": post.email,
+                  };
+                  Navigator.pop(dialogContext);
+                  Navigator.pop(context);
+                  APIService().deletePost(data);
+                },
+                child: Text('Delete', style: TextStyle(color: OColor.red600)),
+              ),
+            ],
+          ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Mock data for cab co-riders (replace with actual data later)
-    final List<_CoRiderData> coRiders = [
-      _CoRiderData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-      _CoRiderData(name: 'Ayush Bahuguna', email: 'ayush@iitg.ac.in'),
-    ];
-
-    // Mock seats data
-    const int filledSeats = 2;
-    const int totalSeats = 3;
+    final int totalSeats = post.totalSeats;
+    final int filledSeats = post.totalSeats - post.availableSeats;
+    final coRiders = post.bookings.where((b) => b.isApproved).toList();
 
     return Container(
       decoration: BoxDecoration(
@@ -62,9 +90,7 @@ class PastPostBottomSheet extends StatelessWidget {
               ),
 
               // Header with title and close button
-              _PastPostHeader(
-                onClose: () => Navigator.pop(context),
-              ),
+              _PastPostHeader(onClose: () => Navigator.pop(context)),
 
               Divider(height: 1, color: OColor.gray200),
 
@@ -79,12 +105,10 @@ class PastPostBottomSheet extends StatelessWidget {
                       children: [
                         // Route Row
                         _RouteRow(post: post),
-
                         const SizedBox(height: OSpacing.s),
 
                         // Time and Date Row
                         _TimeAndDateRow(post: post),
-
                         const SizedBox(height: OSpacing.l),
 
                         // Seats Progress Section
@@ -92,7 +116,6 @@ class PastPostBottomSheet extends StatelessWidget {
                           filledSeats: filledSeats,
                           totalSeats: totalSeats,
                         ),
-
                         const SizedBox(height: OSpacing.l),
 
                         // Cab Co-riders Section
@@ -110,41 +133,12 @@ class PastPostBottomSheet extends StatelessWidget {
               // Delete Post History Button
               SafeArea(
                 child: _DeleteHistoryButton(
-                  onPressed: () {
-                    _showDeleteConfirmation(context);
-                  },
+                  onPressed: () => _showDeleteConfirmation(context),
                 ),
               ),
             ],
           );
         },
-      ),
-    );
-  }
-
-  void _showDeleteConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Delete Post History'),
-        content: const Text('Are you sure you want to delete this post from history?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(dialogContext); // Close dialog
-              Navigator.pop(context); // Close bottom sheet
-              // TODO: Actually delete the post history
-            },
-            child: Text(
-              'Delete',
-              style: TextStyle(color: OColor.red600),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -200,10 +194,7 @@ class _RouteRow extends StatelessWidget {
 
     return Row(
       children: [
-        _IconBadge(
-          icon: TablerIcons.school,
-          color: const Color(0xFF4D51EF),
-        ),
+        _IconBadge(icon: TablerIcons.school, color: const Color(0xFF4D51EF)),
         const SizedBox(width: OSpacing.xs),
         Text(
           origin,
@@ -283,6 +274,8 @@ class _SeatsProgressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (totalSeats == 0) return const SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -300,7 +293,9 @@ class _SeatsProgressSection extends StatelessWidget {
             return Expanded(
               child: Container(
                 height: 6,
-                margin: EdgeInsets.only(right: index < totalSeats - 1 ? OSpacing.xs : 0),
+                margin: EdgeInsets.only(
+                  right: index < totalSeats - 1 ? OSpacing.xs : 0,
+                ),
                 decoration: BoxDecoration(
                   color: isFilled ? OColor.green600 : OColor.gray300,
                   borderRadius: BorderRadius.circular(3),
@@ -316,7 +311,7 @@ class _SeatsProgressSection extends StatelessWidget {
 
 /// Cab Co-riders section with contact list
 class _CabCoRidersSection extends StatelessWidget {
-  final List<_CoRiderData> coRiders;
+  final List<BookingModel> coRiders;
 
   const _CabCoRidersSection({required this.coRiders});
 
@@ -333,7 +328,16 @@ class _CabCoRidersSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: OSpacing.s),
-        ...coRiders.map((rider) => _CoRiderTile(rider: rider)),
+        if (coRiders.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
+            child: Text(
+              'No co-riders yet',
+              style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
+            ),
+          )
+        else
+          ...coRiders.map((rider) => _CoRiderTile(rider: rider)),
       ],
     );
   }
@@ -341,7 +345,7 @@ class _CabCoRidersSection extends StatelessWidget {
 
 /// Individual co-rider tile with avatar and contact actions
 class _CoRiderTile extends StatelessWidget {
-  final _CoRiderData rider;
+  final BookingModel rider;
 
   const _CoRiderTile({required this.rider});
 
@@ -375,32 +379,18 @@ class _CoRiderTile extends StatelessWidget {
                 ),
                 Text(
                   rider.email,
-                  style: OTextStyle.labelSmall.copyWith(
-                    color: OColor.gray500,
-                  ),
+                  style: OTextStyle.labelSmall.copyWith(color: OColor.gray500),
                 ),
               ],
             ),
           ),
 
           // Contact Actions
-          Row(
-            children: [
-              _ContactActionButton(
-                icon: TablerIcons.phone,
-                onPressed: () {
-                  // TODO: Phone call action
-                },
-              ),
-              const SizedBox(width: OSpacing.xs),
-              _ContactActionButton(
-                icon: TablerIcons.brand_whatsapp,
-                onPressed: () {
-                  // TODO: WhatsApp action
-                },
-              ),
-            ],
-          ),
+          if (rider.phoneNumber != null)
+            _ContactActionButton(
+              icon: TablerIcons.phone,
+              onPressed: () => launchPhoneURL(rider.phoneNumber!),
+            ),
         ],
       ),
     );
@@ -412,10 +402,7 @@ class _ContactActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
 
-  const _ContactActionButton({
-    required this.icon,
-    required this.onPressed,
-  });
+  const _ContactActionButton({required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -428,11 +415,7 @@ class _ContactActionButton extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(color: OColor.green600, width: 1.5),
         ),
-        child: Icon(
-          icon,
-          size: 20,
-          color: OColor.green600,
-        ),
+        child: Icon(icon, size: 20, color: OColor.green600),
       ),
     );
   }
@@ -480,19 +463,8 @@ class _IconBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(icon, color: Colors.white, size: 14),
     );
   }
-}
-
-/// Co-rider data model
-class _CoRiderData {
-  final String name;
-  final String email;
-
-  _CoRiderData({required this.name, required this.email});
 }

@@ -55,12 +55,9 @@ class HomeDatePickerModal extends StatelessWidget {
             height: 320,
             child: SingleChildScrollView(
               child: 
-              SizedBox(height:400, child: Text("CALENDAR"),)
+              SizedBox(height:400, child: Text("CALENDAR"),),
               // OCalendar(
-              //   dateSelected: (date) {
-              //     onDateSelected(date);
-              //     Navigator.pop(context);
-              //   },
+               
               // ),
             ),
           ),

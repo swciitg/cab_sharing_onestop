@@ -4,7 +4,6 @@ import 'package:cab_sharing/src/utilities/show_snackbar.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 
 import '../globals/endpoints.dart';
-import '../models/booking_model.dart';
 import '../models/post_model.dart';
 import '../models/reply_model.dart';
 
@@ -168,25 +167,23 @@ class APIService extends OneStopApi {
     }
   }
 
-  Future<List<BookingModel>> getPostBookings(String postId) async {
-    var response = await serverDio.get(
-      Endpoints.cabSharingURL,
-      queryParameters: {'postId': postId},
-    );
-    List<dynamic> list = response.data['bookings'] ?? [];
-    return list.map((json) => BookingModel.fromJson(json)).toList();
-  }
-
   Future<bool> acceptBooking({
     required String postId,
     required String bookingId,
   }) async {
     try {
+      print("Sending accept booking request for postId: $postId, bookingId: $bookingId");
       var response = await serverDio.patch(
         Endpoints.cabSharingAcceptBookingURL(postId, bookingId),
       );
+      print("acceptBooking response: ${response.data}");
       return response.data['success'] as bool;
     } catch (e) {
+      print("acceptBooking caught error: $e");
+      try {
+        // Attempt to print DioError/DioException response details if available
+        print("acceptBooking error response data: ${(e as dynamic).response?.data}");
+      } catch (_) {}
       return false;
     }
   }

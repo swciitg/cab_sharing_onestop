@@ -6,14 +6,15 @@ import '../../functions/formatters.dart';
 import '../../models/booking_model.dart';
 import '../../models/post_model.dart';
 import '../../services/api.dart';
+import '../../services/launcher.dart';
 
 /// Shows the Current Post Popup as a bottom sheet
-void showCurrentPostPopup(BuildContext context, PostModel post) {
+void showCurrentPostPopup(BuildContext context, PostModel post, {VoidCallback? onUpdate}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (context) => CurrentPostBottomSheet(post: post),
+    builder: (context) => CurrentPostBottomSheet(post: post, onUpdate: onUpdate),
   );
 }
 
@@ -21,26 +22,23 @@ void showCurrentPostPopup(BuildContext context, PostModel post) {
 /// with share list, requests, and action buttons
 class CurrentPostBottomSheet extends StatefulWidget {
   final PostModel post;
+  final VoidCallback? onUpdate;
 
-  const CurrentPostBottomSheet({super.key, required this.post});
+  const CurrentPostBottomSheet({super.key, required this.post, this.onUpdate});
 
   @override
   State<CurrentPostBottomSheet> createState() => _CurrentPostBottomSheetState();
 }
 
 class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
-  late Future<List<BookingModel>> _bookingsFuture;
+  late List<BookingModel> _bookings;
+  late int _availableSeats;
 
   @override
   void initState() {
     super.initState();
-    _bookingsFuture = APIService().getPostBookings(widget.post.id);
-  }
-
-  void _refresh() {
-    setState(() {
-      _bookingsFuture = APIService().getPostBookings(widget.post.id);
-    });
+    _bookings = List.of(widget.post.bookings);
+    _availableSeats = widget.post.availableSeats;
   }
 
   Future<void> _acceptBooking(String bookingId) async {
@@ -49,12 +47,33 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
       bookingId: bookingId,
     );
     if (success && mounted) {
-      _refresh();
+      widget.onUpdate?.call();
+      setState(() {
+        _bookings =
+            _bookings
+                .map(
+                  (b) =>
+                      b.id == bookingId
+                          ? BookingModel(
+                            id: b.id,
+                            email: b.email,
+                            name: b.name,
+                            phoneNumber: b.phoneNumber,
+                            status: 'approved',
+                          )
+                          : b,
+                )
+                .toList();
+        _availableSeats = _availableSeats > 0 ? _availableSeats - 1 : 0;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final approved = _bookings.where((b) => b.isApproved).toList();
+    final pending = _bookings.where((b) => b.isPending).toList();
+
     return Container(
       decoration: BoxDecoration(
         color: OColor.white,
@@ -102,64 +121,42 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
                         child: _SeatsProgressSection(
                           filledSeats:
                               widget.post.totalSeats -
-                              widget.post.availableSeats,
+                              _availableSeats,
                           totalSeats: widget.post.totalSeats,
                         ),
                       ),
 
                       const SizedBox(height: OSpacing.m),
 
-                      // Bookings lists
-                      FutureBuilder<List<BookingModel>>(
-                        future: _bookingsFuture,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Padding(
-                              padding: EdgeInsets.all(OSpacing.m),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-
-                          final bookings = snapshot.data ?? [];
-                          final approved =
-                              bookings.where((b) => b.isApproved).toList();
-                          final pending =
-                              bookings.where((b) => b.isPending).toList();
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (approved.isNotEmpty) ...[
-                                _SectionHeader(
-                                  title: 'Current Share List',
-                                  count: approved.length,
-                                ),
-                                ...approved.map(
-                                  (booking) => _ContactTile(
-                                    contact: _ContactData.fromBooking(booking),
-                                    actionType: _ContactActionType.call,
-                                  ),
-                                ),
-                                const SizedBox(height: OSpacing.m),
-                              ],
-                              if (pending.isNotEmpty) ...[
-                                _SectionHeader(
-                                  title: 'Requests',
-                                  count: pending.length,
-                                ),
-                                ...pending.map(
-                                  (booking) => _ContactTile(
-                                    contact: _ContactData.fromBooking(booking),
-                                    actionType: _ContactActionType.accept,
-                                    onAccept: () => _acceptBooking(booking.id),
-                                  ),
-                                ),
-                              ],
-                            ],
-                          );
-                        },
+                      // Current Share List
+                      _SectionHeader(
+                        title: 'Current Share List',
+                        count: approved.length,
                       ),
+                      if (approved.isEmpty)
+                        const _EmptyState(message: 'No co-riders yet')
+                      else
+                        ...approved.map(
+                          (booking) => _ContactTile(
+                            contact: _ContactData.fromBooking(booking),
+                            actionType: _ContactActionType.call,
+                          ),
+                        ),
+
+                      const SizedBox(height: OSpacing.m),
+
+                      // Requests
+                      _SectionHeader(title: 'Requests', count: pending.length),
+                      if (pending.isEmpty)
+                        const _EmptyState(message: 'No ride requests yet')
+                      else
+                        ...pending.map(
+                          (booking) => _ContactTile(
+                            contact: _ContactData.fromBooking(booking),
+                            actionType: _ContactActionType.accept,
+                            onAccept: () => _acceptBooking(booking.id),
+                          ),
+                        ),
 
                       const SizedBox(height: OSpacing.m),
                     ],
@@ -174,7 +171,11 @@ class _CurrentPostBottomSheetState extends State<CurrentPostBottomSheet> {
                   Navigator.pop(context);
                 },
                 onDeletePressed: () {
-                  // TODO: Delete post
+                  Map<String, String> data = {
+                    "postId": widget.post.id,
+                    "email": widget.post.email,
+                  };
+                  APIService().deletePost(data);
                   Navigator.pop(context);
                 },
               ),
@@ -311,6 +312,8 @@ class _SeatsProgressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (totalSeats == 0) return const SizedBox.shrink();
+
     final bool isFull = filledSeats >= totalSeats;
 
     return Column(
@@ -416,25 +419,48 @@ class _SectionHeader extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(width: OSpacing.xs),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: OSpacing.xs,
-              vertical: 2,
-            ),
-            decoration: BoxDecoration(
-              color: OColor.green600,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              '$count',
-              style: OTextStyle.labelSmall.copyWith(
-                color: OColor.white,
-                fontWeight: FontWeight.bold,
+          if (count > 0) ...[
+            const SizedBox(width: OSpacing.xs),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: OSpacing.xs,
+                vertical: 2,
+              ),
+              decoration: BoxDecoration(
+                color: OColor.green600,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                '$count',
+                style: OTextStyle.labelSmall.copyWith(
+                  color: OColor.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
+          ],
         ],
+      ),
+    );
+  }
+}
+
+/// Empty state message for sections with no data
+class _EmptyState extends StatelessWidget {
+  final String message;
+
+  const _EmptyState({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: OSpacing.m,
+        vertical: OSpacing.s,
+      ),
+      child: Text(
+        message,
+        style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
       ),
     );
   }
@@ -451,6 +477,7 @@ void _showContactDialog(
     context: context,
     builder:
         (context) => Dialog(
+          backgroundColor: OColor.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -532,7 +559,7 @@ void _showContactDialog(
                 Container(
                   padding: const EdgeInsets.all(OSpacing.s),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFECFDF5), // Light green
+                    color: const Color(0xFFECFDF5),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -566,8 +593,10 @@ void _showContactDialog(
                         icon: TablerIcons.phone,
                         label: 'Call',
                         onPressed: () {
-                          // TODO: Call action
                           Navigator.pop(context);
+                          if (contact.phoneNumber != null) {
+                            launchPhoneURL(contact.phoneNumber!);
+                          }
                         },
                       ),
                     ),
@@ -577,8 +606,9 @@ void _showContactDialog(
                         icon: TablerIcons.message,
                         label: 'Text',
                         onPressed: () {
-                          // TODO: Text action
-                          Navigator.pop(context);
+                          if (contact.phoneNumber != null) {
+                            launchSmsURL(contact.phoneNumber!);
+                          }
                         },
                       ),
                     ),
@@ -588,8 +618,7 @@ void _showContactDialog(
                         icon: TablerIcons.mail,
                         label: 'Mail',
                         onPressed: () {
-                          // TODO: Mail action
-                          Navigator.pop(context);
+                          launchEmailURL(contact.email);
                         },
                       ),
                     ),
@@ -686,13 +715,15 @@ class _ContactTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:
-          () => _showContactDialog(
-            context,
-            contact,
-            showAcceptButton: actionType == _ContactActionType.accept,
-            onAccept: onAccept,
-          ),
+      onTap: () {
+        print('Contact Tapped! Name: ${contact.name}, Phone: ${contact.phoneNumber}');
+        _showContactDialog(
+          context,
+          contact,
+          showAcceptButton: actionType == _ContactActionType.accept,
+          onAccept: onAccept,
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: OSpacing.m,
@@ -777,7 +808,7 @@ class _ContactActionButton extends StatelessWidget {
   }
 }
 
-/// Bottom action buttons (Edit Post, Delete Post)
+/// Bottom action buttons (Edit, Delete)
 class _BottomActionButtons extends StatelessWidget {
   final VoidCallback onEditPressed;
   final VoidCallback onDeletePressed;
@@ -790,7 +821,7 @@ class _BottomActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(OSpacing.m),
+      padding: const EdgeInsets.all(OSpacing.s),
       decoration: BoxDecoration(
         color: OColor.white,
         border: Border(top: BorderSide(color: OColor.gray200)),
@@ -800,7 +831,7 @@ class _BottomActionButtons extends StatelessWidget {
           children: [
             Expanded(
               child: SecondaryButton(
-                label: 'Edit Post',
+                label: 'Edit',
                 leadingIcon: TablerIcons.edit,
                 onPressed: onEditPressed,
               ),
@@ -808,15 +839,9 @@ class _BottomActionButtons extends StatelessWidget {
             const SizedBox(width: OSpacing.m),
             Expanded(
               child: SecondaryButton(
-                label: 'Delete Post',
+                label: 'Delete',
                 leadingIcon: TablerIcons.trash,
                 onPressed: onDeletePressed,
-                bgColor: OColor.red100,
-                opColor: OColor.red200,
-                iconColor: OColor.red600,
-                labelStyle: OTextStyle.labelMedium.copyWith(
-                  color: OColor.red600,
-                ),
               ),
             ),
           ],

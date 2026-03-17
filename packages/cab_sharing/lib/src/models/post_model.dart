@@ -1,6 +1,8 @@
 import 'package:cab_sharing/src/functions/helpers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'booking_model.dart';
+
 part 'post_model.g.dart';
 
 @JsonSerializable()
@@ -22,6 +24,7 @@ class PostModel {
   final String? phonenumber;
   final int totalSeats;
   final int availableSeats;
+  final List<BookingModel> bookings;
 
   const PostModel({
     required this.name,
@@ -36,6 +39,7 @@ class PostModel {
     this.phonenumber,
     this.totalSeats = 0,
     this.availableSeats = 0,
+    this.bookings = const [],
   });
 
   /// Connect the generated [_$PostModelFromJson] function to the `fromJson`

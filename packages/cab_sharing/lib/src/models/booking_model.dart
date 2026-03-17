@@ -8,6 +8,7 @@ class BookingModel {
   final String id;
   final String email;
   final String name;
+  @JsonKey(readValue: _readPhoneNumber)
   final String? phoneNumber;
   final String status; // "pending" | "approved"
 
@@ -26,4 +27,9 @@ class BookingModel {
 
   bool get isPending => status == 'pending';
   bool get isApproved => status == 'approved';
+}
+
+/// Helper to read either `phoneNumber` or `phonenumber` from the backend response
+String? _readPhoneNumber(Map<dynamic, dynamic> json, String key) {
+  return json['phoneNumber'] as String? ?? json['phonenumber'] as String?;
 }

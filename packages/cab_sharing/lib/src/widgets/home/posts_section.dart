@@ -41,6 +41,7 @@ class PostsSection extends StatelessWidget {
             AsyncSnapshot<List<Map<String, List<PostModel>>>> snapshot,
           ) {
             if (snapshot.hasError) {
+              print('Error fetching posts: ${snapshot.error}');
               return ErrorScreen(reloadCallback: onRefresh);
             }
             if (snapshot.connectionState == ConnectionState.waiting) {

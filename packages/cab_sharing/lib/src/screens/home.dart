@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_kit/onestop_kit.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,7 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
           postId: post.id,
           name: commonStore.userName,
           email: commonStore.userEmail,
+          phoneNumber: commonStore.userPhone,
         );
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -101,15 +103,35 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
           child: Scaffold(
             appBar: AppBar(
               scrolledUnderElevation: 0,
-              leading: OneStopBackButton(
-                onTap: () {
+              backgroundColor: OColor.white,
+              leading: IconButton(
+                icon: Icon(
+                  TablerIcons.arrow_left,
+                  color: OColor.gray700,
+                  size: 24,
+                ),
+                onPressed: () {
                   Navigator.popUntil(context, ModalRoute.withName("/home2"));
                 },
               ),
               centerTitle: true,
-              leadingWidth: 100,
-              title: const AppBarTitle(title: "Cab Sharing"),
-              backgroundColor: OneStopColors.backgroundColor,
+              title: Text(
+                'Cab Sharing',
+                style: OTextStyle.headingSmall.copyWith(
+                  color: OColor.gray800,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    TablerIcons.info_circle,
+                    color: OColor.green600,
+                    size: 24,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
             ),
             backgroundColor: OColor.white,
             body: Column(

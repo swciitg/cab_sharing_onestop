@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:onestop_ui/index.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../decorations/colors.dart';
@@ -19,8 +20,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Shimmer.fromColors(
-        baseColor: kShimmerBase,
-        highlightColor: kShimmerHighlight,
+        baseColor: OColor.gray200,
+        highlightColor: OColor.gray100,
         child: ListView.builder(
           itemCount: 10,
           itemBuilder: (context, index) {
@@ -33,11 +34,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
                       const EdgeInsets.only(top: 18.0, left: 0.0, bottom: 10.0),
                   child: Container(
                       width: 100,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
                           Radius.circular(21),
                         ),
-                        color: kShimmerBase,
+                        color: OColor.gray200,
                       ),
                       child: const Text(
                         " ",
@@ -52,11 +53,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   child: Container(
                     height: 96.0,
                     width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(21),
                       ),
-                      color: kShimmerBase,
+                      color: OColor.gray200,
                     ),
                   ),
                 ),

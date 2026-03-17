@@ -100,6 +100,7 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
                         widget.onPostDeleted();
                         _refresh();
                       },
+                      onUpdated: _refresh,
                     ),
                   ),
                 ],
@@ -147,16 +148,18 @@ class CurrentPostCard extends StatelessWidget {
   final PostModel post;
   final CommonStore commonStore;
   final VoidCallback onDeleted;
+  final VoidCallback onUpdated;
 
   const CurrentPostCard({
     super.key,
     required this.post,
     required this.commonStore,
     required this.onDeleted,
+    required this.onUpdated,
   });
 
   void _navigateToDetail(BuildContext context) {
-    showCurrentPostPopup(context, post);
+    showCurrentPostPopup(context, post, onUpdate: onUpdated);
   }
 
   void _editPost(BuildContext context) {

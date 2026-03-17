@@ -13,12 +13,17 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
   to: json['to'] as String,
   from: json['from'] as String,
   note: json['note'] as String,
-  margin: json['margin'] as int,
+  margin: (json['margin'] as num).toInt(),
   chatId: json['chatId'] as String,
   id: json['_id'] as String,
   phonenumber: json['phonenumber'] as String?,
-  totalSeats: json['totalSeats'] as int? ?? 0,
-  availableSeats: json['availableSeats'] as int? ?? 0,
+  totalSeats: (json['totalSeats'] as num?)?.toInt() ?? 0,
+  availableSeats: (json['availableSeats'] as num?)?.toInt() ?? 0,
+  bookings:
+      (json['bookings'] as List<dynamic>?)
+          ?.map((e) => BookingModel.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -34,4 +39,5 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
   'phonenumber': instance.phonenumber,
   'totalSeats': instance.totalSeats,
   'availableSeats': instance.availableSeats,
+  'bookings': instance.bookings,
 };

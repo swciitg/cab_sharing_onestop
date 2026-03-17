@@ -10,7 +10,7 @@ BookingModel _$BookingModelFromJson(Map<String, dynamic> json) => BookingModel(
   id: json['_id'] as String,
   email: json['email'] as String,
   name: json['name'] as String,
-  phoneNumber: json['phoneNumber'] as String?,
+  phoneNumber: _readPhoneNumber(json, 'phoneNumber') as String?,
   status: json['status'] as String,
 );
 
