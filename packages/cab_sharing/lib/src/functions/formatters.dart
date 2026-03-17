@@ -3,13 +3,14 @@
 /// Formats location string for display (short form)
 String formatLocationShort(String location) {
   if (location.toLowerCase().contains('iit')) return 'Campus';
+  if (location.toLowerCase().contains('campus')) return 'Campus';
   if (location.toLowerCase().contains('airport')) return 'Airport';
   if (location.toLowerCase().contains('guwahati') &&
       location.toLowerCase().contains('station')) {
     return 'GHY Station';
   }
   if (location.toLowerCase().contains('kamakhya')) return 'Kamakhya';
-  return location.length > 10 ? '${location.substring(0, 10)}...' : location;
+  return location.length > 12 ? '${location.substring(0, 12)}...' : location;
 }
 
 /// Formats note/description for display

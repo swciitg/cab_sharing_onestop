@@ -112,12 +112,14 @@ class CustomModal extends StatelessWidget {
             buttonIcon: headerButtonIcon ?? TablerIcons.x,
             onPressed: headerButtonPressed,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: OSpacing.s,
-              vertical: OSpacing.xs,
+          Flexible(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: OSpacing.s,
+                vertical: OSpacing.xs,
+              ),
+              child: body,
             ),
-            child: body,
           ),
           if (buttonLabel != null)
             Padding(
