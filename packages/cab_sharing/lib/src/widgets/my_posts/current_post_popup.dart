@@ -9,6 +9,36 @@ import '../../services/api.dart';
 import '../../services/launcher.dart';
 import '../../functions/snackbar.dart';
 
+/// Determines the icon to show for a location label
+IconData _locationIcon(String location) {
+  final l = location.toLowerCase();
+  if (l.contains('campus') || l.contains('iit') || l.contains('college')) {
+    return TablerIcons.school;
+  }
+  if (l.contains('airport')) return TablerIcons.plane_tilt;
+  if (l.contains('railway') ||
+      l.contains('station') ||
+      l.contains('kamakhya')) {
+    return TablerIcons.train;
+  }
+  return TablerIcons.map_pin;
+}
+
+/// Determines the background color for a location icon
+Color _locationColor(String location) {
+  final l = location.toLowerCase();
+  if (l.contains('campus') || l.contains('iit') || l.contains('college')) {
+    return const Color(0xFF4D51EF);
+  }
+  if (l.contains('airport')) return const Color(0xFF0D99D8);
+  if (l.contains('railway') ||
+      l.contains('station') ||
+      l.contains('kamakhya')) {
+    return const Color(0xFF14B8A6);
+  }
+  return const Color(0xFFEE2856);
+}
+
 /// Shows the Current Post Popup as a bottom sheet
 void showCurrentPostPopup(
   BuildContext context,
@@ -250,7 +280,6 @@ class _ShortenedCabCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool byTrain = isTravelByTrain(post.to);
     final String origin = formatLocationShort(post.from);
     final String destination = formatLocationShort(post.to);
     final String time = post.getTime();
@@ -291,8 +320,8 @@ class _ShortenedCabCard extends StatelessWidget {
           Row(
             children: [
               _IconBadge(
-                icon: TablerIcons.school,
-                color: const Color(0xFF4D51EF),
+                icon: _locationIcon(post.from),
+                color: _locationColor(post.from),
               ),
               const SizedBox(width: OSpacing.xs),
               Text(
@@ -311,9 +340,8 @@ class _ShortenedCabCard extends StatelessWidget {
                 ),
               ),
               _IconBadge(
-                icon: byTrain ? TablerIcons.train : TablerIcons.plane_tilt,
-                color:
-                    byTrain ? const Color(0xFF14B8A6) : const Color(0xFF0D99D8),
+                icon: _locationIcon(post.to),
+                color: _locationColor(post.to),
               ),
               const SizedBox(width: OSpacing.xs),
               Flexible(

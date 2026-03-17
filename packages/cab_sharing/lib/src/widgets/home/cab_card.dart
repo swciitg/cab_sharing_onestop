@@ -32,7 +32,7 @@ class CabCard extends StatelessWidget {
     final IconData statusIcon;
     if (booking != null) {
       if (booking.isPending) {
-        statusText = 'Request Sent';
+        statusText = 'Req Sent';
         statusIcon = TablerIcons.clock;
       } else {
         statusText = 'Booked';
