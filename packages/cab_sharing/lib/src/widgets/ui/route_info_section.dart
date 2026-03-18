@@ -5,6 +5,36 @@ import 'package:onestop_ui/index.dart';
 import '../../functions/formatters.dart';
 import '../../models/post_model.dart';
 
+/// Determines the icon for a location label
+IconData _locationIcon(String location) {
+  final l = location.toLowerCase();
+  if (l.contains('campus') || l.contains('iit') || l.contains('college')) {
+    return TablerIcons.school;
+  }
+  if (l.contains('airport')) return TablerIcons.plane_tilt;
+  if (l.contains('railway') ||
+      l.contains('station') ||
+      l.contains('kamakhya')) {
+    return TablerIcons.train;
+  }
+  return TablerIcons.map_pin;
+}
+
+/// Determines the background color for a location icon
+Color _locationColor(String location) {
+  final l = location.toLowerCase();
+  if (l.contains('campus') || l.contains('iit') || l.contains('college')) {
+    return const Color(0xFF4D51EF);
+  }
+  if (l.contains('airport')) return const Color(0xFF0D99D8);
+  if (l.contains('railway') ||
+      l.contains('station') ||
+      l.contains('kamakhya')) {
+    return const Color(0xFF14B8A6);
+  }
+  return const Color(0xFFEE2856);
+}
+
 /// Route information section using OCabSharingCard style
 /// Displays origin -> destination with icons and time/date
 class RouteInfoSection extends StatelessWidget {
@@ -14,7 +44,6 @@ class RouteInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final byTrain = isTravelByTrain(post.to);
     final origin = formatLocationShort(post.from);
     final destination = formatLocationShort(post.to);
     final time = post.getTime();
@@ -31,9 +60,9 @@ class RouteInfoSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundColor: const Color(0xFF4D51EF),
+                backgroundColor: _locationColor(post.from),
                 radius: 15,
-                child: Icon(TablerIcons.school, color: OColor.white, size: 16),
+                child: Icon(_locationIcon(post.from), color: OColor.white, size: 16),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: OSpacing.xxs),
@@ -48,11 +77,10 @@ class RouteInfoSection extends StatelessWidget {
                 size: 24,
               ),
               CircleAvatar(
-                backgroundColor:
-                    byTrain ? const Color(0xFF14B8A6) : const Color(0xFF0D99D8),
+                backgroundColor: _locationColor(post.to),
                 radius: 15,
                 child: Icon(
-                  byTrain ? TablerIcons.train : TablerIcons.plane_tilt,
+                  _locationIcon(post.to),
                   color: OColor.white,
                   size: 16,
                 ),

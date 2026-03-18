@@ -9,6 +9,21 @@ import '../../services/api.dart';
 import '../../services/launcher.dart';
 import '../../functions/snackbar.dart';
 
+/// Determines the icon for a location label
+IconData _locationIcon(String location) {
+  final l = location.toLowerCase();
+  if (l.contains('campus') || l.contains('iit') || l.contains('college')) {
+    return TablerIcons.school;
+  }
+  if (l.contains('airport')) return TablerIcons.plane_tilt;
+  if (l.contains('railway') ||
+      l.contains('station') ||
+      l.contains('kamakhya')) {
+    return TablerIcons.train;
+  }
+  return TablerIcons.map_pin;
+}
+
 /// Shows the Past Post Popup as a bottom sheet
 void showPastPostPopup(
   BuildContext context,
@@ -42,14 +57,22 @@ class _PastPostBottomSheetState extends State<PastPostBottomSheet> {
       context: context,
       builder:
           (dialogContext) => AlertDialog(
-            title: const Text('Delete Post History'),
-            content: const Text(
+            backgroundColor: OColor.gray100,
+            title: Text(
+              'Delete Post History',
+              style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+            ),
+            content: Text(
               'Are you sure you want to delete this post from history?',
+              style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(dialogContext),
-                child: const Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
+                ),
               ),
               TextButton(
                 onPressed: () async {
@@ -71,7 +94,10 @@ class _PastPostBottomSheetState extends State<PastPostBottomSheet> {
                     );
                   }
                 },
-                child: Text('Delete', style: TextStyle(color: OColor.red600)),
+                child: Text(
+                  'Delete',
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.red600),
+                ),
               ),
             ],
           ),
@@ -210,19 +236,17 @@ class _RouteRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool byTrain = isTravelByTrain(post.to);
     final String origin = formatLocationShort(post.from);
     final String destination = formatLocationShort(post.to);
 
     return Row(
       children: [
-        _IconBadge(icon: TablerIcons.school, color: const Color(0xFF4D51EF)),
+        _IconBadge(icon: _locationIcon(post.from), color: OColor.gray500),
         const SizedBox(width: OSpacing.xs),
         Text(
           origin,
-          style: OTextStyle.labelLarge.copyWith(
+          style: OTextStyle.labelMedium.copyWith(
             color: OColor.gray800,
-            fontWeight: FontWeight.w600,
           ),
         ),
         Padding(
@@ -234,16 +258,15 @@ class _RouteRow extends StatelessWidget {
           ),
         ),
         _IconBadge(
-          icon: byTrain ? TablerIcons.train : TablerIcons.plane_tilt,
-          color: byTrain ? const Color(0xFF14B8A6) : const Color(0xFF0D99D8),
+          icon: _locationIcon(post.to),
+          color: OColor.gray500,
         ),
         const SizedBox(width: OSpacing.xs),
         Flexible(
           child: Text(
             destination,
-            style: OTextStyle.labelLarge.copyWith(
+            style: OTextStyle.labelMedium.copyWith(
               color: OColor.gray800,
-              fontWeight: FontWeight.w600,
             ),
             overflow: TextOverflow.ellipsis,
           ),
@@ -354,7 +377,7 @@ class _CabCoRidersSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: OSpacing.xs),
             child: Text(
-              'No co-riders yet',
+              'No co-riders',
               style: OTextStyle.bodySmall.copyWith(color: OColor.gray500),
             ),
           )

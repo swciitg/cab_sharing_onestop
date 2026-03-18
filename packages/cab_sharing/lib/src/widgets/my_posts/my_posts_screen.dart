@@ -13,6 +13,22 @@ import '../../functions/snackbar.dart';
 import 'current_post_popup.dart';
 import 'past_post_popup.dart';
 
+/// Determines the icon for a location label
+IconData _locationIcon(String location) {
+  final l = location.toLowerCase();
+  if (l.contains('campus') || l.contains('iit') || l.contains('college')) {
+    return TablerIcons.school;
+  }
+  if (l.contains('airport')) return TablerIcons.plane_tilt;
+  if (l.contains('railway') ||
+      l.contains('station') ||
+      l.contains('kamakhya')) {
+    return TablerIcons.train;
+  }
+  return TablerIcons.map_pin;
+}
+
+
 /// Screen to display user's own posts
 class MyPostsScreen extends StatefulWidget {
   final VoidCallback onPostDeleted;
@@ -298,7 +314,6 @@ class CompactCabSharingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool byTrain = isTravelByTrain(post.to);
     final String origin = formatLocationShort(post.from);
     final String destination = formatLocationShort(post.to);
     final String time = post.getTime();
@@ -320,20 +335,22 @@ class CompactCabSharingCard extends StatelessWidget {
             // Header Row: Origin -> Destination
             Row(
               children: [
-                _IconBadge(icon: TablerIcons.school, color: OColor.gray200),
+                _IconBadge(icon: _locationIcon(post.from), color: OColor.gray500),
                 const SizedBox(width: OSpacing.xs),
                 Expanded(
                   child: Row(
                     children: [
-                      Text(
-                        origin,
-                        style: OTextStyle.labelLarge.copyWith(
-                          color: OColor.gray800,
-                          fontWeight: FontWeight.w600,
+                      Flexible(
+                        child: Text(
+                          origin,
+                          style: OTextStyle.labelMedium.copyWith(
+                            color: OColor.gray800,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: OSpacing.xs),
+                        padding: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
                         child: Icon(
                           TablerIcons.arrow_narrow_right,
                           size: 20,
@@ -341,19 +358,15 @@ class CompactCabSharingCard extends StatelessWidget {
                         ),
                       ),
                       _IconBadge(
-                        icon:
-                            byTrain
-                                ? TablerIcons.train
-                                : TablerIcons.plane_tilt,
-                        color: OColor.gray200,
+                        icon: _locationIcon(post.to),
+                        color: OColor.gray500,
                       ),
                       const SizedBox(width: OSpacing.xs),
                       Flexible(
                         child: Text(
                           destination,
-                          style: OTextStyle.labelLarge.copyWith(
+                          style: OTextStyle.labelMedium.copyWith(
                             color: OColor.gray800,
-                            fontWeight: FontWeight.w600,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -380,7 +393,7 @@ class CompactCabSharingCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFD1FAE5), // Light green
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -393,39 +406,40 @@ class CompactCabSharingCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         '${post.totalSeats - post.availableSeats} co-riders',
-                        style: OTextStyle.labelSmall.copyWith(
+                        style: OTextStyle.labelXSmall.copyWith(
                           color: const Color(0xFF047857),
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(width: OSpacing.s),
-                Row(
-                  children: [
-                    Icon(TablerIcons.clock, size: 14, color: OColor.gray500),
-                    const SizedBox(width: 4),
-                    Text(
-                      time,
-                      style: OTextStyle.labelSmall.copyWith(
-                        color: OColor.gray600,
+                Expanded(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(TablerIcons.clock, size: 14, color: OColor.gray500),
+                      const SizedBox(width: 4),
+                      Text(
+                        time,
+                        style: OTextStyle.labelSmall.copyWith(
+                          color: OColor.gray600,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: OSpacing.s),
-                Row(
-                  children: [
-                    Icon(TablerIcons.calendar, size: 14, color: OColor.gray500),
-                    const SizedBox(width: 4),
-                    Text(
-                      date,
-                      style: OTextStyle.labelSmall.copyWith(
-                        color: OColor.gray600,
+                      const SizedBox(width: OSpacing.s),
+                      Icon(TablerIcons.calendar, size: 14, color: OColor.gray500),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          date,
+                          style: OTextStyle.labelSmall.copyWith(
+                            color: OColor.gray600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),

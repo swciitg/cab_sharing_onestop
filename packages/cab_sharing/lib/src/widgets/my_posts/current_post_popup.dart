@@ -445,7 +445,7 @@ class _SeatsProgressSection extends StatelessWidget {
             final bool isFilled = index < filledSeats;
             return Expanded(
               child: Container(
-                height: 6,
+                height: 5,
                 margin: EdgeInsets.only(
                   right: index < totalSeats - 1 ? OSpacing.xs : 0,
                 ),
@@ -472,7 +472,7 @@ class _IconBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: Icon(icon, color: Colors.white, size: 14),
     );
@@ -510,7 +510,7 @@ class _SectionHeader extends StatelessWidget {
                 vertical: 2,
               ),
               decoration: BoxDecoration(
-                color: OColor.green600,
+                color: OColor.green500,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
@@ -841,9 +841,8 @@ class _ContactTile extends StatelessWidget {
                 children: [
                   Text(
                     contact.name,
-                    style: OTextStyle.labelLarge.copyWith(
+                    style: OTextStyle.labelMedium.copyWith(
                       color: OColor.gray800,
-                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   Text(
