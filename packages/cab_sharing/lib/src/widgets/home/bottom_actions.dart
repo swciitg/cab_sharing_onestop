@@ -21,6 +21,7 @@ class HomeBottomActions extends StatelessWidget {
       children: [
         // My Posts Button
         SecondaryButton(
+          opColor: OColor.gray300,
           bgColor: OColor.white,
           label: 'My Posts',
           leadingIcon: TablerIcons.list,
@@ -30,7 +31,7 @@ class HomeBottomActions extends StatelessWidget {
         // Share Cab Button
         PrimaryButton(
           label: 'Share Cab',
-          leadingIcon: TablerIcons.plus,
+          leadingIcon: TablerIcons.car,
           onPressed: onShareCabPressed,
         ),
       ],

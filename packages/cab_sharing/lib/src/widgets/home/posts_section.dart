@@ -33,7 +33,9 @@ class PostsSection extends StatelessWidget {
       onRefresh: () async => onRefresh(),
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(bottom: 100), // Space for FAB
+        padding: const EdgeInsets.only(
+          bottom: 150,
+        ), // Extra extra space for FAB so last post is fully visible
         child: FutureBuilder(
           future: APIService().getAllPosts(LoginStore.userData),
           builder: (
@@ -55,18 +57,22 @@ class PostsSection extends StatelessWidget {
 
             final now = DateTime.now();
             final futurePosts =
-                snapshot.data!.map((dateGroup) {
-                  final date = dateGroup.keys.first;
-                  final posts =
-                      dateGroup[date]!
-                          .where(
-                            (p) => !DateTime.parse(
-                              p.travelDateTime,
-                            ).isBefore(now),
-                          )
-                          .toList();
-                  return {date: posts};
-                }).where((g) => g.values.first.isNotEmpty).toList();
+                snapshot.data!
+                    .map((dateGroup) {
+                      final date = dateGroup.keys.first;
+                      final posts =
+                          dateGroup[date]!
+                              .where(
+                                (p) =>
+                                    !DateTime.parse(
+                                      p.travelDateTime,
+                                    ).isBefore(now),
+                              )
+                              .toList();
+                      return {date: posts};
+                    })
+                    .where((g) => g.values.first.isNotEmpty)
+                    .toList();
 
             final filteredPosts = filterPosts(
               futurePosts,
