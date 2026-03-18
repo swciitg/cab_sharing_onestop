@@ -422,7 +422,7 @@ class CompactCabSharingCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         time,
-                        style: OTextStyle.labelSmall.copyWith(
+                        style: OTextStyle.labelXSmall.copyWith(
                           color: OColor.gray600,
                         ),
                       ),
@@ -432,7 +432,7 @@ class CompactCabSharingCard extends StatelessWidget {
                       Flexible(
                         child: Text(
                           date,
-                          style: OTextStyle.labelSmall.copyWith(
+                          style: OTextStyle.labelXSmall.copyWith(
                             color: OColor.gray600,
                           ),
                           overflow: TextOverflow.ellipsis,

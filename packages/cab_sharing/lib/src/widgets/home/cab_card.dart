@@ -30,17 +30,25 @@ class CabCard extends StatelessWidget {
 
     final String statusText;
     final IconData statusIcon;
+    Color? statusBgColor;
+    Color? statusFgColor;
     if (booking != null) {
       if (booking.isPending) {
         statusText = 'Req Sent';
         statusIcon = TablerIcons.clock;
+        statusBgColor = OColor.blue300;
+        statusFgColor = OColor.blue800;
       } else {
         statusText = 'Booked';
         statusIcon = TablerIcons.circle_check;
+        statusBgColor = OColor.green300;
+        statusFgColor = OColor.green800;
       }
     } else {
       statusText = '${post.availableSeats} Left';
       statusIcon = TablerIcons.chair_director;
+      statusBgColor = null;
+      statusFgColor = null;
     }
 
     return Padding(
@@ -59,6 +67,8 @@ class CabCard extends StatelessWidget {
         date: formatDate(post.getDate()),
         status: statusText,
         statusIcon: statusIcon,
+        statusBgColor: statusBgColor,
+        statusFgColor: statusFgColor,
         subHeading: formatNote(post.note),
         imageURl:
             'https://ui-avatars.com/api/?name=${Uri.encodeComponent(userName)}&background=random',
