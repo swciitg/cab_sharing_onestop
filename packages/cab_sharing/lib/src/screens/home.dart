@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
@@ -138,7 +139,11 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
           bottom: false,
           child: Scaffold(
             appBar: AppBar(
-    
+              systemOverlayStyle: Theme.of(context)
+                  .appBarTheme
+                  .systemOverlayStyle
+                  ?.copyWith(statusBarColor: OColor.white),
+
               scrolledUnderElevation: 0,
               backgroundColor: OColor.white,
               leading: IconButton(
@@ -159,7 +164,6 @@ class _CabSharingScreenState extends State<CabSharingScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-             
             ),
             backgroundColor: OColor.gray100,
             body: Column(

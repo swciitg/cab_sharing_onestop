@@ -3,7 +3,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter/services.dart';
 import '../functions/snackbar.dart';
 import '../services/api.dart';
 import '../services/date.dart';
@@ -163,7 +163,9 @@ class _AddPostPageState extends State<AddPostPage> {
 
     // Validate From and To are different
     if (_fromLocation == _toLocation) {
-      messenger.showSnackBar(getSnackBar("From and To cannot be the same", isWarning: true));
+      messenger.showSnackBar(
+        getSnackBar("From and To cannot be the same", isWarning: true),
+      );
       setState(() {
         _allowPost = true;
       });
@@ -172,7 +174,9 @@ class _AddPostPageState extends State<AddPostPage> {
 
     // Validate note field
     if (noteController.text.trim().isEmpty) {
-      messenger.showSnackBar(getSnackBar("Please enter additional notes", isWarning: true));
+      messenger.showSnackBar(
+        getSnackBar("Please enter additional notes", isWarning: true),
+      );
       setState(() {
         _allowPost = true;
       });
@@ -181,7 +185,9 @@ class _AddPostPageState extends State<AddPostPage> {
 
     // Validate phone number
     if (phoneController.text.trim().isEmpty) {
-      messenger.showSnackBar(getSnackBar("Please enter your phone number", isWarning: true));
+      messenger.showSnackBar(
+        getSnackBar("Please enter your phone number", isWarning: true),
+      );
       setState(() {
         _allowPost = true;
       });
@@ -192,7 +198,10 @@ class _AddPostPageState extends State<AddPostPage> {
     final phoneRegex = RegExp(r'^[0-9]{10}$');
     if (!phoneRegex.hasMatch(phoneController.text.trim())) {
       messenger.showSnackBar(
-        getSnackBar("Please enter a valid 10-digit phone number", isWarning: true),
+        getSnackBar(
+          "Please enter a valid 10-digit phone number",
+          isWarning: true,
+        ),
       );
       setState(() {
         _allowPost = true;
@@ -244,6 +253,9 @@ class _AddPostPageState extends State<AddPostPage> {
         return Scaffold(
           backgroundColor: OColor.white,
           appBar: AppBar(
+            systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
+                ?.copyWith(statusBarColor: OColor.white),
+
             backgroundColor: OColor.white,
             elevation: 0,
             leading: IconButton(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:onestop_ui/index.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter/services.dart';
 import '../../functions/formatters.dart';
 import '../../models/post_model.dart';
 import '../../services/api.dart';
@@ -28,7 +28,6 @@ IconData _locationIcon(String location) {
   return TablerIcons.map_pin;
 }
 
-
 /// Screen to display user's own posts
 class MyPostsScreen extends StatefulWidget {
   final VoidCallback onPostDeleted;
@@ -52,6 +51,8 @@ class _MyPostsScreenState extends State<MyPostsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: Theme.of(context).appBarTheme.systemOverlayStyle
+            ?.copyWith(statusBarColor: OColor.white),
         scrolledUnderElevation: 0,
         leading: IconButton(
           icon: Icon(TablerIcons.arrow_left, color: OColor.green600),
@@ -191,8 +192,11 @@ class CurrentPostCard extends StatelessWidget {
       builder:
           (context) => AlertDialog(
             backgroundColor: OColor.gray100,
-            title:  Text('Delete Post', style: OTextStyle.headingSmall.copyWith(color: OColor.gray800)),
-            content:  Text(
+            title: Text(
+              'Delete Post',
+              style: OTextStyle.headingSmall.copyWith(color: OColor.gray800),
+            ),
+            content: Text(
               'Are you sure you want to delete this post?',
               style: OTextStyle.bodyMedium.copyWith(color: OColor.gray800),
             ),
@@ -201,7 +205,7 @@ class CurrentPostCard extends StatelessWidget {
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
                   'Cancel',
-                  style: OTextStyle.labelMedium.copyWith(color: OColor.gray800)
+                  style: OTextStyle.labelMedium.copyWith(color: OColor.gray800),
                 ),
               ),
               TextButton(
@@ -335,7 +339,10 @@ class CompactCabSharingCard extends StatelessWidget {
             // Header Row: Origin -> Destination
             Row(
               children: [
-                _IconBadge(icon: _locationIcon(post.from), color: OColor.gray500),
+                _IconBadge(
+                  icon: _locationIcon(post.from),
+                  color: OColor.gray500,
+                ),
                 const SizedBox(width: OSpacing.xs),
                 Expanded(
                   child: Row(
@@ -350,7 +357,9 @@ class CompactCabSharingCard extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: OSpacing.xs),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: OSpacing.xs,
+                        ),
                         child: Icon(
                           TablerIcons.arrow_narrow_right,
                           size: 20,
@@ -427,7 +436,11 @@ class CompactCabSharingCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: OSpacing.s),
-                      Icon(TablerIcons.calendar, size: 14, color: OColor.gray500),
+                      Icon(
+                        TablerIcons.calendar,
+                        size: 14,
+                        color: OColor.gray500,
+                      ),
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
