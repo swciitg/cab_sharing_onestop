@@ -173,6 +173,7 @@ class _LocationPickerModalState extends State<LocationPickerModal> {
             if (_showCustomField) ...[
               const SizedBox(height: OSpacing.m),
               OTextField(
+                maxLength: 50,
                 label: 'Enter location',
                 controller: _customController,
                 hint: 'e.g. New Delhi Railway Station',

@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:onestop_ui/index.dart';
 
-SnackBar getSnackBar(String message, {bool isError = false}) {
+SnackBar getSnackBar(
+  String message, {
+  bool isError = false,
+  bool isWarning = false,
+}) {
+  final Color bgColor = isError
+      ? OColor.red600
+      : isWarning
+          ? OColor.yellow500
+          : OColor.green600;
+  final IconData icon = isError
+      ? Icons.error_outline
+      : isWarning
+          ? Icons.warning_amber_rounded
+          : Icons.check_circle_outline;
+
   return SnackBar(
     content: Row(
       children: [
-        Icon(
-          isError ? Icons.error_outline : Icons.check_circle_outline,
-          color: OColor.white,
-          size: 20,
-        ),
+        Icon(icon, color: OColor.white, size: 20),
         const SizedBox(width: OSpacing.s),
         Expanded(
           child: Text(
@@ -19,7 +30,7 @@ SnackBar getSnackBar(String message, {bool isError = false}) {
         ),
       ],
     ),
-    backgroundColor: isError ? OColor.red600 : OColor.green600,
+    backgroundColor: bgColor,
     behavior: SnackBarBehavior.floating,
     elevation: 4,
     margin: const EdgeInsets.symmetric(horizontal: OSpacing.m, vertical: OSpacing.m),

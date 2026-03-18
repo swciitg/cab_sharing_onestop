@@ -163,7 +163,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
     // Validate From and To are different
     if (_fromLocation == _toLocation) {
-      messenger.showSnackBar(getSnackBar("From and To cannot be the same"));
+      messenger.showSnackBar(getSnackBar("From and To cannot be the same", isWarning: true));
       setState(() {
         _allowPost = true;
       });
@@ -172,7 +172,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
     // Validate note field
     if (noteController.text.trim().isEmpty) {
-      messenger.showSnackBar(getSnackBar("Please enter additional notes"));
+      messenger.showSnackBar(getSnackBar("Please enter additional notes", isWarning: true));
       setState(() {
         _allowPost = true;
       });
@@ -181,7 +181,7 @@ class _AddPostPageState extends State<AddPostPage> {
 
     // Validate phone number
     if (phoneController.text.trim().isEmpty) {
-      messenger.showSnackBar(getSnackBar("Please enter your phone number"));
+      messenger.showSnackBar(getSnackBar("Please enter your phone number", isWarning: true));
       setState(() {
         _allowPost = true;
       });
@@ -192,7 +192,7 @@ class _AddPostPageState extends State<AddPostPage> {
     final phoneRegex = RegExp(r'^[0-9]{10}$');
     if (!phoneRegex.hasMatch(phoneController.text.trim())) {
       messenger.showSnackBar(
-        getSnackBar("Please enter a valid 10-digit phone number"),
+        getSnackBar("Please enter a valid 10-digit phone number", isWarning: true),
       );
       setState(() {
         _allowPost = true;
