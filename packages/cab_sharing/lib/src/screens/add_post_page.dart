@@ -342,17 +342,17 @@ class _AddPostPageState extends State<AddPostPage> {
 
                   // Phone Number field
                   OTextField(
+                    hint: ' ',
                     maxLength: 10,
                     label: 'Phone Number',
                     controller: phoneController,
                   ),
-                  const SizedBox(height: OSpacing.m),
 
                   // Additional Notes using OTextField
                   OTextField(
                     label: 'Additional Notes',
                     controller: noteController,
-                    hint: 'e.g. Timing is flexible by 15 mins',
+                    hint: 'e.g. Timing is flexible by 20 mins',
                     isParagraph: true,
                   ),
                   const SizedBox(height: OSpacing.l),
